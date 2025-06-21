@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JulesPrompts Collection - Jules Agent Community</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Jules Agent Community</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="news.html">News & Updates</a></li>
+                <li><a href="prompts.html">JulesPrompts</a></li>
+                <li><a href="guides.html">Guides & Tutorials</a></li>
+                <li><a href="showcase.html">Project Showcase</a></li>
+                <li><a href="integrations.html">Tool Integrations</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>JulesPrompts Collection</h2>
+        <p>Discover, share, and rate effective prompts for Jules. Enhance your productivity by leveraging community-tested prompts for various tasks.</p>
+
+        <div class="prompt-filters">
+            <input type="text" placeholder="Search prompts..." id="search-prompts">
+            <select id="category-filter">
+                <option value="all">All Categories</option>
+                <option value="coding">Coding</option>
+                <option value="writing">Writing</option>
+                <option value="debugging">Debugging</option>
+                <option value="general">General</option>
+                <!-- More categories -->
+            </select>
+            <button id="filter-button">Filter</button>
+        </div>
+
+        <div class="prompt-list">
+            <div class="prompt-card" id="code-debugger">
+                <h3>Code Debugger</h3>
+                <p><strong>Category:</strong> Debugging, Coding</p>
+                <p><strong>Description:</strong> Helps identify and suggest fixes for bugs in a given code snippet.</p>
+                <pre><code>Analyze the following Python code for potential bugs and suggest fixes.
+Provide a brief explanation for each identified issue.
+
+Code:
+```python
+{{paste code here}}
+```
+</code></pre>
+                <button>Copy Prompt</button>
+                <div class="prompt-rating">★★★★☆ (4.5/5)</div>
+            </div>
+
+            <div class="prompt-card">
+                <h3>Blog Post Outline Generator</h3>
+                <p><strong>Category:</strong> Writing</p>
+                <p><strong>Description:</strong> Generates a structured outline for a blog post on a specified topic.</p>
+                <pre><code>Create a comprehensive blog post outline for the topic: "{{topic}}".
+The outline should include:
+- Main sections (H2)
+- Key talking points under each section (H3/bullets)
+- A suggested introduction and conclusion.
+Target audience: {{target audience}}
+Tone: {{desired tone}}
+</code></pre>
+                <button>Copy Prompt</button>
+                <div class="prompt-rating">★★★★★ (5/5)</div>
+            </div>
+            <!-- More prompts will be listed here -->
+        </div>
+
+        <h3>Submit Your Prompt</h3>
+        <form id="prompt-submission-form">
+            <div>
+                <label for="prompt-title">Prompt Title:</label>
+                <input type="text" id="prompt-title" name="prompt-title" required>
+            </div>
+            <div>
+                <label for="prompt-category">Category:</label>
+                <input type="text" id="prompt-category" name="prompt-category" placeholder="e.g., Coding, Writing" required>
+            </div>
+            <div>
+                <label for="prompt-description">Description:</label>
+                <textarea id="prompt-description" name="prompt-description" rows="3" required></textarea>
+            </div>
+            <div>
+                <label for="prompt-text">Prompt Text:</label>
+                <textarea id="prompt-text" name="prompt-text" rows="5" required></textarea>
+            </div>
+            <button type="submit">Submit Prompt</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 Jules Agent Community</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

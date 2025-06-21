@@ -1,0 +1,263 @@
+/* General Body Styles */
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header Styles */
+header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+nav ul {
+    padding: 0;
+    list-style: none;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Main Content Styles */
+main {
+    padding: 20px;
+    max-width: 960px;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+main h2, main h3 {
+    color: #333;
+}
+
+main h2 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-top: 30px; /* Add some space above H2s */
+}
+main h3 {
+    margin-top: 25px; /* Add some space above H3s */
+}
+
+
+/* Section Specific Styles */
+#hero {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #e9ecef; /* Light background for hero */
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#overview ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+#featured-content .feature-card {
+    background: #eef;
+    border: 1px solid #ccf;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+
+/* Card styles for prompts, guides, showcase, integrations, feedback items */
+.prompt-card,
+.guide-card,
+.project-card,
+.integration-card,
+.feedback-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.prompt-card pre, .guide-card pre, .integration-card pre {
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: monospace;
+}
+
+.prompt-card strong, .guide-card strong, .project-card strong, .integration-card strong, .feedback-item strong {
+    font-weight: bold;
+    color: #555;
+}
+
+.prompt-rating {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.project-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+/* Filter/Search Bar Styles */
+.prompt-filters, .guide-filters, .showcase-filters {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.prompt-filters input[type="text"],
+.guide-filters input[type="text"],
+.showcase-filters input[type="text"],
+.prompt-filters select,
+.guide-filters select,
+.showcase-filters select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.prompt-filters button,
+.guide-filters button,
+.showcase-filters button {
+    padding: 8px 15px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.prompt-filters button:hover,
+.guide-filters button:hover,
+.showcase-filters button:hover {
+    background-color: #4cae4c;
+}
+
+
+/* Form Styles (for feedback, prompt submission, project submission) */
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="url"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for full width */
+    font-size: 1rem;
+}
+
+form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+form button[type="submit"], .button { /* General button style */
+    background: #337ab7; /* Bootstrap primary blue */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none; /* For .button used as <a> */
+    display: inline-block; /* For .button used as <a> */
+    font-size: 1rem;
+}
+
+form button[type="submit"]:hover, .button:hover {
+    background: #286090; /* Darker blue on hover */
+}
+
+/* News Article Styles */
+article {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+article:last-child {
+    border-bottom: none;
+}
+article h3 {
+    margin-top: 0;
+}
+article .date {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+/* Feedback Item Specifics */
+.feedback-item {
+    margin-top: 20px;
+}
+.feedback-item h4 {
+    margin-bottom: 5px;
+}
+.feedback-meta {
+    font-size: 0.85em;
+    color: #888;
+    margin-bottom: 5px;
+}
+.feedback-comments {
+    margin-top: 10px;
+    padding-left: 15px;
+    border-left: 3px solid #007bff; /* Blue accent for comments */
+    font-size: 0.95em;
+}
+.feedback-comments p {
+    margin-bottom: 5px;
+}
+
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: #fff;
+    margin-top: 30px;
+}

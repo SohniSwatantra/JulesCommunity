@@ -1,17 +1,17 @@
 /* General Body Styles */
 :root {
-    /* Creamish Theme Palette */
-    --primary-color: #A0522D;    /* Sienna - a brownish-red, can be adjusted */
-    --secondary-color: #D2B48C;  /* Tan - a pale brown, classic creamish accent */
-    --accent-color: #8FBC8F;     /* DarkSeaGreen - a soft green for contrast */
+    /* Modern Creamish Theme Palette with Black Text */
+    --primary-color: #B8860B;    /* DarkGoldenRod - A rich, warm accent, good with cream */
+    --secondary-color: #D2B48C;  /* Tan - A classic creamish accent, kept from original */
+    --accent-color: #5F9EA0;     /* CadetBlue - A muted blue-green for a modern touch */
 
-    --background-color: #FFF8DC; /* Cornsilk - a pale yellowish cream */
-    --text-color: #5D4037;       /* Dark Brown - for good readability on cream */
-    --heading-color: #4E342E;    /* Deeper Brown - for headings */
-    --light-text-color: #FFFFFF; /* White - for dark backgrounds or accents, if any */
+    --background-color: #FDFBF5; /* Very light cream, close to off-white for a modern feel */
+    --text-color: #222222;       /* Very Dark Gray (Almost Black) - For main text */
+    --heading-color: #000000;    /* Black - For headings, stronger emphasis */
+    --light-text-color: #FFFFFF; /* White - For dark backgrounds or primary/accent buttons */
 
-    --card-background: #FAF0E6; /* Linen - a very light cream for cards */
-    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer shadow */
+    --card-background: #FFFFFF; /* White cards for a clean, modern look on a cream background */
+    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.07); /* Slightly more defined modern shadow */
     --border-radius: 8px; /* Slightly smaller, modern radius */
     --transition-speed: 0.25s ease;
 
@@ -20,7 +20,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -32,7 +32,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-weight: 700; /* Bolder headings by default */
     color: var(--heading-color);
     margin-top: 1.2em;
@@ -47,15 +47,15 @@ h4 { font-size: 1.5rem; }
 
 
 a {
-    color: var(--secondary-color); /* Use secondary color for links */
+    color: var(--primary-color); /* Use primary color for links for better contrast on cream */
     text-decoration: none;
     transition: color var(--transition-speed), opacity var(--transition-speed);
 }
 
 a:hover {
-    color: var(--primary-color); /* Darken on hover to primary */
+    color: var(--accent-color); /* Use accent color for hover, or a darker shade of primary */
     opacity: 0.85;
-    text-decoration: none; /* Generally no underline on hover for modern themes unless specific */
+    text-decoration: underline; /* Add underline on hover for clarity */
 }
 
 /* Utility class for centering content */
@@ -70,7 +70,7 @@ a:hover {
 .button {
     display: inline-block;
     padding: 0.75rem 1.5rem; /* Default padding */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 1rem;
     font-weight: 600;
     text-align: center;
@@ -83,13 +83,13 @@ a:hover {
 }
 
 .button-primary {
-    background-color: var(--secondary-color); /* Vibrant Magenta */
-    color: var(--light-text-color);
+    background-color: var(--primary-color); /* Use primary color for main actions */
+    color: var(--light-text-color); /* White text on dark goldenrod */
 }
 
 .button-primary:hover {
-    background-color: #d91c71; /* Slightly darker magenta */
-    color: var(--light-text-color); /* Ensure text color remains light on hover */
+    background-color: #A0740A; /* A slightly darker shade of DarkGoldenRod */
+    color: var(--light-text-color);
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
@@ -118,7 +118,7 @@ header h1 {
     margin: 0;
     font-size: 1.8rem; /* Adjusted size for modern look */
     font-weight: 700;
-    color: var(--primary-color); /* Use primary color for logo/title */
+    color: var(--heading-color); /* Use heading color (black) for logo/title */
 }
 
 nav ul {
@@ -138,18 +138,18 @@ nav ul li:first-child {
 }
 
 nav a {
-    color: var(--text-color); /* Standard text color for nav links */
+    color: var(--text-color); /* Standard text color (dark gray) for nav links */
     text-decoration: none;
     font-size: 1rem;
     font-weight: 500; /* Slightly bolder than body text */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     padding: 5px 0;
     position: relative;
     transition: color var(--transition-speed);
 }
 
 nav a:hover, nav a.active {
-    color: var(--primary-color); /* Primary color on hover/active */
+    color: var(--accent-color); /* Accent color on hover/active for nav links */
 }
 
 nav a::after {
@@ -159,7 +159,7 @@ nav a::after {
     height: 2px;
     bottom: -2px; /* Position underline slightly below text */
     left: 0;
-    background-color: var(--secondary-color); /* Accent color for underline */
+    background-color: var(--accent-color); /* Accent color for underline */
     transition: width var(--transition-speed);
 }
 
@@ -186,7 +186,7 @@ main {
 
 
 main h2 {
-    border-bottom: 3px solid var(--primary-color);
+    border-bottom: 3px solid var(--accent-color); /* Use accent color for section title underline */
     padding-bottom: 15px;
     margin-top: 40px;
     font-size: 2.4rem; /* Slightly larger for section titles */
@@ -194,7 +194,7 @@ main h2 {
 main h3 {
     margin-top: 35px;
     font-size: 1.9rem; /* Slightly larger for sub-section titles */
-    color: var(--secondary-color);
+    color: var(--primary-color); /* Use primary color for sub-headings */
 }
 
 
@@ -210,8 +210,8 @@ section {
 #hero {
     text-align: center;
     padding: 80px 0; /* Generous padding */
-    background: linear-gradient(120deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: var(--light-text-color);
+    background: linear-gradient(120deg, var(--secondary-color) 0%, var(--background-color) 100%); /* Creamy gradient */
+    color: var(--text-color); /* Dark text on light gradient */
     /* border-radius: 0; /* Full width, no radius needed here */
     /* margin-bottom: 0; /* Spacing controlled by section padding */
     /* box-shadow: none; */
@@ -227,13 +227,14 @@ section {
     font-size: 3.2rem; /* Larger hero heading */
     font-weight: 800; /* Extra bold */
     margin-bottom: 0.6em;
-    color: var(--light-text-color);
+    color: var(--heading-color); /* Heading color (black) for hero title */
     border-bottom: none;
     max-width: 800px; /* Constrain width of heading */
 }
 #hero p {
     font-size: 1.25rem; /* Slightly larger paragraph text */
     font-weight: 400;
+    color: var(--text-color); /* Text color for hero paragraph */
     max-width: 700px; /* Optimal reading width */
     margin: 0 auto 1.8em auto; /* More space below paragraph */
     line-height: 1.7;
@@ -249,12 +250,13 @@ section {
 
 
 #overview {
-    background-color: #F8F9FA; /* Light grey background */
+    background-color: var(--background-color); /* Use main background color */
 }
 
 #overview h3 {
     text-align: center;
     margin-bottom: 1.5em;
+    color: var(--heading-color); /* Ensure heading color is applied */
 }
 
 #overview ul {
@@ -269,7 +271,7 @@ section {
     padding: 20px 20px 20px 45px; /* Increased padding, space for icon */
     position: relative;
     font-size: 1rem;
-    background-color: var(--card-background); /* Give items a card look */
+    background-color: var(--card-background); /* Use white card background */
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
@@ -286,26 +288,27 @@ section {
     left: 18px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--secondary-color); /* Use secondary color for icon */
+    color: var(--accent-color); /* Use accent color for icon */
     font-weight: bold;
     font-size: 1.3rem;
 }
 
 #overview ul li strong {
     font-weight: 600;
-    color: var(--heading-color); /* Standard heading color for emphasis */
+    color: var(--heading-color); /* Standard heading color (black) for emphasis */
     display: block;
     margin-bottom: 5px;
 }
 
 /* Featured Content Section */
 #featured-content {
-    background-color: var(--background-color); /* White background */
+    background-color: var(--background-color); /* Use main background color */
 }
 
 #featured-content h3 {
     text-align: center;
     margin-bottom: 1.5em;
+    color: var(--heading-color); /* Ensure heading color is applied */
 }
 
 .feature-grid {
@@ -315,7 +318,7 @@ section {
 }
 
 .feature-card {
-    background: var(--card-background);
+    background: var(--card-background); /* Use white card background */
     padding: 30px; /* More padding for feature cards */
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
@@ -341,17 +344,18 @@ section {
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 1em;
+    color: var(--text-color); /* Ensure paragraph text uses main text color */
     flex-grow: 1; /* Allows paragraph to take available space, pushing link to bottom if card heights vary */
 }
 
 .feature-card a {
     font-weight: 600;
-    color: var(--secondary-color); /* Use secondary for links within cards */
+    color: var(--accent-color); /* Use accent for links within cards */
     text-decoration: none; /* Ensure no default underline */
 }
 
 .feature-card a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color); /* Primary on hover for card links */
     text-decoration: underline; /* Underline on hover for clarity */
 }
 
@@ -362,7 +366,7 @@ section {
 .project-card,
 .integration-card,
 .feedback-item {
-    background: var(--card-background);
+    background: var(--card-background); /* Use white card background */
     border: none;
     padding: 25px;
     margin-bottom: 25px;
@@ -378,40 +382,41 @@ section {
 .integration-card:hover,
 .feedback-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Slightly more pronounced shadow on hover */
 }
 
 .prompt-card pre, .guide-card pre, .integration-card pre {
-    background-color: #f8f9fa; /* Lighter than before */
+    background-color: #f0f0f0; /* Slightly darker light gray for contrast with white card */
+    color: #333; /* Darker text for code blocks */
     padding: 15px;
-    border-radius: 8px; /* Softer radius */
+    border-radius: 8px;
     overflow-x: auto;
-    font-family: 'Courier New', Courier, monospace; /* Classic monospace */
-    border: 1px solid #e0e0e0; /* Subtle border */
+    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Menlo', Courier, monospace; /* Apple's SF Mono first */
+    border: 1px solid #e0e0e0;
     font-size: 0.95em;
 }
 
 .prompt-card strong, .guide-card strong, .project-card strong, .integration-card strong, .feedback-item strong {
-    font-weight: 600; /* Poppins semi-bold */
-    color: var(--primary-color);
+    font-weight: 600;
+    color: var(--primary-color); /* Consistent with other strong elements */
 }
 
 .prompt-rating {
     font-size: 0.9em;
-    color: var(--secondary-color);
+    color: var(--secondary-color); /* Kept as secondary, good contrast */
     margin-top: 10px;
     font-weight: 600;
 }
 
 .prompt-usage, .prompt-date {
     font-size: 0.85em;
-    color: #555;
+    color: #666; /* Slightly lighter gray for less prominent info */
     margin-top: 8px;
 }
 
-.prompt-card button.copy-prompt-button { /* More specific selector for copy button */
-    background-color: var(--accent-color);
-    color: white;
+.prompt-card button.copy-prompt-button {
+    background-color: var(--accent-color); /* Use accent color */
+    color: var(--light-text-color); /* White text on accent */
     padding: 8px 15px;
     border: none;
     border-radius: var(--border-radius);
@@ -423,7 +428,7 @@ section {
 }
 
 .prompt-card button.copy-prompt-button:hover {
-    background-color: #e65c50; /* Darker accent */
+    background-color: #4E8082; /* Darker shade of CadetBlue */
 }
 
 
@@ -432,21 +437,21 @@ section {
     height: auto;
     border-radius: 8px;
     margin-bottom: 15px;
-    border: none; /* Remove default border */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Softer shadow for images */
 }
 
 /* Filter/Search Bar Styles */
 .prompt-filters, .guide-filters, .showcase-filters {
     margin-bottom: 30px;
     padding: 20px;
-    background-color: var(--card-background);
+    background-color: var(--card-background); /* White background for filter bar */
     border-radius: var(--border-radius);
     display: flex;
     gap: 15px;
     align-items: center;
     box-shadow: var(--card-shadow);
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
 }
 
 .prompt-filters input[type="text"],
@@ -456,12 +461,14 @@ section {
 .guide-filters select,
 .showcase-filters select {
     padding: 12px 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; /* Standard border */
     border-radius: 8px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 1rem;
-    flex-grow: 1; /* Allow input to grow */
-    min-width: 150px; /* Prevent select/input from becoming too small */
+    background-color: #fff; /* Ensure white background for inputs */
+    color: var(--text-color); /* Ensure text color is applied */
+    flex-grow: 1;
+    min-width: 150px;
 }
 
 /* Ensure all filter elements have some bottom margin on wrap for smaller screens */
@@ -478,8 +485,8 @@ section {
 .prompt-filters select:focus,
 .guide-filters select:focus,
 .showcase-filters select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2); /* Use RGB for alpha */
+    border-color: var(--primary-color); /* Primary color for focus */
+    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
     outline: none;
 }
 
@@ -487,29 +494,29 @@ section {
 .guide-filters button,
 .showcase-filters button {
     padding: 12px 25px;
-    background: linear-gradient(90deg, var(--accent-color) 0%, #ff8a80 100%); /* Coral gradient */
-    color: white;
+    background: var(--accent-color); /* Solid accent color for filter buttons */
+    color: var(--light-text-color); /* White text */
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-weight: 600;
     transition: background-color var(--transition-speed), transform var(--transition-speed);
-    box-shadow: 0 4px 10px rgba(255, 111, 97, 0.3);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
 }
 
 .prompt-filters button:hover,
 .guide-filters button:hover,
 .showcase-filters button:hover {
-    background: linear-gradient(90deg, #ff8a80 0%, var(--accent-color) 100%);
+    background: #4E8082; /* Darker shade of CadetBlue on hover */
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(255, 111, 97, 0.4);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 
 /* Form Styles (for feedback, prompt submission, project submission) */
 form {
-    background: var(--card-background);
+    background: var(--card-background); /* White background for forms */
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
@@ -521,9 +528,9 @@ form div {
 form label {
     display: block;
     margin-bottom: 8px;
-    font-weight: 600; /* Poppins semi-bold */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    color: var(--heading-color);
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: var(--heading-color); /* Black for labels */
     font-size: 1.05rem;
 }
 
@@ -534,11 +541,13 @@ form select,
 form textarea {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #ddd; /* Standard border */
     border-radius: 8px;
     box-sizing: border-box;
     font-size: 1rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #fff; /* Ensure white background */
+    color: var(--text-color); /* Ensure text color is applied */
     transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
 }
 
@@ -547,8 +556,8 @@ form input[type="email"]:focus,
 form input[type="url"]:focus,
 form select:focus,
 form textarea:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb),0.25); /* Use RGB for alpha */
+    border-color: var(--primary-color); /* Primary color for focus */
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb),0.25);
     outline: none;
 }
 
@@ -557,9 +566,9 @@ form textarea {
     resize: vertical;
 }
 
-form button[type="submit"], .button { /* General button style */
-    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: #fff;
+form button[type="submit"], .button { /* General button style, .button already updated */
+    background: var(--primary-color); /* Solid primary color for submit buttons */
+    color: var(--light-text-color); /* White text */
     padding: 12px 25px;
     border: none;
     border-radius: 8px;
@@ -567,79 +576,81 @@ form button[type="submit"], .button { /* General button style */
     text-decoration: none;
     display: inline-block;
     font-size: 1.1rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-weight: 600;
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 form button[type="submit"]:hover, .button:hover {
+    background-color: #A0740A; /* Darker primary on hover */
     transform: translateY(-3px);
     box-shadow: 0 7px 20px rgba(0,0,0,0.15);
-    text-decoration: none; /* Ensure no underline on hover for .button as <a> */
-    color: #fff; /* Keep text color white */
+    text-decoration: none;
+    color: var(--light-text-color); /* Keep text color white */
 }
 
 /* News Article Styles */
 article {
-    margin-bottom: 40px; /* Increased spacing */
+    margin-bottom: 40px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #e9ecef; /* Lighter border */
+    border-bottom: 1px solid #e0e0e0; /* Slightly darker border for better visibility on cream */
 }
 article:last-child {
     border-bottom: none;
 }
 article h3 {
     margin-top: 0;
-    color: var(--primary-color);
+    color: var(--primary-color); /* Primary color for article titles */
     font-size: 1.7rem;
 }
 article .date {
     font-size: 0.9em;
-    color: #777;
+    color: #666; /* Lighter gray for date */
     margin-bottom: 15px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 /* Feedback Item Specifics */
 .feedback-item {
     margin-top: 20px;
-    /* General card styles already apply */
+    /* General card styles already apply (white background) */
 }
 .feedback-item h4 {
     margin-bottom: 8px;
-    color: var(--secondary-color);
+    color: var(--primary-color); /* Primary color for feedback titles */
     font-size: 1.4rem;
 }
 .feedback-meta {
     font-size: 0.9em;
-    color: #777;
+    color: #666; /* Lighter gray for metadata */
     margin-bottom: 10px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 .feedback-comments {
     margin-top: 15px;
     padding-left: 20px;
-    border-left: 4px solid var(--accent-color);
+    border-left: 4px solid var(--accent-color); /* Accent color for border */
     font-size: 1rem;
-    background-color: #f8f9fa; /* Light background for comments */
+    background-color: #f9f9f9; /* Very light gray for comments background, distinct from white card */
     padding: 15px;
-    border-radius: 0 8px 8px 0; /* Rounded corners on one side */
+    border-radius: 0 8px 8px 0;
 }
 .feedback-comments p {
     margin-bottom: 8px;
     line-height: 1.6;
+    color: var(--text-color); /* Ensure main text color for comments */
 }
 
 
 /* Footer Styles */
 footer {
-    background-color: var(--heading-color); /* Dark background for footer */
-    color: #A0A0A0; /* Light grey text, not stark white */
-    padding: 40px 0; /* Decent padding */
+    background-color: #333333; /* Dark Gray for footer background */
+    color: #cccccc; /* Light Gray text for footer, good contrast on dark gray */
+    padding: 40px 0;
     text-align: center;
-    margin-top: 60px; /* Space above the footer */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; /* Consistent font */
+    margin-top: 60px;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 footer .container p {
@@ -649,26 +660,26 @@ footer .container p {
 }
 
 footer a {
-    color: var(--accent-color); /* Use accent color for links in footer */
+    color: var(--secondary-color); /* Tan for links in footer, stands out on dark gray */
     text-decoration: none;
 }
 
 footer a:hover {
-    color: var(--light-text-color);
+    color: var(--light-text-color); /* White on hover for footer links */
     text-decoration: underline;
 }
 
 /* Add RGB versions of colors for box-shadows with alpha */
 :root {
-    /* RGB values for Creamish Theme Palette */
-    --primary-color-rgb: 160, 82, 45;    /* Sienna */
-    --secondary-color-rgb: 210, 180, 140;  /* Tan */
-    --accent-color-rgb: 143, 188, 143;     /* DarkSeaGreen */
+    /* RGB values for Modern Creamish Theme Palette */
+    --primary-color-rgb: 184, 134, 11;   /* DarkGoldenRod */
+    --secondary-color-rgb: 210, 180, 140; /* Tan */
+    --accent-color-rgb: 95, 158, 160;    /* CadetBlue */
 }
 
 /* Utility class for active navigation link */
 nav a.active {
-    font-weight: 700; /* Bolder for active link */
+    font-weight: 700;
     color: var(--accent-color); /* Highlight with accent color */
 }
 nav a.active::after {

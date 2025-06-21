@@ -178,19 +178,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                        let errorMsg = `HTTP error! status: ${response.status}`;
+                        try {
+                            const errorData = await response.json();
+                            errorMsg = errorData.error || errorMsg; // Use server's error message if available
+                        } catch (e) {
+                            // If response is not JSON or another error occurs parsing it
+                            console.warn("Could not parse error response as JSON:", e);
+                        }
+                        throw new Error(errorMsg);
                     }
 
                     const result = await response.json();
                     console.log('Prompt Submitted:', result);
-                    alert('Thank you for your prompt submission!');
+                    alert('Thank you for your prompt submission! Your prompt has been added.');
                     promptSubmissionForm.reset();
                     fetchPrompts(); // Refresh the list of prompts
                     fetchCategories(); // Refresh categories in case a new one was added
                 } catch (error) {
                     console.error('Failed to submit prompt:', error);
-                    alert(`Error submitting prompt: ${error.message}`);
+                    // Display a more informative error message to the user
+                    alert(`Error submitting prompt: ${error.message}\nPlease check your input and try again. If the problem persists, contact support.`);
                 }
             });
         }

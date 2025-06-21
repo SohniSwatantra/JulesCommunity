@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import logging # Added for logging
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import desc, func
@@ -16,17 +17,6 @@ from models import User, Product, ApplicationSetting, Prompt, ShowcaseProject, S
 
 app = Flask(__name__)
 
-# Configuration for file uploads
-UPLOAD_FOLDER = 'uploads/showcase_images'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# Ensure the upload folder exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Dependency for database session
 def get_db_session():
@@ -228,11 +218,15 @@ def get_prompt_categories():
 @app.route('/prompts', methods=['POST'])
 def create_prompt():
     data = request.get_json()
+    app.logger.info(f"Received prompt submission data: {data}")
+
     if not data or not data.get('title') or not data.get('category') or not data.get('prompt_text'):
+        app.logger.warning("Prompt submission failed: Missing title, category, or prompt_text.")
         return jsonify({"error": "Missing title, category, or prompt_text"}), 400
 
     db: Session = next(get_db_session())
     try:
+        app.logger.info("Creating new Prompt object.")
         new_prompt = Prompt(
             title=data['title'],
             category=data['category'],
@@ -242,9 +236,13 @@ def create_prompt():
             rating=Decimal(data['rating']) if data.get('rating') else None
         )
         db.add(new_prompt)
+        app.logger.info("Adding new prompt to session.")
         db.commit()
+        app.logger.info(f"Prompt committed to database. New prompt ID: {new_prompt.id}")
         db.refresh(new_prompt)
-        return jsonify({
+        app.logger.info("Prompt refreshed from database.")
+
+        response_data = {
             "message": "Prompt created",
             "prompt": {
                 "id": new_prompt.id,
@@ -256,14 +254,23 @@ def create_prompt():
                 "usage_count": new_prompt.usage_count,
                 "created_at": new_prompt.created_at.isoformat()
             }
-        }), 201
-    except ValueError: # Handle invalid Decimal conversion for rating
+        }
+        app.logger.info(f"Successfully created prompt. Response: {response_data}")
+        return jsonify(response_data), 201
+    except ValueError as ve: # Handle invalid Decimal conversion for rating
         db.rollback()
+        app.logger.error(f"ValueError during prompt creation: {ve}. Data: {data}")
         return jsonify({"error": "Invalid rating format. Must be a number."}), 400
+    except IntegrityError as ie:
+        db.rollback()
+        app.logger.error(f"IntegrityError during prompt creation: {ie}. Data: {data}")
+        return jsonify({"error": "Database integrity error. Possible duplicate or constraint violation."}), 409
     except Exception as e:
         db.rollback()
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Unhandled exception during prompt creation: {e}. Data: {data}", exc_info=True)
+        return jsonify({"error": "An unexpected error occurred on the server."}), 500
     finally:
+        app.logger.debug("Closing database session for prompt creation.")
         db.close()
 
 # --- Showcase Project Routes ---
@@ -357,8 +364,8 @@ def uploaded_showcase_image(filename):
 if __name__ == '__main__':
     # For development server. In production, use a WSGI server like Gunicorn.
     # Make sure to run init_db.py first if you haven't or tables don't exist.
-    print("Attempting to create database tables if they don't exist (via app.py)...")
+    app.logger.info("Attempting to create database tables if they don't exist (via app.py)...")
     Base.metadata.create_all(bind=engine) # Ensures tables are created when app starts
-    print("Tables checked/created.")
-    print("To initialize with sample data, run: python init_db.py")
+    app.logger.info("Tables checked/created.")
+    print("To initialize with sample data, run: python init_db.py") # Keep this print for console feedback
     app.run(debug=True)

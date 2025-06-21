@@ -268,4 +268,110 @@ document.addEventListener('DOMContentLoaded', () => {
             feedbackForm.reset();
         });
     }
+
+    // --- Showcase Page Functionality ---
+    const projectSubmissionForm = document.getElementById('project-submission-form');
+    const showcaseGallery = document.querySelector('.showcase-gallery'); // For refreshing later
+
+    if (projectSubmissionForm) {
+        projectSubmissionForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(projectSubmissionForm);
+            // No need to manually build JSON if sending FormData directly for file uploads
+            // server-side (Flask) needs to expect form-data, not application/json, which it does.
+
+            const submitButton = projectSubmissionForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = 'Submitting...';
+            submitButton.disabled = true;
+
+            try {
+                const response = await fetch('/showcase/projects', {
+                    method: 'POST',
+                    body: formData, // FormData will correctly set Content-Type to multipart/form-data
+                });
+
+                const result = await response.json(); // Always try to parse JSON
+
+                if (!response.ok) {
+                    throw new Error(result.error || `HTTP error! status: ${response.status}`);
+                }
+
+                console.log('Project Submitted:', result);
+                alert(result.message || 'Project submitted successfully!');
+                projectSubmissionForm.reset();
+                // Call function to refresh project list (will be implemented in next step)
+                if (typeof fetchAndDisplayShowcaseProjects === 'function') {
+                    fetchAndDisplayShowcaseProjects();
+                } else {
+                    console.warn('fetchAndDisplayShowcaseProjects function not yet defined. Please refresh manually for now.');
+                }
+
+            } catch (error) {
+                console.error('Failed to submit project:', error);
+                alert(`Error submitting project: ${error.message}`);
+            } finally {
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            }
+        });
+    }
+
+    // Placeholder for the function to fetch and display projects (will be implemented next)
+    async function fetchAndDisplayShowcaseProjects() {
+        if (!showcaseGallery) return; // Only run if the gallery element exists
+
+        showcaseGallery.innerHTML = '<p>Loading projects...</p>'; // Show loading message
+
+        try {
+            const response = await fetch('/showcase/projects');
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({})); // Try to get error details
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
+            const projects = await response.json();
+
+            showcaseGallery.innerHTML = ''; // Clear loading message or old projects
+
+            if (projects.length === 0) {
+                showcaseGallery.innerHTML = '<p>No projects submitted yet. Be the first!</p>';
+                return;
+            }
+
+            projects.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+
+                let imageHtml = `<img src="placeholder.jpg" alt="${escapeHtml(project.title)}">`; // Default placeholder
+                if (project.image_url) {
+                    // The image_url from backend is like "/uploads/showcase_images/filename.jpg"
+                    imageHtml = `<img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}">`;
+                }
+
+                const linkHtml = project.link
+                    ? `<a href="${escapeHtml(project.link)}" target="_blank" rel="noopener noreferrer">View Project Details/Repo</a>`
+                    : '<span>No link provided</span>';
+
+                card.innerHTML = `
+                    ${imageHtml}
+                    <h3>${escapeHtml(project.title)}</h3>
+                    <p><strong>Category:</strong> ${escapeHtml(project.category)}</p>
+                    <p>${escapeHtml(project.description)}</p>
+                    <p><em>Submitted: ${new Date(project.submitted_at).toLocaleDateString()}</em></p>
+                    ${linkHtml}
+                `;
+                showcaseGallery.appendChild(card);
+            });
+
+        } catch (error) {
+            console.error('Failed to fetch or display showcase projects:', error);
+            showcaseGallery.innerHTML = `<p>Error loading projects: ${error.message}. Please try refreshing the page.</p>`;
+        }
+    }
+
+    // Initial fetch for showcase projects if on the showcase page
+    if (document.querySelector('.showcase-gallery')) {
+        fetchAndDisplayShowcaseProjects();
+    }
+
 });

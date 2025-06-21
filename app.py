@@ -5,18 +5,17 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import desc, func
 from decimal import Decimal
 import bcrypt # Added for password hashing
+import os # For file paths
+from werkzeug.utils import secure_filename # For secure file uploads
+from flask import send_from_directory # To serve uploaded files if needed later
 
 # It's good practice to have models and db session management in separate files
-from models import User, Product, ApplicationSetting, Prompt, SessionLocal, engine, Base, get_db
+from models import User, Product, ApplicationSetting, Prompt, ShowcaseProject, SessionLocal, engine, Base, get_db
 
 # Create tables if they don't exist (alternative to running init_db.py separately for simple cases)
 # Base.metadata.create_all(bind=engine)
 
 app = Flask(__name__)
-
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-app.logger.setLevel(logging.INFO)
 
 
 # Dependency for database session
@@ -273,6 +272,93 @@ def create_prompt():
     finally:
         app.logger.debug("Closing database session for prompt creation.")
         db.close()
+
+# --- Showcase Project Routes ---
+@app.route('/showcase/projects', methods=['POST'])
+def create_showcase_project():
+    db: Session = next(get_db_session())
+    try:
+        # Data from form-data; request.form for text fields, request.files for files
+        title = request.form.get('project-title')
+        category = request.form.get('project-category')
+        description = request.form.get('project-description')
+        link = request.form.get('project-link')
+
+        if not title or not category or not description:
+            return jsonify({"error": "Missing required fields: title, category, or description"}), 400
+
+        image_filename = None
+        if 'project-image' in request.files:
+            file = request.files['project-image']
+            if file and file.filename != '' and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                # To avoid filename collisions, prepend with a unique identifier or timestamp if necessary
+                # For simplicity here, we'll just use the secure filename.
+                # Consider adding timestamp: filename = f"{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{filename}"
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_filename = filename
+            elif file.filename != '': # File was provided but not allowed type
+                return jsonify({"error": "Invalid image file type. Allowed types: png, jpg, jpeg, gif"}), 400
+
+        new_project = ShowcaseProject(
+            title=title,
+            category=category,
+            description=description,
+            link=link,
+            image_filename=image_filename
+        )
+        db.add(new_project)
+        db.commit()
+        db.refresh(new_project)
+
+        return jsonify({
+            "message": "Project submitted successfully!",
+            "project": {
+                "id": new_project.id,
+                "title": new_project.title,
+                "category": new_project.category,
+                "description": new_project.description,
+                "link": new_project.link,
+                "image_filename": new_project.image_filename,
+                "submitted_at": new_project.submitted_at.isoformat()
+            }
+        }), 201
+
+    except Exception as e:
+        db.rollback()
+        app.logger.error(f"Error creating showcase project: {e}") # Log the error
+        return jsonify({"error": "An internal error occurred: " + str(e)}), 500
+    finally:
+        db.close()
+
+@app.route('/showcase/projects', methods=['GET'])
+def get_showcase_projects():
+    db: Session = next(get_db_session())
+    try:
+        projects = db.query(ShowcaseProject).order_by(desc(ShowcaseProject.submitted_at)).all()
+
+        # Construct image URLs. This assumes the client will prepend the base URL.
+        # Or, you could return full URLs: f"{request.host_url.rstrip('/')}/uploads/showcase_images/{p.image_filename}"
+        return jsonify([{
+            "id": p.id,
+            "title": p.title,
+            "category": p.category,
+            "description": p.description,
+            "link": p.link,
+            "image_url": f"/uploads/showcase_images/{p.image_filename}" if p.image_filename else None,
+            "image_filename": p.image_filename, # Keep filename for reference if needed
+            "submitted_at": p.submitted_at.isoformat()
+        } for p in projects])
+    except Exception as e:
+        app.logger.error(f"Error fetching showcase projects: {e}")
+        return jsonify({"error": "An internal error occurred: " + str(e)}), 500
+    finally:
+        db.close()
+
+# Route to serve uploaded images
+@app.route('/uploads/showcase_images/<filename>')
+def uploaded_showcase_image(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 if __name__ == '__main__':

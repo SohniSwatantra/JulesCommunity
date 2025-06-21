@@ -66,6 +66,22 @@ class Prompt(Base):
         return f"<Prompt(id={self.id}, title='{self.title}', category='{self.category}')>"
 
 
+class ShowcaseProject(Base):
+    __tablename__ = "showcase_projects"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    category = Column(String, nullable=False, index=True)
+    description = Column(Text, nullable=False)
+    link = Column(String, nullable=True) # Link to GitHub, website, etc.
+    image_filename = Column(String, nullable=True) # Stores the name of the uploaded image file
+    submitted_at = Column(DateTime(timezone=True), server_default=func.now())
+    # Optional: user_id = Column(Integer, ForeignKey('users.id'), nullable=True) # If linking to a user
+
+    def __repr__(self):
+        return f"<ShowcaseProject(id={self.id}, title='{self.title}', category='{self.category}')>"
+
+
 def get_db():
     db = SessionLocal()
     try:

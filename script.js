@@ -3,6 +3,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Jules Community Website Loaded");
 
+    // Active navigation link highlighting
+    const currentPage = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        }
+    });
+
+
     // Example: Smooth scroll for navigation links (if we add IDs to sections)
     // document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
     //     anchor.addEventListener('click', function (e) {

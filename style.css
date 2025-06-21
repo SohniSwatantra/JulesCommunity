@@ -405,6 +405,30 @@ section {
     font-weight: 600;
 }
 
+.prompt-usage, .prompt-date {
+    font-size: 0.85em;
+    color: #555;
+    margin-top: 8px;
+}
+
+.prompt-card button.copy-prompt-button { /* More specific selector for copy button */
+    background-color: var(--accent-color);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    margin-top: 15px;
+    transition: background-color var(--transition-speed);
+}
+
+.prompt-card button.copy-prompt-button:hover {
+    background-color: #e65c50; /* Darker accent */
+}
+
+
 .project-card img {
     max-width: 100%;
     height: auto;
@@ -439,7 +463,16 @@ section {
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     flex-grow: 1; /* Allow input to grow */
+    min-width: 150px; /* Prevent select/input from becoming too small */
 }
+
+/* Ensure all filter elements have some bottom margin on wrap for smaller screens */
+.prompt-filters input[type="text"],
+.prompt-filters select,
+.prompt-filters button {
+    margin-bottom: 10px;
+}
+
 
 .prompt-filters input[type="text"]:focus,
 .guide-filters input[type="text"]:focus,

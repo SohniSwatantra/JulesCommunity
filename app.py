@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import desc, func
+from decimal import Decimal
 import bcrypt # Added for password hashing
 
 # It's good practice to have models and db session management in separate files
-from models import User, Product, ApplicationSetting, SessionLocal, engine, Base, get_db
+from models import User, Product, ApplicationSetting, Prompt, SessionLocal, engine, Base, get_db
 
 # Create tables if they don't exist (alternative to running init_db.py separately for simple cases)
 # Base.metadata.create_all(bind=engine)
@@ -147,6 +149,102 @@ def create_or_update_setting():
         db.commit()
         db.refresh(setting)
         return jsonify({"message": message, "setting": {"key": setting.key, "value": setting.value}}), 200 if message == "Setting updated" else 201
+    except Exception as e:
+        db.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        db.close()
+
+# --- Prompt Routes ---
+@app.route('/prompts', methods=['GET'])
+def get_prompts():
+    db: Session = next(get_db_session())
+    try:
+        query = db.query(Prompt)
+
+        # Filtering
+        category = request.args.get('category')
+        if category:
+            query = query.filter(Prompt.category == category)
+
+        search_term = request.args.get('term')
+        if search_term:
+            query = query.filter(
+                (Prompt.title.ilike(f"%{search_term}%")) |
+                (Prompt.description.ilike(f"%{search_term}%"))
+            )
+
+        # Sorting
+        sort_by = request.args.get('sort_by', 'date') # Default sort by date
+        if sort_by == 'popularity':
+            query = query.order_by(desc(Prompt.usage_count))
+        elif sort_by == 'date':
+            query = query.order_by(desc(Prompt.created_at))
+        elif sort_by == 'title':
+            query = query.order_by(Prompt.title)
+        elif sort_by == 'rating':
+            query = query.order_by(desc(Prompt.rating))
+
+
+        prompts = query.all()
+
+        return jsonify([{
+            "id": p.id,
+            "title": p.title,
+            "category": p.category,
+            "description": p.description,
+            "prompt_text": p.prompt_text,
+            "rating": str(p.rating) if p.rating is not None else None,
+            "usage_count": p.usage_count,
+            "created_at": p.created_at.isoformat()
+        } for p in prompts])
+    finally:
+        db.close()
+
+@app.route('/prompts/categories', methods=['GET'])
+def get_prompt_categories():
+    db: Session = next(get_db_session())
+    try:
+        categories = db.query(Prompt.category, func.count(Prompt.category).label('count')).group_by(Prompt.category).order_by(Prompt.category).all()
+        return jsonify([{"name": cat, "count": count} for cat, count in categories])
+    finally:
+        db.close()
+
+@app.route('/prompts', methods=['POST'])
+def create_prompt():
+    data = request.get_json()
+    if not data or not data.get('title') or not data.get('category') or not data.get('prompt_text'):
+        return jsonify({"error": "Missing title, category, or prompt_text"}), 400
+
+    db: Session = next(get_db_session())
+    try:
+        new_prompt = Prompt(
+            title=data['title'],
+            category=data['category'],
+            description=data.get('description'),
+            prompt_text=data['prompt_text'],
+            # Rating can be optional, usage_count defaults to 0
+            rating=Decimal(data['rating']) if data.get('rating') else None
+        )
+        db.add(new_prompt)
+        db.commit()
+        db.refresh(new_prompt)
+        return jsonify({
+            "message": "Prompt created",
+            "prompt": {
+                "id": new_prompt.id,
+                "title": new_prompt.title,
+                "category": new_prompt.category,
+                "description": new_prompt.description,
+                "prompt_text": new_prompt.prompt_text,
+                "rating": str(new_prompt.rating) if new_prompt.rating is not None else None,
+                "usage_count": new_prompt.usage_count,
+                "created_at": new_prompt.created_at.isoformat()
+            }
+        }), 201
+    except ValueError: # Handle invalid Decimal conversion for rating
+        db.rollback()
+        return jsonify({"error": "Invalid rating format. Must be a number."}), 400
     except Exception as e:
         db.rollback()
         return jsonify({"error": str(e)}), 500

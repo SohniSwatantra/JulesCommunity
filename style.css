@@ -1,88 +1,157 @@
 /* General Body Styles */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Roboto:wght@400;500&display=swap');
 
 :root {
-    --primary-color: #6a11cb; /* Vibrant Purple */
-    --secondary-color: #2575fc; /* Bright Blue */
-    --accent-color: #ff6f61; /* Coral */
-    --background-color: #f0f2f5; /* Light Gray */
-    --text-color: #333;
-    --heading-color: #1e1e1e;
-    --card-background: #ffffff;
-    --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    --border-radius: 12px;
-    --transition-speed: 0.3s ease;
+    /* Elementor Inspired Palette */
+    --primary-color: #3A0CA3;    /* Deep Violet */
+    --secondary-color: #F72585;  /* Vibrant Magenta */
+    --accent-color: #4CC9F0;     /* Bright Blue/Teal */
+
+    --background-color: #FFFFFF; /* White */
+    --text-color: #1E1E1E;       /* Dark Grey / Off-Black */
+    --heading-color: #1E1E1E;    /* Dark Grey / Off-Black for headings */
+    --light-text-color: #FFFFFF; /* For dark backgrounds */
+
+    --card-background: #FFFFFF;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer shadow */
+    --border-radius: 8px; /* Slightly smaller, modern radius */
+    --transition-speed: 0.25s ease;
+
+    --container-max-width: 1140px; /* Standard container width */
+    --container-padding: 0 20px;   /* Padding for container */
 }
 
 body {
     font-family: 'Roboto', sans-serif;
-    line-height: 1.7;
+    line-height: 1.6;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
     color: var(--text-color);
-    font-weight: 300; /* Lighter default font weight */
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased; /* Smoother fonts */
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
-    font-weight: 600;
+    font-weight: 700; /* Bolder headings by default */
     color: var(--heading-color);
-    margin-top: 1.5em;
-    margin-bottom: 0.8em;
+    margin-top: 1.2em;
+    margin-bottom: 0.6em;
+    line-height: 1.3;
 }
 
-h1 { font-size: 2.8rem; font-weight: 700; }
-h2 { font-size: 2.2rem; }
-h3 { font-size: 1.8rem; }
+h1 { font-size: 3rem; font-weight: 800; } /* Larger, bolder h1 */
+h2 { font-size: 2.4rem; }
+h3 { font-size: 1.9rem; }
+h4 { font-size: 1.5rem; }
+
 
 a {
-    color: var(--primary-color);
+    color: var(--secondary-color); /* Use secondary color for links */
     text-decoration: none;
-    transition: color var(--transition-speed);
+    transition: color var(--transition-speed), opacity var(--transition-speed);
 }
 
 a:hover {
-    color: var(--secondary-color);
-    text-decoration: underline;
+    color: var(--primary-color); /* Darken on hover to primary */
+    opacity: 0.85;
+    text-decoration: none; /* Generally no underline on hover for modern themes unless specific */
 }
+
+/* Utility class for centering content */
+.container {
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding: var(--container-padding);
+}
+
+/* Button Styles */
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem; /* Default padding */
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+.button-primary {
+    background-color: var(--secondary-color); /* Vibrant Magenta */
+    color: var(--light-text-color);
+}
+
+.button-primary:hover {
+    background-color: #d91c71; /* Slightly darker magenta */
+    color: var(--light-text-color); /* Ensure text color remains light on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Specific button instances like .nav-button and .hero-button will inherit .button and .button-primary,
+   and can have their specific padding/font-size overrides as already implemented. */
+
 
 /* Header Styles */
 header {
-    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: #fff;
-    padding: 1.5rem 0;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background: var(--background-color);
+    padding: 1rem 0; /* Reduced padding for a slimmer header */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle bottom shadow */
+    position: sticky; /* Sticky header */
+    top: 0;
+    z-index: 1000;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1 {
     margin: 0;
-    font-size: 2.8rem; /* Slightly increased */
+    font-size: 1.8rem; /* Adjusted size for modern look */
     font-weight: 700;
-    letter-spacing: 1px;
-    color: #fff; /* Ensure header text is white */
+    color: var(--primary-color); /* Use primary color for logo/title */
 }
 
 nav ul {
     padding: 0;
     list-style: none;
-    margin-top: 1rem;
+    margin: 0; /* Remove default margin */
+    display: flex; /* Align items in a row */
+    align-items: center; /* Vertically align items */
 }
 
 nav ul li {
-    display: inline;
-    margin: 0 15px;
+    margin-left: 25px; /* Space between nav items */
+}
+
+nav ul li:first-child {
+    margin-left: 0;
 }
 
 nav a {
-    color: #fff;
+    color: var(--text-color); /* Standard text color for nav links */
     text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 400; /* Poppins regular for nav */
+    font-size: 1rem;
+    font-weight: 500; /* Slightly bolder than body text */
     font-family: 'Poppins', sans-serif;
-    padding: 8px 0;
+    padding: 5px 0;
     position: relative;
+    transition: color var(--transition-speed);
+}
+
+nav a:hover, nav a.active {
+    color: var(--primary-color); /* Primary color on hover/active */
 }
 
 nav a::after {
@@ -90,25 +159,27 @@ nav a::after {
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--accent-color);
+    bottom: -2px; /* Position underline slightly below text */
+    left: 0;
+    background-color: var(--secondary-color); /* Accent color for underline */
     transition: width var(--transition-speed);
 }
 
-nav a:hover::after, nav a.active::after { /* .active class for current page */
+nav a:hover::after, nav a.active::after {
     width: 100%;
 }
-nav a:hover {
-    text-decoration: none; /* Remove underline from default a:hover */
-    color: #f0f0f0; /* Slightly lighter on hover */
+
+/* Styles for the "Get Started" button in nav */
+.nav-button {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.95rem;
+    margin-left: 20px;
 }
 
 
 /* Main Content Styles */
 main {
-    padding: 30px;
+    /* padding: 30px; Removed, sections will handle their own padding */
     max-width: 1100px; /* Increased max-width */
     margin: 30px auto;
     background: transparent; /* Main area transparent, sections will have background */
@@ -131,85 +202,159 @@ main h3 {
 
 /* Section Specific Styles */
 section {
-    background-color: var(--card-background);
-    padding: 25px 30px;
-    margin-bottom: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
+    /* background-color: var(--card-background); // Will be set per section or default to white */
+    padding: 60px 0; /* Standard vertical padding for sections */
+    margin-bottom: 0; /* Remove bottom margin, spacing controlled by padding */
+    /* border-radius: var(--border-radius); // Might not be needed for full-width sections
+    box-shadow: var(--card-shadow); // Might not be needed for full-width sections */
 }
 
 #hero {
     text-align: center;
-    padding: 50px 20px; /* Increased padding */
-    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-    color: #fff;
-    border-radius: var(--border-radius);
-    margin-bottom: 40px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    padding: 80px 0; /* Generous padding */
+    background: linear-gradient(120deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--light-text-color);
+    /* border-radius: 0; /* Full width, no radius needed here */
+    /* margin-bottom: 0; /* Spacing controlled by section padding */
+    /* box-shadow: none; */
 }
+
+#hero .container { /* Ensure container within hero also allows text centering */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #hero h2 {
-    font-size: 2.8rem;
-    margin-bottom: 0.5em;
-    color: #fff;
-    border-bottom: none; /* Remove border from hero h2 */
+    font-size: 3.2rem; /* Larger hero heading */
+    font-weight: 800; /* Extra bold */
+    margin-bottom: 0.6em;
+    color: var(--light-text-color);
+    border-bottom: none;
+    max-width: 800px; /* Constrain width of heading */
 }
 #hero p {
-    font-size: 1.2rem;
-    font-weight: 300;
-    max-width: 700px;
-    margin: 0 auto 1em auto;
+    font-size: 1.25rem; /* Slightly larger paragraph text */
+    font-weight: 400;
+    max-width: 700px; /* Optimal reading width */
+    margin: 0 auto 1.8em auto; /* More space below paragraph */
+    line-height: 1.7;
+}
+
+.hero-button {
+    padding: 0.9rem 2.2rem; /* Larger padding for hero button */
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase; /* Optional: for more emphasis */
+    letter-spacing: 0.5px;
 }
 
 
+#overview {
+    background-color: #F8F9FA; /* Light grey background */
+}
+
+#overview h3 {
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+
 #overview ul {
-    list-style-type: none; /* Remove default bullets */
+    list-style-type: none;
     padding-left: 0;
+    display: grid; /* Using grid for a more structured layout */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 25px;
 }
 
 #overview ul li {
-    padding: 10px 0 10px 30px; /* Add padding for custom bullet */
+    padding: 20px 20px 20px 45px; /* Increased padding, space for icon */
     position: relative;
-    font-size: 1.05rem;
-    border-bottom: 1px solid #eee;
+    font-size: 1rem;
+    background-color: var(--card-background); /* Give items a card look */
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
-#overview ul li:last-child {
-    border-bottom: none;
+
+#overview ul li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
 #overview ul li::before {
-    content: '✓'; /* Custom bullet point */
+    content: '✓'; /* Using checkmark, can be replaced with SVG icon */
     position: absolute;
-    left: 0;
-    top: 10px;
-    color: var(--accent-color);
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-color); /* Use secondary color for icon */
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 #overview ul li strong {
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--heading-color); /* Standard heading color for emphasis */
+    display: block;
+    margin-bottom: 5px;
 }
 
-#featured-content .feature-card {
+/* Featured Content Section */
+#featured-content {
+    background-color: var(--background-color); /* White background */
+}
+
+#featured-content h3 {
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px; /* Gap between cards */
+}
+
+.feature-card {
     background: var(--card-background);
-    border: none; /* Remove old border */
-    padding: 25px;
-    margin-bottom: 20px;
+    padding: 30px; /* More padding for feature cards */
     border-radius: var(--border-radius);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+    box-shadow: var(--card-shadow);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    display: flex; /* For better internal alignment if needed */
+    flex-direction: column;
 }
 
-#featured-content .feature-card:hover {
+.feature-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
 }
 
-#featured-content .feature-card h4 {
-    color: var(--primary-color);
+.feature-card h4 {
+    color: var(--primary-color); /* Primary color for card titles */
     margin-top: 0;
-    font-size: 1.5rem;
+    margin-bottom: 0.75em;
+    font-size: 1.4rem; /* Slightly larger card titles */
+    font-weight: 700;
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1em;
+    flex-grow: 1; /* Allows paragraph to take available space, pushing link to bottom if card heights vary */
+}
+
+.feature-card a {
+    font-weight: 600;
+    color: var(--secondary-color); /* Use secondary for links within cards */
+    text-decoration: none; /* Ensure no default underline */
+}
+
+.feature-card a:hover {
+    color: var(--primary-color);
+    text-decoration: underline; /* Underline on hover for clarity */
 }
 
 
@@ -458,16 +603,28 @@ article .date {
 
 /* Footer Styles */
 footer {
+    background-color: var(--heading-color); /* Dark background for footer */
+    color: #A0A0A0; /* Light grey text, not stark white */
+    padding: 40px 0; /* Decent padding */
     text-align: center;
-    padding: 30px 20px; /* Increased padding */
-    background: #2c3e50; /* Darker, more modern footer color */
-    color: #bdc3c7; /* Lighter text color for footer */
-    margin-top: 50px; /* More space above footer */
-    font-family: 'Poppins', sans-serif;
+    margin-top: 60px; /* Space above the footer */
+    font-family: 'Roboto', sans-serif; /* Consistent font */
 }
-footer p {
+
+footer .container p {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+footer a {
+    color: var(--accent-color); /* Use accent color for links in footer */
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--light-text-color);
+    text-decoration: underline;
 }
 
 /* Add RGB versions of colors for box-shadows with alpha */

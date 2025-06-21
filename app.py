@@ -17,6 +17,20 @@ from models import User, Product, ApplicationSetting, Prompt, ShowcaseProject, S
 
 app = Flask(__name__)
 
+# Configuration for file uploads
+UPLOAD_FOLDER = 'uploads/showcase_images'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
+
+# Ensure the upload folder exists (though we created it with bash, good to have here too for robustness)
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+# Helper function for file uploads
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 # Dependency for database session
 def get_db_session():

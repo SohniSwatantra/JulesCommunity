@@ -1,0 +1,4 @@
+SQLAlchemy>=1.4
+Flask>=2.0
+bcrypt>=3.2
+Flask-Testing>=0.8.1

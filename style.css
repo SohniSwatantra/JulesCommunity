@@ -1,89 +1,215 @@
 /* General Body Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --primary-color: #6a11cb; /* Vibrant Purple */
+    --secondary-color: #2575fc; /* Bright Blue */
+    --accent-color: #ff6f61; /* Coral */
+    --background-color: #f0f2f5; /* Light Gray */
+    --text-color: #333;
+    --heading-color: #1e1e1e;
+    --card-background: #ffffff;
+    --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+    --transition-speed: 0.3s ease;
+}
+
 body {
-    font-family: sans-serif;
-    line-height: 1.6;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.7;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-weight: 300; /* Lighter default font weight */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+}
+
+h1 { font-size: 2.8rem; font-weight: 700; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.8rem; }
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
 }
 
 /* Header Styles */
 header {
-    background: #333;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: #fff;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
     margin: 0;
-    font-size: 2.5rem;
+    font-size: 2.8rem; /* Slightly increased */
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff; /* Ensure header text is white */
 }
 
 nav ul {
     padding: 0;
     list-style: none;
+    margin-top: 1rem;
 }
 
 nav ul li {
     display: inline;
-    margin: 0 10px;
+    margin: 0 15px;
 }
 
 nav a {
     color: #fff;
     text-decoration: none;
     font-size: 1.1rem;
+    font-weight: 400; /* Poppins regular for nav */
+    font-family: 'Poppins', sans-serif;
+    padding: 8px 0;
+    position: relative;
 }
 
-nav a:hover {
-    text-decoration: underline;
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-color);
+    transition: width var(--transition-speed);
 }
+
+nav a:hover::after, nav a.active::after { /* .active class for current page */
+    width: 100%;
+}
+nav a:hover {
+    text-decoration: none; /* Remove underline from default a:hover */
+    color: #f0f0f0; /* Slightly lighter on hover */
+}
+
 
 /* Main Content Styles */
 main {
-    padding: 20px;
-    max-width: 960px;
-    margin: 20px auto;
-    background: #fff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 30px;
+    max-width: 1100px; /* Increased max-width */
+    margin: 30px auto;
+    background: transparent; /* Main area transparent, sections will have background */
+    box-shadow: none; /* Removed shadow from main, will add to sections/cards */
 }
 
-main h2, main h3 {
-    color: #333;
-}
 
 main h2 {
-    border-bottom: 2px solid #333;
-    padding-bottom: 10px;
-    margin-top: 30px; /* Add some space above H2s */
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 15px;
+    margin-top: 40px;
+    font-size: 2.4rem; /* Slightly larger for section titles */
 }
 main h3 {
-    margin-top: 25px; /* Add some space above H3s */
+    margin-top: 35px;
+    font-size: 1.9rem; /* Slightly larger for sub-section titles */
+    color: var(--secondary-color);
 }
 
 
 /* Section Specific Styles */
-#hero {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #e9ecef; /* Light background for hero */
-    border-radius: 5px;
-    margin-bottom: 20px;
+section {
+    background-color: var(--card-background);
+    padding: 25px 30px;
+    margin-bottom: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
 }
 
+#hero {
+    text-align: center;
+    padding: 50px 20px; /* Increased padding */
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    color: #fff;
+    border-radius: var(--border-radius);
+    margin-bottom: 40px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+#hero h2 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5em;
+    color: #fff;
+    border-bottom: none; /* Remove border from hero h2 */
+}
+#hero p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    max-width: 700px;
+    margin: 0 auto 1em auto;
+}
+
+
 #overview ul {
-    list-style-type: disc;
-    padding-left: 20px;
+    list-style-type: none; /* Remove default bullets */
+    padding-left: 0;
+}
+
+#overview ul li {
+    padding: 10px 0 10px 30px; /* Add padding for custom bullet */
+    position: relative;
+    font-size: 1.05rem;
+    border-bottom: 1px solid #eee;
+}
+#overview ul li:last-child {
+    border-bottom: none;
+}
+
+#overview ul li::before {
+    content: '✓'; /* Custom bullet point */
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+#overview ul li strong {
+    font-weight: 600;
+    color: var(--primary-color);
 }
 
 #featured-content .feature-card {
-    background: #eef;
-    border: 1px solid #ccf;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+    background: var(--card-background);
+    border: none; /* Remove old border */
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+#featured-content .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+#featured-content .feature-card h4 {
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 1.5rem;
 }
 
 
@@ -93,49 +219,67 @@ main h3 {
 .project-card,
 .integration-card,
 .feedback-item {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 5px;
+    background: var(--card-background);
+    border: none;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    overflow: hidden; /* To contain pseudo-elements if added */
+}
+
+.prompt-card:hover,
+.guide-card:hover,
+.project-card:hover,
+.integration-card:hover,
+.feedback-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
 
 .prompt-card pre, .guide-card pre, .integration-card pre {
-    background-color: #eee;
-    padding: 10px;
-    border-radius: 4px;
+    background-color: #f8f9fa; /* Lighter than before */
+    padding: 15px;
+    border-radius: 8px; /* Softer radius */
     overflow-x: auto;
-    font-family: monospace;
+    font-family: 'Courier New', Courier, monospace; /* Classic monospace */
+    border: 1px solid #e0e0e0; /* Subtle border */
+    font-size: 0.95em;
 }
 
 .prompt-card strong, .guide-card strong, .project-card strong, .integration-card strong, .feedback-item strong {
-    font-weight: bold;
-    color: #555;
+    font-weight: 600; /* Poppins semi-bold */
+    color: var(--primary-color);
 }
 
 .prompt-rating {
     font-size: 0.9em;
-    color: #666;
-    margin-top: 5px;
+    color: var(--secondary-color);
+    margin-top: 10px;
+    font-weight: 600;
 }
 
 .project-card img {
     max-width: 100%;
     height: auto;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: none; /* Remove default border */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* Filter/Search Bar Styles */
 .prompt-filters, .guide-filters, .showcase-filters {
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #e9ecef;
-    border-radius: 5px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
     display: flex;
-    gap: 10px;
+    gap: 15px;
     align-items: center;
+    box-shadow: var(--card-shadow);
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
 .prompt-filters input[type="text"],
@@ -144,38 +288,67 @@ main h3 {
 .prompt-filters select,
 .guide-filters select,
 .showcase-filters select {
-    padding: 8px;
+    padding: 12px 15px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    flex-grow: 1; /* Allow input to grow */
+}
+
+.prompt-filters input[type="text"]:focus,
+.guide-filters input[type="text"]:focus,
+.showcase-filters input[type="text"]:focus,
+.prompt-filters select:focus,
+.guide-filters select:focus,
+.showcase-filters select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2); /* Use RGB for alpha */
+    outline: none;
 }
 
 .prompt-filters button,
 .guide-filters button,
 .showcase-filters button {
-    padding: 8px 15px;
-    background-color: #5cb85c;
+    padding: 12px 25px;
+    background: linear-gradient(90deg, var(--accent-color) 0%, #ff8a80 100%); /* Coral gradient */
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    box-shadow: 0 4px 10px rgba(255, 111, 97, 0.3);
 }
 
 .prompt-filters button:hover,
 .guide-filters button:hover,
 .showcase-filters button:hover {
-    background-color: #4cae4c;
+    background: linear-gradient(90deg, #ff8a80 0%, var(--accent-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 111, 97, 0.4);
 }
 
 
 /* Form Styles (for feedback, prompt submission, project submission) */
+form {
+    background: var(--card-background);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
 form div {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 form label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-weight: 600; /* Poppins semi-bold */
+    font-family: 'Poppins', sans-serif;
+    color: var(--heading-color);
+    font-size: 1.05rem;
 }
 
 form input[type="text"],
@@ -184,80 +357,262 @@ form input[type="url"],
 form select,
 form textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px 15px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box; /* Important for full width */
+    border-radius: 8px;
+    box-sizing: border-box;
     font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="url"]:focus,
+form select:focus,
+form textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb),0.25); /* Use RGB for alpha */
+    outline: none;
 }
 
 form textarea {
-    min-height: 100px;
+    min-height: 120px;
     resize: vertical;
 }
 
 form button[type="submit"], .button { /* General button style */
-    background: #337ab7; /* Bootstrap primary blue */
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: #fff;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    text-decoration: none; /* For .button used as <a> */
-    display: inline-block; /* For .button used as <a> */
-    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 form button[type="submit"]:hover, .button:hover {
-    background: #286090; /* Darker blue on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0,0,0,0.15);
+    text-decoration: none; /* Ensure no underline on hover for .button as <a> */
+    color: #fff; /* Keep text color white */
 }
 
 /* News Article Styles */
 article {
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 40px; /* Increased spacing */
+    padding-bottom: 30px;
+    border-bottom: 1px solid #e9ecef; /* Lighter border */
 }
 article:last-child {
     border-bottom: none;
 }
 article h3 {
     margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.7rem;
 }
 article .date {
     font-size: 0.9em;
     color: #777;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* Feedback Item Specifics */
 .feedback-item {
     margin-top: 20px;
+    /* General card styles already apply */
 }
 .feedback-item h4 {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    color: var(--secondary-color);
+    font-size: 1.4rem;
 }
 .feedback-meta {
-    font-size: 0.85em;
-    color: #888;
-    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
 }
 .feedback-comments {
-    margin-top: 10px;
-    padding-left: 15px;
-    border-left: 3px solid #007bff; /* Blue accent for comments */
-    font-size: 0.95em;
+    margin-top: 15px;
+    padding-left: 20px;
+    border-left: 4px solid var(--accent-color);
+    font-size: 1rem;
+    background-color: #f8f9fa; /* Light background for comments */
+    padding: 15px;
+    border-radius: 0 8px 8px 0; /* Rounded corners on one side */
 }
 .feedback-comments p {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    line-height: 1.6;
 }
 
 
 /* Footer Styles */
 footer {
     text-align: center;
-    padding: 20px;
-    background: #333;
-    color: #fff;
-    margin-top: 30px;
+    padding: 30px 20px; /* Increased padding */
+    background: #2c3e50; /* Darker, more modern footer color */
+    color: #bdc3c7; /* Lighter text color for footer */
+    margin-top: 50px; /* More space above footer */
+    font-family: 'Poppins', sans-serif;
+}
+footer p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Add RGB versions of colors for box-shadows with alpha */
+:root {
+    --primary-color-rgb: 106, 17, 203;
+    --secondary-color-rgb: 37, 117, 252;
+    --accent-color-rgb: 255, 111, 97;
+}
+
+/* Utility class for active navigation link */
+nav a.active {
+    font-weight: 700; /* Bolder for active link */
+    color: var(--accent-color); /* Highlight with accent color */
+}
+nav a.active::after {
+    width: 100%;
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 992px) {
+    main {
+        padding: 20px;
+        margin: 20px auto;
+    }
+    header h1 {
+        font-size: 2.4rem;
+    }
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.6rem; }
+
+    #hero h2 {
+        font-size: 2.3rem;
+    }
+    #hero p {
+        font-size: 1.1rem;
+    }
+    .prompt-filters, .guide-filters, .showcase-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .prompt-filters input[type="text"],
+    .guide-filters input[type="text"],
+    .showcase-filters input[type="text"],
+    .prompt-filters select,
+    .guide-filters select,
+    .showcase-filters select,
+    .prompt-filters button,
+    .guide-filters button,
+    .showcase-filters button {
+        width: 100%;
+        box-sizing: border-box; /* Ensure padding doesn't break layout */
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        line-height: 1.6;
+    }
+    header {
+        padding: 1rem 0;
+    }
+    header h1 {
+        font-size: 2rem;
+    }
+    nav ul li {
+        margin: 0 10px;
+    }
+    nav a {
+        font-size: 1rem;
+    }
+
+    main {
+        padding: 15px;
+        margin: 15px auto;
+    }
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; }
+    h3 { font-size: 1.5rem; }
+    main h2 { font-size: 2rem; padding-bottom: 10px;}
+    main h3 { font-size: 1.6rem;}
+
+
+    #hero {
+        padding: 30px 15px;
+    }
+    #hero h2 {
+        font-size: 2rem;
+    }
+    #hero p {
+        font-size: 1rem;
+    }
+
+    section {
+        padding: 20px;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="url"],
+    form select,
+    form textarea,
+    form button[type="submit"], .button {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+    .prompt-filters button,
+    .guide-filters button,
+    .showcase-filters button {
+         padding: 10px 20px;
+    }
+
+}
+
+@media (max-width: 576px) {
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    nav ul li {
+        margin: 8px 0;
+    }
+    header h1 {
+        font-size: 1.8rem;
+    }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.6rem; }
+    h3 { font-size: 1.4rem; }
+    main h2 { font-size: 1.8rem;}
+    main h3 { font-size: 1.5rem;}
+
+
+    #hero h2 {
+        font-size: 1.8rem;
+    }
+    #hero p {
+        font-size: 0.95rem;
+    }
+
+    #featured-content .feature-card h4 {
+        font-size: 1.3rem;
+    }
+    .prompt-card h4, .guide-card h4, .project-card h4, .integration-card h4, .feedback-item h4, article h3 {
+        font-size: 1.3rem;
+    }
+
 }

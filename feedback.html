@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Jules Agent Community</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Jules Agent Community</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="news.html">News & Updates</a></li>
+                <li><a href="prompts.html">JulesPrompts</a></li>
+                <li><a href="guides.html">Guides & Tutorials</a></li>
+                <li><a href="showcase.html">Project Showcase</a></li>
+                <li><a href="integrations.html">Tool Integrations</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Feedback Board</h2>
+        <p>Your input is invaluable in making Jules better! Use this space to report bugs, request new features, suggest improvements, or share your general thoughts about Jules. The Jules team actively monitors this board.</p>
+
+        <h3>Submit Your Feedback</h3>
+        <form id="feedback-form">
+            <div>
+                <label for="feedback-type">Type of Feedback:</label>
+                <select id="feedback-type" name="feedback-type">
+                    <option value="bug">Bug Report</option>
+                    <option value="feature">Feature Request</option>
+                    <option value="suggestion">Suggestion/Improvement</option>
+                    <option value="general">General Feedback</option>
+                    <option value="kudos">Kudos/Praise</option>
+                </select>
+            </div>
+            <div>
+                <label for="feedback-summary">Summary / Title:</label>
+                <input type="text" id="feedback-summary" name="feedback-summary" placeholder="e.g., 'Error when using ls() in large repositories'" required>
+            </div>
+            <div>
+                <label for="feedback-details">Details:</label>
+                <textarea id="feedback-details" name="feedback-details" rows="6" placeholder="Please provide as much detail as possible. For bug reports, include steps to reproduce, expected behavior, and actual behavior." required></textarea>
+            </div>
+            <div>
+                <label for="feedback-email">Your Email (Optional - for follow-up):</label>
+                <input type="email" id="feedback-email" name="feedback-email" placeholder="you@example.com">
+            </div>
+            <button type="submit">Submit Feedback</button>
+        </form>
+
+        <hr>
+
+        <h3>Recent Feedback & Discussions</h3>
+        <p><em>(This section would ideally be populated dynamically from a backend or a dedicated feedback platform. Below are static examples.)</em></p>
+
+        <div class="feedback-item">
+            <h4>Feature Request: Interactive Debugging Mode</h4>
+            <p><strong>Type:</strong> Feature Request | <strong>Status:</strong> Under Review</p>
+            <p>It would be great if Jules could enter an interactive debugging mode, allowing step-by-step execution and inspection of variables for code being analyzed.</p>
+            <p class="feedback-meta">Submitted by: DevDude | On: 2024-10-25</p>
+            <div class="feedback-comments">
+                <p><strong>Jules Team Response:</strong> Thanks for the suggestion! This is an interesting idea we'll discuss internally.</p>
+            </div>
+        </div>
+
+        <div class="feedback-item">
+            <h4>Bug Report: `create_file_with_block` fails with unicode characters in path</h4>
+            <p><strong>Type:</strong> Bug Report | <strong>Status:</strong> Investigating</p>
+            <p>When trying to create a file with a path containing emojis or other unicode characters (e.g., `src/🎉_feature/file.py`), the tool errors out.</p>
+            <p class="feedback-meta">Submitted by: UnicodeFan | On: 2024-10-24</p>
+        </div>
+        <!-- More feedback items -->
+        <p><a href="#">View all feedback...</a> (Link to a more comprehensive view if using a dedicated platform)</p>
+    </main>
+    <footer>
+        <p>&copy; 2024 Jules Agent Community</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

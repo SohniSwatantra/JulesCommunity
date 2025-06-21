@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Showcase - Jules Agent Community</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Jules Agent Community</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="news.html">News & Updates</a></li>
+                <li><a href="prompts.html">JulesPrompts</a></li>
+                <li><a href="guides.html">Guides & Tutorials</a></li>
+                <li><a href="showcase.html">Project Showcase</a></li>
+                <li><a href="integrations.html">Tool Integrations</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Project Showcase</h2>
+        <p>Get inspired by what others have built with Jules and share your own creations! See how Jules is being used in real-world applications and discover new possibilities.</p>
+
+        <div class="showcase-filters">
+            <input type="text" placeholder="Search projects..." id="search-projects">
+            <select id="project-category-filter">
+                <option value="all">All Categories</option>
+                <option value="automation">Automation</option>
+                <option value="web-dev">Web Development</option>
+                <option value="data-analysis">Data Analysis</option>
+                <option value="code-generation">Code Generation</option>
+                <!-- More categories -->
+            </select>
+            <button id="filter-projects-button">Filter</button>
+        </div>
+
+        <div class="showcase-gallery">
+            <div class="project-card">
+                <img src="placeholder.jpg" alt="Automated Readme Generator">
+                <h3>Automated Readme Generator</h3>
+                <p><strong>Category:</strong> Automation, Code Generation</p>
+                <p>This project uses Jules to automatically scan a project repository, identify key features and technologies, and generate a comprehensive README.md file.</p>
+                <p><em>Submitted by: UserAlpha</em></p>
+                <a href="#">View Project Details/Repo</a>
+            </div>
+            <div class="project-card">
+                <img src="placeholder.jpg" alt="Data Cleaning Script">
+                <h3>Data Cleaning & Preprocessing Script</h3>
+                <p><strong>Category:</strong> Data Analysis</p>
+                <p>Jules helped create a Python script to clean and preprocess a large dataset, handling missing values, and standardizing formats for analysis.</p>
+                <p><em>Submitted by: DataWizard_22</em></p>
+                <a href="#">View Project Details/Repo</a>
+            </div>
+            <!-- More projects will be displayed here -->
+        </div>
+
+        <h3>Submit Your Project</h3>
+        <p>Have a project you're proud of that uses Jules? Share it with the community!</p>
+        <form id="project-submission-form">
+            <div>
+                <label for="project-title">Project Title:</label>
+                <input type="text" id="project-title" name="project-title" required>
+            </div>
+            <div>
+                <label for="project-category">Category:</label>
+                <input type="text" id="project-category" name="project-category" placeholder="e.g., Automation, Web Dev" required>
+            </div>
+            <div>
+                <label for="project-description">Brief Description (How was Jules used?):</label>
+                <textarea id="project-description" name="project-description" rows="4" required></textarea>
+            </div>
+            <div>
+                <label for="project-link">Link to Project (e.g., GitHub Repo, Website):</label>
+                <input type="url" id="project-link" name="project-link">
+            </div>
+            <div>
+                <label for="project-image">Project Image (Optional):</label>
+                <input type="file" id="project-image" name="project-image" accept="image/*">
+            </div>
+            <button type="submit">Submit Project</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 Jules Agent Community</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

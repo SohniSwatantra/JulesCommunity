@@ -25,38 +25,92 @@
         <h2>News, Updates, and Changelogs</h2>
         <p>Stay up-to-date with the latest announcements, feature releases, and detailed changelogs for Jules.</p>
 
-        <article id="jules-v1.2">
-            <h3>Jules Version 1.2 Released!</h3>
-            <p class="date">October 26, 2024</p>
-            <p>We're excited to announce the release of Jules v1.2! This version brings a host of new features and improvements, including...</p>
-            <h4>Key Features:</h4>
+        <article>
+            <h3>Jules Agent Update: Faster, Smarter, More Reliable</h3>
+            <p class="date">June 20, 2025</p>
+            <p>Jules environment updates</p>
+            <p>We’ve shipped a big upgrade to the Jules agent under the hood.</p>
+            <h4>What’s new:</h4>
             <ul>
-                <li>Enhanced natural language understanding.</li>
-                <li>New `view_text_website` tool for web content access.</li>
-                <li>Improved error handling and debugging capabilities.</li>
+                <li>Smarter context. Jules reads from AGENTS.md if it’s in your repo.</li>
+                <li>Improved performance. Tasks now complete faster—no numbers to share just yet, but you’ll feel it.</li>
+                <li>Significantly reduced punting. We tightened the loop to keep Jules moving forward.</li>
+                <li>More reliable setup. If you’ve added an environment setup script, Jules now runs it consistently.</li>
+                <li>Better test habits. Jules is more likely to write and run tests on its own.</li>
             </ul>
-            <h4>Changelog:</h4>
-            <ul>
-                <li>[Feature] Added `view_text_website` tool.</li>
-                <li>[Improvement] Optimized response times for complex queries.</li>
-                <li>[Fix] Resolved an issue with file path handling in `ls()`.
-                <li>[Docs] Updated AGENTS.md guidelines.</li>
-            </ul>
-            <a href="#">Read full announcement</a>
+            <p>Check out the <a href="https://jules.google/docs/">Getting Started guide</a> to learn more about AGENTS.md support.</p>
         </article>
 
         <article>
-            <h3>Community Spotlight: New Prompt Submissions</h3>
-            <p class="date">October 15, 2024</p>
-            <p>Thank you to our amazing community for submitting fantastic new prompts! We've added several highly-rated prompts to the <a href="prompts.html">JulesPrompts Collection</a>. Check them out!</p>
+            <h3>Modernized base environment and updated toolchains</h3>
+            <p class="date">June 18, 2025</p>
+            <p>Jules environment updates</p>
+            <p>We’ve overhauled the Jules development environment to move beyond the default Ubuntu 24.04 LTS packages. This includes:</p>
+            <ul>
+                <li>Explicitly installing newer versions of key toolchains like Rust, Node, and Python, addressing long-standing version issues.</li>
+                <li>Adding finer-grained control over installation steps via custom scripts instead of relying solely on apt.</li>
+                <li>Introducing support for multiple runtimes, improved isolation, and version pinning to reduce drift and better match developer expectations.</li>
+            </ul>
+            <p>These changes unblock several issues developers encountered with outdated dependencies and improve alignment with modern project requirements.</p>
+            <p><a href="https://jules.google/docs/environment/">Read about the Jules environment setup</a> to learn more about what’s pre-installed.</p>
         </article>
 
         <article>
-            <h3>Upcoming Webinar: Mastering Jules for Code Generation</h3>
-            <p class="date">October 5, 2024</p>
-            <p>Join us for a live webinar where we'll dive deep into using Jules for efficient code generation and scaffolding. <a href="#">Register here</a>.</p>
+            <h3>Customization and Efficiency Enhancements</h3>
+            <p class="date">June 6, 2025</p>
+            <p>Jules code view</p>
+            <p>Performance upgrades: Enjoy a smoother, faster Jules experience with recent under-the-hood improvements.</p>
+            <p>Quickly copy and download code: New copy and download buttons are now available in the code view pane, making it easier to grab your code directly from Jules.</p>
+            <p>Stay focused with task modals: Initiate multiple tasks seamlessly through a new modal option, allowing you to keep your context and workflow intact. <a href="https://jules.google/docs/tasks-repos/">Learn more about kicking off tasks</a>.</p>
+            <p>Adjustable code panel: Customize your workspace by adjusting the width of the code panel to your preferred viewing experience.</p>
+            <p><a href="https://jules.google/docs/code/">Check out the docs</a> to learn more about how to download code that Jules writes.</p>
         </article>
-        <!-- More articles will be added here, ideally in reverse chronological order -->
+
+        <article>
+            <h3>A faster, smoother and more reliable Jules</h3>
+            <p class="date">May 30, 2025</p>
+            <p>This week, our focus has been on improving reliability, fixing our GitHub integration, and scaling capacity.</p>
+            <h4>Here’s what’s we shipped:</h4>
+            <ul>
+                <li>Updated our limits to 60 tasks per day, 5 concurrent.</li>
+                <li>We substantially improved the reliability of the GitHub sync. Export to GitHub should also be fixed on previously created tasks.</li>
+                <li>We’ve decreased the number of failure cases by 2/3</li>
+            </ul>
+            <p>Learn more <a href="https://jules.google/docs/usage-limits">about usage limits</a>.</p>
+        </article>
+
+        <article>
+            <h3>Improving Stablity</h3>
+            <p class="date">May 22, 2025</p>
+            <p>We’ve been heads down improving stability and fixing bugs—big and small—to make Jules faster, smoother, and more reliable for you.</p>
+            <h4>Here’s what’s fixed:</h4>
+            <ul>
+                <li>Upgraded our queuing system and added more compute to reduce wait times during peak usage</li>
+                <li>Publish Branch button is now part of the summary UI in the activity feed so it’s easier to find</li>
+                <li>Bug vixes for task status and mobile</li>
+            </ul>
+            <p><a href="https://jules.google/docs/code/#pushing-to-github">Learn more about how to publish a branch on GitHub</a>.</p>
+        </article>
+
+        <article>
+            <h3>Jules is here</h3>
+            <p class="date">May 19, 2025</p>
+            <p>Jules dashboard</p>
+            <p>Today, we’re launching <a href="https://jules.google.com/">Jules</a>, a new AI coding agent.</p>
+            <p>Jules helps you move faster by working asynchronously on tasks in your GitHub repo. It can fix bugs, update dependencies, migrate code, and add new features.</p>
+            <p>Once you give Jules a task, it spins up a fresh dev environment in a VM, installs dependencies, writes tests, makes the changes, runs the tests, and opens a pull request. Jules shows its work as it makes progress, so you never have to guess what code it’s writing, or what it’s thinking.</p>
+            <h4>What Jules can do today</h4>
+            <ul>
+                <li>Fix bugs with test verified patches</li>
+                <li>Handle version bumps and dependency upgrades</li>
+                <li>Perform scoped code transformations</li>
+                <li>Migrate code across languages or frameworks</li>
+                <li>Ship isolated, scoped, features</li>
+                <li>Open PRs with runnable code and test results</li>
+            </ul>
+            <p><a href="https://jules.google/">Get started with the Jules documentation</a>, and visit <a href="https://jules.google.com/">jules.google.com</a> to run your first Jules task.</p>
+        </article>
+        <!-- New articles will be added above this line, in reverse chronological order -->
     </main>
     <footer>
         <p>&copy; 2024 Jules Agent Community</p>

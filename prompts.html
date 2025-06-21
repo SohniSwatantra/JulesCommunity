@@ -33,44 +33,20 @@
                 <option value="writing">Writing</option>
                 <option value="debugging">Debugging</option>
                 <option value="general">General</option>
-                <!-- More categories -->
+                <!-- Categories will be populated dynamically -->
             </select>
-            <button id="filter-button">Filter</button>
+            <select id="sort-by-filter">
+                <option value="date">Sort by Date (Newest)</option>
+                <option value="popularity">Sort by Popularity</option>
+                <option value="rating">Sort by Rating</option>
+                <option value="title">Sort by Title (A-Z)</option>
+            </select>
+            <button id="filter-button">Apply Filters</button>
         </div>
 
         <div class="prompt-list">
-            <div class="prompt-card" id="code-debugger">
-                <h3>Code Debugger</h3>
-                <p><strong>Category:</strong> Debugging, Coding</p>
-                <p><strong>Description:</strong> Helps identify and suggest fixes for bugs in a given code snippet.</p>
-                <pre><code>Analyze the following Python code for potential bugs and suggest fixes.
-Provide a brief explanation for each identified issue.
-
-Code:
-```python
-{{paste code here}}
-```
-</code></pre>
-                <button>Copy Prompt</button>
-                <div class="prompt-rating">★★★★☆ (4.5/5)</div>
-            </div>
-
-            <div class="prompt-card">
-                <h3>Blog Post Outline Generator</h3>
-                <p><strong>Category:</strong> Writing</p>
-                <p><strong>Description:</strong> Generates a structured outline for a blog post on a specified topic.</p>
-                <pre><code>Create a comprehensive blog post outline for the topic: "{{topic}}".
-The outline should include:
-- Main sections (H2)
-- Key talking points under each section (H3/bullets)
-- A suggested introduction and conclusion.
-Target audience: {{target audience}}
-Tone: {{desired tone}}
-</code></pre>
-                <button>Copy Prompt</button>
-                <div class="prompt-rating">★★★★★ (5/5)</div>
-            </div>
-            <!-- More prompts will be listed here -->
+            <!-- Prompts will be loaded here by JavaScript -->
+            <p id="loading-prompts-message">Loading prompts...</p>
         </div>
 
         <h3>Submit Your Prompt</h3>

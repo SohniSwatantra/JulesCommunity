@@ -1,6 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Jules AI Community Hub Loaded");
 
+    // Helper to escape HTML for display
+    function escapeHtml(unsafe) {
+        if (unsafe === null || unsafe === undefined) return '';
+        return unsafe
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+    }
+
     // Active navigation link highlighting
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.main-nav a'); // Updated selector for new nav structure
@@ -62,17 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 promptList.appendChild(card);
             });
             addCopyButtonListeners(); // Re-attach listeners to new buttons
-        }
-
-        // Helper to escape HTML for display in <pre><code>
-        function escapeHtml(unsafe) {
-            if (unsafe === null || unsafe === undefined) return '';
-            return unsafe
-                 .replace(/&/g, "&amp;")
-                 .replace(/</g, "&lt;")
-                 .replace(/>/g, "&gt;")
-                 .replace(/"/g, "&quot;")
-                 .replace(/'/g, "&#039;");
         }
 
         // Function to fetch prompts
@@ -423,133 +423,157 @@ document.addEventListener('DOMContentLoaded', () => {
     const guideUrlInput = document.getElementById('guide-url-input');
     const guideSubmitCategorySelect = document.getElementById('guide-submit-category');
     const noGuidesMessage = document.getElementById('no-guides-message');
+    const guideCategoryFilterSelect = document.getElementById('guide-category-filter');
+    const filterGuidesButton = document.getElementById('filter-guides-button');
+    const addGuideButton = document.getElementById('add-guide-button');
 
-    let submittedGuides = []; // Array to store submitted guides
 
-    if (guideSubmissionForm && guidesListDiv && guideUrlInput && guideSubmitCategorySelect) {
-        guideSubmissionForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const url = guideUrlInput.value.trim();
-            const category = guideSubmitCategorySelect.value;
-            let thumbnailUrl = 'placeholder.jpg'; // Default placeholder
-
-            // Attempt to get YouTube thumbnail
+    // Function to generate thumbnail URL (client-side attempt)
+    function getThumbnailUrl(url, category) {
+        let thumbnailUrl = 'placeholder.jpg'; // Default placeholder
+        try {
             if (category === 'youtube' || url.includes('youtube.com') || url.includes('youtu.be')) {
                 let videoId = '';
                 if (url.includes('v=')) {
                     videoId = new URL(url).searchParams.get('v');
                 } else if (url.includes('youtu.be/')) {
-                    videoId = url.substring(url.lastIndexOf('/') + 1);
-                    if(videoId.includes('?')) videoId = videoId.substring(0, videoId.indexOf('?'));
+                    const pathParts = new URL(url).pathname.split('/');
+                    videoId = pathParts[pathParts.length -1];
                 }
                 if (videoId) {
-                    thumbnailUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`; // Medium quality
+                    thumbnailUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
                 }
             }
-            // Basic favicon fetch for other URLs (can be unreliable and might have CORS issues in some browsers directly, but simple attempt)
-            // else {
-            // try {
-            // const urlObj = new URL(url);
-            // thumbnailUrl = `${urlObj.protocol}//${urlObj.hostname}/favicon.ico`;
-            // } catch (e) {
-            // console.warn("Could not construct favicon URL", e);
-            // // Keeps placeholder if favicon URL construction fails
-            // }
-            // }
+            // Add more thumbnail generation logic for other platforms if needed
+        } catch (e) {
+            console.warn("Error generating thumbnail URL for:", url, e);
+        }
+        return thumbnailUrl;
+    }
+
+    async function fetchAndDisplayGuides(category = 'all') {
+        if (!guidesListDiv) return;
+        if (noGuidesMessage) noGuidesMessage.style.display = 'none';
+        guidesListDiv.innerHTML = '<p>Loading guides...</p>';
+
+        let url = '/guides';
+        if (category && category !== 'all') {
+            url += `?category=${encodeURIComponent(category)}`;
+        }
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
+            const guides = await response.json();
+            renderGuides(guides);
+        } catch (error) {
+            console.error('Failed to fetch guides:', error);
+            guidesListDiv.innerHTML = `<p>Error loading guides: ${error.message}. Please try again later.</p>`;
+            if (noGuidesMessage) noGuidesMessage.style.display = 'block'; // Show if error
+        }
+    }
+
+    function renderGuides(guidesToRender) {
+        guidesListDiv.innerHTML = ''; // Clear current guides or loading message
+
+        if (guidesToRender.length === 0) {
+            if (noGuidesMessage) {
+                noGuidesMessage.textContent = 'No guides found matching your criteria or none submitted yet.';
+                noGuidesMessage.style.display = 'block';
+            } else {
+                const p = document.createElement('p');
+                p.textContent = 'No guides match the current filter or none submitted yet.';
+                guidesListDiv.appendChild(p);
+            }
+            return;
+        }
+
+        if (noGuidesMessage) noGuidesMessage.style.display = 'none';
+
+        guidesToRender.forEach(guide => {
+            const card = document.createElement('div');
+            card.className = 'card guide-card';
+
+            const safeUrl = escapeHtml(guide.url);
+            // For title, try to extract a more meaningful title from the URL if possible, or just use the URL
+            let displayTitle = safeUrl;
+            try {
+                const urlObject = new URL(guide.url);
+                displayTitle = urlObject.hostname + (urlObject.pathname !== '/' ? urlObject.pathname : '');
+            } catch (e) { /* Use safeUrl if URL parsing fails */ }
 
 
-            const newGuide = {
-                id: Date.now().toString(), // Simple unique ID
-                url: url,
-                category: category,
-                thumbnailUrl: thumbnailUrl,
-                title: url // Placeholder title, could be improved with backend fetching
-            };
+            const thumbnailUrl = getThumbnailUrl(guide.url, guide.category);
 
-            submittedGuides.push(newGuide);
-            renderGuides();
-            guideSubmissionForm.reset(); // Reset the form fields
+            card.innerHTML = `
+                <div class="guide-card-thumbnail">
+                    <img src="${escapeHtml(thumbnailUrl)}" alt="Thumbnail for ${escapeHtml(displayTitle)}" onerror="this.onerror=null;this.src='placeholder.jpg';">
+                </div>
+                <div class="guide-card-content">
+                    <h3><a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(displayTitle)}</a></h3>
+                    <p><strong>Category:</strong> ${escapeHtml(guide.category)}</p>
+                    <p class="guide-submitted-date">Submitted: ${new Date(guide.submitted_at).toLocaleDateString()}</p>
+                </div>
+            `;
+            guidesListDiv.appendChild(card);
         });
+    }
 
-        function renderGuides(guidesToRender = submittedGuides) {
-            guidesListDiv.innerHTML = ''; // Clear current guides
 
-            if (guidesToRender.length === 0) {
-                if (noGuidesMessage) {
-                    noGuidesMessage.style.display = 'block';
-                } else {
-                    // Fallback if message element was removed or is missing
-                    const p = document.createElement('p');
-                    p.textContent = 'No guides match the current filter or none submitted yet.';
-                    guidesListDiv.appendChild(p);
-                }
+    if (guideSubmissionForm && guidesListDiv && guideUrlInput && guideSubmitCategorySelect) {
+        guideSubmissionForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if(addGuideButton) addGuideButton.disabled = true;
+
+            const url = guideUrlInput.value.trim();
+            const category = guideSubmitCategorySelect.value;
+
+            if (!url || !category) {
+                alert('Please provide both a URL and a category for the guide.');
+                if(addGuideButton) addGuideButton.disabled = false;
                 return;
             }
 
-            if (noGuidesMessage) noGuidesMessage.style.display = 'none';
+            try {
+                const response = await fetch('/guides', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: url, category: category }),
+                });
 
-            guidesToRender.forEach(guide => {
-                const card = document.createElement('div');
-                card.className = 'card guide-card'; // Use existing card styles
+                const result = await response.json();
 
-                // Sanitize URL before using in href, and text content
-                const safeUrl = escapeHtml(guide.url);
-                const safeTitle = escapeHtml(guide.title);
-                const safeCategory = escapeHtml(guide.category);
+                if (!response.ok) {
+                    throw new Error(result.error || `HTTP error! status: ${response.status}`);
+                }
 
-                card.innerHTML = `
-                    <div class="guide-card-thumbnail">
-                        <img src="${escapeHtml(guide.thumbnailUrl)}" alt="Thumbnail for ${safeTitle}" onerror="this.onerror=null;this.src='placeholder.jpg';">
-                    </div>
-                    <div class="guide-card-content">
-                        <h3><a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${safeTitle}</a></h3>
-                        <p><strong>Category:</strong> ${safeCategory}</p>
-                    </div>
-                `;
-                guidesListDiv.appendChild(card);
-            });
-        }
+                alert(result.message || 'Guide submitted successfully!');
+                guideSubmissionForm.reset();
+                fetchAndDisplayGuides(guideCategoryFilterSelect ? guideCategoryFilterSelect.value : 'all'); // Refresh list
+            } catch (error) {
+                console.error('Failed to submit guide:', error);
+                alert(`Error submitting guide: ${error.message}`);
+            } finally {
+                if(addGuideButton) addGuideButton.disabled = false;
+            }
+        });
 
-        // Initial render in case there are guides loaded from elsewhere later (e.g. localStorage)
-        renderGuides();
+        // Initial fetch of guides when the page loads
+        fetchAndDisplayGuides();
 
         // --- Guide Filtering ---
-        const guideCategoryFilterSelect = document.getElementById('guide-category-filter');
-        const filterGuidesButton = document.getElementById('filter-guides-button');
-
         if (guideCategoryFilterSelect && filterGuidesButton) {
             filterGuidesButton.addEventListener('click', () => {
                 const selectedCategory = guideCategoryFilterSelect.value;
-                filterAndRenderGuides(selectedCategory);
+                fetchAndDisplayGuides(selectedCategory);
             });
-
-            // Optional: also filter on change of dropdown directly
-            // guideCategoryFilterSelect.addEventListener('change', () => {
-            //     const selectedCategory = guideCategoryFilterSelect.value;
-            //     filterAndRenderGuides(selectedCategory);
-            // });
         }
-
-        function filterAndRenderGuides(category) {
-            if (category === 'all') {
-                renderGuides(submittedGuides);
-            } else {
-                const filteredGuides = submittedGuides.filter(guide => guide.category === category);
-                renderGuides(filteredGuides);
-            }
-        }
-
-    }
-    // escapeHtml function if not already available globally (it is defined in prompts section, but good to have a local copy or ensure it's globally accessible)
-    function escapeHtml(unsafe) {
-        if (unsafe === null || unsafe === undefined) return '';
-        return unsafe
-             .replace(/&/g, "&amp;")
-             .replace(/</g, "&lt;")
-             .replace(/>/g, "&gt;")
-             .replace(/"/g, "&quot;")
-             .replace(/'/g, "&#039;");
     }
 
+    // Ensure escapeHtml is used from the global scope defined at the top of DOMContentLoaded
 });

@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename # For secure file uploads
 from flask import send_from_directory # To serve uploaded files if needed later
 
 # It's good practice to have models and db session management in separate files
-from models import User, Product, ApplicationSetting, Prompt, ShowcaseProject, SessionLocal, engine, Base, get_db
+from models import User, Product, ApplicationSetting, Prompt, ShowcaseProject, Guide, SessionLocal, engine, Base, get_db # Added Guide
 
 # Create tables if they don't exist (alternative to running init_db.py separately for simple cases)
 # Base.metadata.create_all(bind=engine)
@@ -374,12 +374,77 @@ def get_showcase_projects():
 def uploaded_showcase_image(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+# --- Guide Routes ---
+@app.route('/guides', methods=['POST'])
+def create_guide():
+    data = request.get_json()
+    app.logger.info(f"Received guide submission data: {data}")
+
+    if not data or not data.get('url') or not data.get('category'):
+        app.logger.warning("Guide submission failed: Missing url or category.")
+        return jsonify({"error": "Missing URL or category"}), 400
+
+    db: Session = next(get_db_session())
+    try:
+        new_guide = Guide(
+            url=data['url'],
+            category=data['category']
+        )
+        db.add(new_guide)
+        db.commit()
+        db.refresh(new_guide)
+        app.logger.info(f"Guide committed to database. New guide ID: {new_guide.id}")
+
+        response_data = {
+            "message": "Guide submitted successfully!",
+            "guide": {
+                "id": new_guide.id,
+                "url": new_guide.url,
+                "category": new_guide.category,
+                "submitted_at": new_guide.submitted_at.isoformat()
+            }
+        }
+        return jsonify(response_data), 201
+    except Exception as e:
+        db.rollback()
+        app.logger.error(f"Error creating guide: {e}", exc_info=True)
+        return jsonify({"error": "An unexpected error occurred on the server."}), 500
+    finally:
+        db.close()
+
+@app.route('/guides', methods=['GET'])
+def get_guides():
+    db: Session = next(get_db_session())
+    try:
+        query = db.query(Guide)
+
+        # Filtering by category
+        category = request.args.get('category')
+        if category and category.lower() != 'all':
+            query = query.filter(Guide.category == category)
+
+        # Sorting (default by newest)
+        query = query.order_by(desc(Guide.submitted_at))
+
+        guides = query.all()
+        return jsonify([{
+            "id": g.id,
+            "url": g.url,
+            "category": g.category,
+            "submitted_at": g.submitted_at.isoformat()
+        } for g in guides])
+    except Exception as e:
+        app.logger.error(f"Error fetching guides: {e}", exc_info=True)
+        return jsonify({"error": "An unexpected error occurred on the server."}), 500
+    finally:
+        db.close()
+
 
 if __name__ == '__main__':
     # For development server. In production, use a WSGI server like Gunicorn.
-    # Make sure to run init_db.py first if you haven't or tables don't exist.
-    app.logger.info("Attempting to create database tables if they don't exist (via app.py)...")
-    Base.metadata.create_all(bind=engine) # Ensures tables are created when app starts
-    app.logger.info("Tables checked/created.")
-    print("To initialize with sample data, run: python init_db.py") # Keep this print for console feedback
+    # It's recommended to run init_db.py separately to initialize the database.
+    # app.logger.info("Attempting to create database tables if they don't exist (via app.py)...")
+    # Base.metadata.create_all(bind=engine) # Table creation is handled by init_db.py
+    # app.logger.info("Tables checked/created.")
+    # print("To initialize with sample data, run: python init_db.py")
     app.run(debug=True)

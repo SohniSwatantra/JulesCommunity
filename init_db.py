@@ -1,4 +1,4 @@
-from models import create_tables, engine, SessionLocal, User, ApplicationSetting, Product, Prompt
+from models import create_tables, engine, SessionLocal, User, ApplicationSetting, Product, Prompt, Guide
 from decimal import Decimal
 
 def initialize_database():

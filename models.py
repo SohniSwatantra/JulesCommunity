@@ -82,6 +82,18 @@ class ShowcaseProject(Base):
         return f"<ShowcaseProject(id={self.id}, title='{self.title}', category='{self.category}')>"
 
 
+class Guide(Base):
+    __tablename__ = "guides"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    url = Column(String, nullable=False)
+    category = Column(String, nullable=False, index=True)
+    submitted_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    def __repr__(self):
+        return f"<Guide(id={self.id}, url='{self.url}', category='{self.category}')>"
+
+
 def get_db():
     db = SessionLocal()
     try:

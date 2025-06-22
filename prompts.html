@@ -3,75 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JulesPrompts Collection - Jules Agent Community</title>
+    <title>JulesPrompts Collection - Jules AI Community Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>Jules Agent Community</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="news.html">News & Updates</a></li>
-                <li><a href="prompts.html">JulesPrompts</a></li>
-                <li><a href="guides.html">Guides & Tutorials</a></li>
-                <li><a href="showcase.html">Project Showcase</a></li>
-                <li><a href="integrations.html">Tool Integrations</a></li>
-                <li><a href="feedback.html">Feedback</a></li>
-            </ul>
-        </nav>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">Jules AI</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="prompts.html" class="active">Prompts</a></li>
+                    <li><a href="guides.html">Guides</a></li>
+                    <li><a href="showcase.html">Showcase</a></li>
+                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+            <a href="#cta-section" class="button button-secondary nav-cta-button">Join Us</a> <!-- This CTA might need to be adjusted or removed on subpages -->
+        </div>
     </header>
-    <main>
-        <h2>JulesPrompts Collection</h2>
-        <p>Discover, share, and rate effective prompts for Jules. Enhance your productivity by leveraging community-tested prompts for various tasks.</p>
 
-        <div class="prompt-filters">
-            <input type="text" placeholder="Search prompts..." id="search-prompts">
-            <select id="category-filter">
-                <option value="all">All Categories</option>
-                <option value="coding">Coding</option>
-                <option value="writing">Writing</option>
-                <option value="debugging">Debugging</option>
-                <option value="general">General</option>
-                <!-- Categories will be populated dynamically -->
-            </select>
-            <select id="sort-by-filter">
-                <option value="date">Sort by Date (Newest)</option>
-                <option value="popularity">Sort by Popularity</option>
-                <option value="rating">Sort by Rating</option>
-                <option value="title">Sort by Title (A-Z)</option>
-            </select>
-            <button id="filter-button">Apply Filters</button>
+    <main class="page-main-content">
+        <div class="container">
+            <h2>JulesPrompts Collection</h2>
+            <p>Discover, share, and rate effective prompts for Jules. Enhance your productivity by leveraging community-tested prompts for various tasks.</p>
+
+            <div class="filters-bar prompt-filters"> <!-- Updated class -->
+                <input type="text" placeholder="Search prompts..." id="search-prompts">
+                <select id="category-filter">
+                    <option value="all">All Categories</option>
+                    <!-- Categories will be populated dynamically by script.js -->
+                </select>
+                <select id="sort-by-filter">
+                    <option value="date">Sort by Date (Newest)</option>
+                    <option value="popularity">Sort by Popularity</option>
+                    <option value="rating">Sort by Rating</option>
+                    <option value="title">Sort by Title (A-Z)</option>
+                </select>
+                <button id="filter-button" class="button button-secondary">Apply Filters</button> <!-- Added button classes -->
+            </div>
+
+            <div id="prompt-list" class="prompt-list"> <!-- Added ID for JS targeting -->
+                <!-- Prompts will be loaded here by JavaScript. Each prompt should be wrapped in a div with class="card prompt-card" -->
+                <div id="loading-prompts-message" class="loading-spinner-container" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading prompts...</p>
+                </div>
+            </div>
+
+            <h3 class="section-title" style="margin-top: 3rem; margin-bottom:1.5rem;">Submit Your Prompt</h3> <!-- Added class for consistency -->
+            <form id="prompt-submission-form"> <!-- Form styling will be applied globally -->
+                <div>
+                    <label for="prompt-title">Prompt Title:</label>
+                    <input type="text" id="prompt-title" name="prompt-title" required>
+                </div>
+                <div>
+                    <label for="prompt-category">Category:</label>
+                    <input type="text" id="prompt-category" name="prompt-category" placeholder="e.g., Coding, Writing" required>
+                </div>
+                <div>
+                    <label for="prompt-description">Description:</label>
+                    <textarea id="prompt-description" name="prompt-description" rows="3" required></textarea>
+                </div>
+                <div>
+                    <label for="prompt-text">Prompt Text:</label>
+                    <textarea id="prompt-text" name="prompt-text" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="button button-primary">Submit Prompt</button> <!-- Added button classes -->
+            </form>
         </div>
-
-        <div class="prompt-list">
-            <!-- Prompts will be loaded here by JavaScript -->
-            <p id="loading-prompts-message">Loading prompts...</p>
-        </div>
-
-        <h3>Submit Your Prompt</h3>
-        <form id="prompt-submission-form">
-            <div>
-                <label for="prompt-title">Prompt Title:</label>
-                <input type="text" id="prompt-title" name="prompt-title" required>
-            </div>
-            <div>
-                <label for="prompt-category">Category:</label>
-                <input type="text" id="prompt-category" name="prompt-category" placeholder="e.g., Coding, Writing" required>
-            </div>
-            <div>
-                <label for="prompt-description">Description:</label>
-                <textarea id="prompt-description" name="prompt-description" rows="3" required></textarea>
-            </div>
-            <div>
-                <label for="prompt-text">Prompt Text:</label>
-                <textarea id="prompt-text" name="prompt-text" rows="5" required></textarea>
-            </div>
-            <button type="submit">Submit Prompt</button>
-        </form>
     </main>
-    <footer>
-        <p>&copy; 2024 Jules Agent Community</p>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Jules AI</div>
+                <nav class="footer-nav">
+                    <a href="index.html">Home</a> |
+                    <a href="news.html">News</a> |
+                    <a href="prompts.html">Prompts</a> |
+                    <a href="guides.html">Guides</a> |
+                    <a href="privacy.html">Privacy Policy</a> |
+                    <a href="terms.html">Terms of Service</a>
+                </nav>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <p class="copyright">&copy; <span id="current-year">2024</span> Jules AI Community. All rights reserved.</p>
+        </div>
     </footer>
     <script src="script.js"></script>
 </body>

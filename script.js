@@ -416,4 +416,140 @@ document.addEventListener('DOMContentLoaded', () => {
             observer.observe(element);
         });
     }
+
+    // --- Guides Page Functionality ---
+    const guideSubmissionForm = document.getElementById('guide-submission-form');
+    const guidesListDiv = document.querySelector('.guides-list');
+    const guideUrlInput = document.getElementById('guide-url-input');
+    const guideSubmitCategorySelect = document.getElementById('guide-submit-category');
+    const noGuidesMessage = document.getElementById('no-guides-message');
+
+    let submittedGuides = []; // Array to store submitted guides
+
+    if (guideSubmissionForm && guidesListDiv && guideUrlInput && guideSubmitCategorySelect) {
+        guideSubmissionForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const url = guideUrlInput.value.trim();
+            const category = guideSubmitCategorySelect.value;
+            let thumbnailUrl = 'placeholder.jpg'; // Default placeholder
+
+            // Attempt to get YouTube thumbnail
+            if (category === 'youtube' || url.includes('youtube.com') || url.includes('youtu.be')) {
+                let videoId = '';
+                if (url.includes('v=')) {
+                    videoId = new URL(url).searchParams.get('v');
+                } else if (url.includes('youtu.be/')) {
+                    videoId = url.substring(url.lastIndexOf('/') + 1);
+                    if(videoId.includes('?')) videoId = videoId.substring(0, videoId.indexOf('?'));
+                }
+                if (videoId) {
+                    thumbnailUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`; // Medium quality
+                }
+            }
+            // Basic favicon fetch for other URLs (can be unreliable and might have CORS issues in some browsers directly, but simple attempt)
+            // else {
+            // try {
+            // const urlObj = new URL(url);
+            // thumbnailUrl = `${urlObj.protocol}//${urlObj.hostname}/favicon.ico`;
+            // } catch (e) {
+            // console.warn("Could not construct favicon URL", e);
+            // // Keeps placeholder if favicon URL construction fails
+            // }
+            // }
+
+
+            const newGuide = {
+                id: Date.now().toString(), // Simple unique ID
+                url: url,
+                category: category,
+                thumbnailUrl: thumbnailUrl,
+                title: url // Placeholder title, could be improved with backend fetching
+            };
+
+            submittedGuides.push(newGuide);
+            renderGuides();
+            guideSubmissionForm.reset(); // Reset the form fields
+        });
+
+        function renderGuides(guidesToRender = submittedGuides) {
+            guidesListDiv.innerHTML = ''; // Clear current guides
+
+            if (guidesToRender.length === 0) {
+                if (noGuidesMessage) {
+                    noGuidesMessage.style.display = 'block';
+                } else {
+                    // Fallback if message element was removed or is missing
+                    const p = document.createElement('p');
+                    p.textContent = 'No guides match the current filter or none submitted yet.';
+                    guidesListDiv.appendChild(p);
+                }
+                return;
+            }
+
+            if (noGuidesMessage) noGuidesMessage.style.display = 'none';
+
+            guidesToRender.forEach(guide => {
+                const card = document.createElement('div');
+                card.className = 'card guide-card'; // Use existing card styles
+
+                // Sanitize URL before using in href, and text content
+                const safeUrl = escapeHtml(guide.url);
+                const safeTitle = escapeHtml(guide.title);
+                const safeCategory = escapeHtml(guide.category);
+
+                card.innerHTML = `
+                    <div class="guide-card-thumbnail">
+                        <img src="${escapeHtml(guide.thumbnailUrl)}" alt="Thumbnail for ${safeTitle}" onerror="this.onerror=null;this.src='placeholder.jpg';">
+                    </div>
+                    <div class="guide-card-content">
+                        <h3><a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${safeTitle}</a></h3>
+                        <p><strong>Category:</strong> ${safeCategory}</p>
+                    </div>
+                `;
+                guidesListDiv.appendChild(card);
+            });
+        }
+
+        // Initial render in case there are guides loaded from elsewhere later (e.g. localStorage)
+        renderGuides();
+
+        // --- Guide Filtering ---
+        const guideCategoryFilterSelect = document.getElementById('guide-category-filter');
+        const filterGuidesButton = document.getElementById('filter-guides-button');
+
+        if (guideCategoryFilterSelect && filterGuidesButton) {
+            filterGuidesButton.addEventListener('click', () => {
+                const selectedCategory = guideCategoryFilterSelect.value;
+                filterAndRenderGuides(selectedCategory);
+            });
+
+            // Optional: also filter on change of dropdown directly
+            // guideCategoryFilterSelect.addEventListener('change', () => {
+            //     const selectedCategory = guideCategoryFilterSelect.value;
+            //     filterAndRenderGuides(selectedCategory);
+            // });
+        }
+
+        function filterAndRenderGuides(category) {
+            if (category === 'all') {
+                renderGuides(submittedGuides);
+            } else {
+                const filteredGuides = submittedGuides.filter(guide => guide.category === category);
+                renderGuides(filteredGuides);
+            }
+        }
+
+    }
+    // escapeHtml function if not already available globally (it is defined in prompts section, but good to have a local copy or ensure it's globally accessible)
+    function escapeHtml(unsafe) {
+        if (unsafe === null || unsafe === undefined) return '';
+        return unsafe
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+    }
+
 });

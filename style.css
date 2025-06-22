@@ -1028,4 +1028,91 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
     .hero-cta-button, .cta-button { padding: 0.8em 2em; font-size: 1rem; }
 }
 
+/* --- Guides Page Specific Styles --- */
+.guide-submission-form {
+    /* Leveraging existing form styling defined in global components */
+    /* Specific overrides or additions can go here if needed */
+    /* e.g., background-color: #f9f9f9; if a different bg is desired */
+    margin-bottom: 30px; /* Space between form and list */
+}
+
+.guide-submission-form h3 {
+    /* Using global heading styles, ensure it's appropriate or override */
+    margin-top: 0;
+    margin-bottom: 20px; /* Space below the form title */
+    font-size: 1.95rem; /* Matches h3 style */
+}
+
+/* .guide-submission-form .form-group is handled by general form div styling */
+
+.guides-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 2rem; /* Using theme's gap unit */
+    margin-top: 2rem; /* Space above the list if form is also present */
+}
+
+.guide-card {
+    /* .card base styles are applied via HTML class="card guide-card" */
+    /* Specific layout for guide items */
+    display: flex;
+    flex-direction: column; /* Stack image on top of content */
+}
+
+.guide-card-thumbnail {
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    position: relative;
+    background-color: var(--subtle-gray); /* Placeholder color */
+    border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0; /* Rounded top corners */
+    overflow: hidden;
+}
+
+.guide-card-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the area, might crop, good for varying aspect ratios */
+}
+
+.guide-card-content {
+    /* Padding is handled by the .card base style */
+    flex-grow: 1; /* Allows content to fill space */
+    display: flex;
+    flex-direction: column;
+}
+
+.guide-card-content h3 {
+    /* Handled by .card h3 */
+    word-break: break-all; /* Break long URLs */
+}
+
+.guide-card-content p {
+    /* Handled by .card p */
+    font-size: 0.9rem; /* Slightly smaller for category text */
+}
+
+.guide-card-content h3 a {
+    /* Link styling from .card a */
+}
+.guide-card-content h3 a:hover {
+    /* Link hover styling from .card a:hover */
+}
+
+#no-guides-message {
+    grid-column: 1 / -1; /* Span full width of the grid */
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-color-dark);
+    opacity: 0.7;
+    font-style: italic;
+    font-size: 1.1rem;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-soft);
+}
+
+
 /* End of Stylesheet */

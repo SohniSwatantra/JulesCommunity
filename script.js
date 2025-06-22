@@ -1,18 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Jules Community Website Loaded");
+    console.log("Jules AI Community Hub Loaded");
 
     // Active navigation link highlighting
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html'; // Default to index.html if path is '/'
-    const navLinks = document.querySelectorAll('nav a');
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.main-nav a'); // Updated selector for new nav structure
     navLinks.forEach(link => {
         if (link.getAttribute('href') === currentPage) {
             link.classList.add('active');
+        } else {
+            link.classList.remove('active'); // Ensure only current page is active
         }
     });
 
+    // Set current year in footer
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+
     // --- Prompts Page Functionality ---
-    if (document.getElementById('prompt-list')) {
-        const promptList = document.getElementById('prompt-list');
+    // Ensure prompt-list ID is present on prompts.html for this to work
+    const promptList = document.getElementById('prompt-list');
+    if (promptList) {
         const categoryFilter = document.getElementById('category-filter');
         const searchInput = document.getElementById('search-prompts');
         const filterButton = document.getElementById('filter-button');
@@ -39,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             prompts.forEach(prompt => {
                 const card = document.createElement('div');
-                card.className = 'prompt-card';
+                card.className = 'card prompt-card'; // Ensure new global card style is applied
                 card.innerHTML = `
                     <h3>${prompt.title}</h3>
                     <p><strong>Category:</strong> ${prompt.category}</p>
@@ -340,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             projects.forEach(project => {
                 const card = document.createElement('div');
-                card.className = 'project-card';
+                card.className = 'card project-card'; // Ensure new global card style is applied
 
                 let imageHtml = `<img src="placeholder.jpg" alt="${escapeHtml(project.title)}">`; // Default placeholder
                 if (project.image_url) {
@@ -374,4 +383,37 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchAndDisplayShowcaseProjects();
     }
 
+    // --- Mobile Navigation Toggle ---
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    const siteHeader = document.querySelector('.site-header'); // Or body, if preferred for .nav-open
+
+    if (mobileNavToggle && mainNav && siteHeader) {
+        mobileNavToggle.addEventListener('click', () => {
+            siteHeader.classList.toggle('nav-open'); // Toggles .nav-open on .site-header
+            const isExpanded = mainNav.getAttribute('aria-expanded') === 'true' || false;
+            mainNav.setAttribute('aria-expanded', !isExpanded);
+            mobileNavToggle.setAttribute('aria-expanded', !isExpanded); // Also update toggle's aria
+        });
+    }
+
+    // --- Scroll Animations with Intersection Observer ---
+    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+    if (animatedElements.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Optional: stop observing after animation
+                }
+            });
+        }, {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        });
+
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
+    }
 });

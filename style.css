@@ -1,64 +1,105 @@
-/* General Body Styles */
+/* Global Resets and Base Styles */
 :root {
-    /* Modern Creamish Theme Palette with Black Text */
-    --primary-color: #B8860B;    /* DarkGoldenRod - A rich, warm accent, good with cream */
-    --secondary-color: #D2B48C;  /* Tan - A classic creamish accent, kept from original */
-    --accent-color: #5F9EA0;     /* CadetBlue - A muted blue-green for a modern touch */
+    --primary-color: #1A2E40;   /* Deep Space Blue */
+    --secondary-color: #F2B705; /* Cyber Yellow */
+    --accent-color: #4AD9D9;    /* Aqua Splash (new accent for links/hovers if needed) */
 
-    --background-color: #FDFBF5; /* Very light cream, close to off-white for a modern feel */
-    --text-color: #222222;       /* Very Dark Gray (Almost Black) - For main text */
-    --heading-color: #000000;    /* Black - For headings, stronger emphasis */
-    --light-text-color: #FFFFFF; /* White - For dark backgrounds or primary/accent buttons */
+    --background-color: #F8F9FA; /* Off-White/Light Gray */
+    --text-color-dark: #212529;  /* Near Black */
+    --text-color-light: #FFFFFF; /* White */
+    --subtle-gray: #CED4DA;      /* Light Gray for borders/placeholders */
+    --card-background: #FFFFFF;
 
-    --card-background: #FFFFFF; /* White cards for a clean, modern look on a cream background */
-    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.07); /* Slightly more defined modern shadow */
-    --border-radius: 8px; /* Slightly smaller, modern radius */
-    --transition-speed: 0.25s ease;
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Open Sans', sans-serif;
 
-    --container-max-width: 1140px; /* Standard container width */
-    --container-padding: 0 20px;   /* Padding for container */
+    --border-radius-small: 4px;
+    --border-radius-medium: 8px;
+    --border-radius-large: 12px;
+
+    --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 8px 15px rgba(0, 0, 0, 0.1);
+    --shadow-strong: 0 12px 25px rgba(0,0,0,0.15);
+
+    --transition-fast: 0.2s ease-out;
+    --transition-smooth: 0.3s ease-in-out;
+
+    --container-max-width: 1200px;
+    --container-padding: 0 24px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size */
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
+    font-family: var(--font-secondary);
+    line-height: 1.7;
     background-color: var(--background-color);
-    color: var(--text-color);
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased; /* Smoother fonts */
+    color: var(--text-color-dark);
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    opacity: 0;
+    animation: fadeInPage 0.6s ease-in-out forwards;
+}
+
+@keyframes fadeInPage {
+    to {
+        opacity: 1;
+    }
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-weight: 700; /* Bolder headings by default */
-    color: var(--heading-color);
-    margin-top: 1.2em;
-    margin-bottom: 0.6em;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    color: var(--primary-color); /* Dark blue for headings */
     line-height: 1.3;
+    margin-bottom: 0.75em;
 }
 
-h1 { font-size: 3rem; font-weight: 800; } /* Larger, bolder h1 */
-h2 { font-size: 2.4rem; }
-h3 { font-size: 1.9rem; }
-h4 { font-size: 1.5rem; }
+h1 { font-size: 3.05rem; font-weight: 800; } /* Adjusted sizes for Poppins */
+h2 { font-size: 2.44rem; } /* Section Titles */
+h3 { font-size: 1.95rem; } /* Sub-Section Titles / Large Card Titles */
+h4 { font-size: 1.56rem; } /* Card Titles */
 
+p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--text-color-dark);
+}
 
 a {
-    color: var(--primary-color); /* Use primary color for links for better contrast on cream */
+    color: var(--secondary-color); /* Cyber Yellow for links */
     text-decoration: none;
-    transition: color var(--transition-speed), opacity var(--transition-speed);
+    transition: color var(--transition-fast);
 }
 
 a:hover {
-    color: var(--accent-color); /* Use accent color for hover, or a darker shade of primary */
-    opacity: 0.85;
-    text-decoration: underline; /* Add underline on hover for clarity */
+    color: var(--primary-color); /* Dark blue on hover */
+    text-decoration: none; /* No underline by default, add selectively */
 }
 
-/* Utility class for centering content */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Utility Classes */
 .container {
     max-width: var(--container-max-width);
     margin-left: auto;
@@ -66,498 +107,638 @@ a:hover {
     padding: var(--container-padding);
 }
 
+.text-center {
+    text-align: center;
+}
+
+.highlight {
+    color: var(--secondary-color); /* Cyber yellow for highlighted text */
+}
+
 /* Button Styles */
 .button {
     display: inline-block;
-    padding: 0.75rem 1.5rem; /* Default padding */
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 1rem;
+    font-family: var(--font-primary);
     font-weight: 600;
+    font-size: 1rem;
+    padding: 0.8em 1.8em;
+    border-radius: var(--border-radius-medium);
+    border: 2px solid transparent;
+    cursor: pointer;
     text-align: center;
     text-decoration: none;
-    border-radius: var(--border-radius);
-    border: none;
-    cursor: pointer;
-    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    transition: all var(--transition-smooth);
+    letter-spacing: 0.5px;
 }
 
 .button-primary {
-    background-color: var(--primary-color); /* Use primary color for main actions */
-    color: var(--light-text-color); /* White text on dark goldenrod */
+    background-color: var(--secondary-color); /* Cyber Yellow */
+    color: var(--primary-color); /* Deep Space Blue text */
+    border-color: var(--secondary-color);
 }
 
 .button-primary:hover {
-    background-color: #A0740A; /* A slightly darker shade of DarkGoldenRod */
-    color: var(--light-text-color);
+    background-color: #e0ac00; /* Darker Yellow */
+    border-color: #e0ac00;
+    color: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    box-shadow: var(--shadow-medium);
 }
 
-/* Specific button instances like .nav-button and .hero-button will inherit .button and .button-primary,
-   and can have their specific padding/font-size overrides as already implemented. */
+.button-secondary {
+    background-color: transparent;
+    color: var(--primary-color); /* Deep Space Blue text */
+    border-color: var(--primary-color); /* Deep Space Blue border */
+}
+
+.button-secondary:hover {
+    background-color: var(--primary-color);
+    color: var(--text-color-light); /* White text */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+.button-small {
+    font-size: 0.9rem;
+    padding: 0.6em 1.2em;
+}
 
 
 /* Header Styles */
-header {
-    background: var(--background-color);
-    padding: 1rem 0; /* Reduced padding for a slimmer header */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle bottom shadow */
-    position: sticky; /* Sticky header */
+.site-header {
+    background-color: var(--text-color-light); /* White background for header */
+    padding: 1rem 0;
+    box-shadow: var(--shadow-soft);
+    position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 999; /* Adjusted z-index */
+    transition: background-color var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
-header .container {
+.site-header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 1.8rem; /* Adjusted size for modern look */
-    font-weight: 700;
-    color: var(--heading-color); /* Use heading color (black) for logo/title */
-}
-
-nav ul {
-    padding: 0;
-    list-style: none;
-    margin: 0; /* Remove default margin */
-    display: flex; /* Align items in a row */
-    align-items: center; /* Vertically align items */
-}
-
-nav ul li {
-    margin-left: 25px; /* Space between nav items */
-}
-
-nav ul li:first-child {
-    margin-left: 0;
-}
-
-nav a {
-    color: var(--text-color); /* Standard text color (dark gray) for nav links */
+.logo {
+    font-family: var(--font-primary);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--primary-color);
     text-decoration: none;
-    font-size: 1rem;
-    font-weight: 500; /* Slightly bolder than body text */
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    padding: 5px 0;
+}
+
+.main-nav ul {
+    display: flex;
+    align-items: center;
+}
+
+.main-nav ul li {
+    margin-left: 1.8rem;
+}
+
+.main-nav a {
+    font-family: var(--font-secondary);
+    font-weight: 700; /* Bolder nav links */
+    font-size: 0.95rem;
+    color: var(--primary-color); /* Deep blue for nav links */
+    text-decoration: none;
+    padding: 0.5rem 0;
     position: relative;
-    transition: color var(--transition-speed);
+    letter-spacing: 0.3px;
 }
 
-nav a:hover, nav a.active {
-    color: var(--accent-color); /* Accent color on hover/active for nav links */
-}
-
-nav a::after {
+.main-nav a::after {
     content: '';
     position: absolute;
+    bottom: 0;
+    left: 0;
     width: 0;
     height: 2px;
-    bottom: -2px; /* Position underline slightly below text */
-    left: 0;
-    background-color: var(--accent-color); /* Accent color for underline */
-    transition: width var(--transition-speed);
+    background-color: var(--secondary-color); /* Cyber yellow underline */
+    transition: width var(--transition-smooth);
 }
 
-nav a:hover::after, nav a.active::after {
+.main-nav a:hover::after,
+.main-nav a.active::after {
     width: 100%;
 }
 
-/* Styles for the "Get Started" button in nav */
-.nav-button {
-    padding: 0.5rem 1.2rem;
-    font-size: 0.95rem;
-    margin-left: 20px;
+.main-nav a:hover,
+.main-nav a.active {
+    color: var(--secondary-color); /* Cyber yellow on hover/active */
 }
 
+.nav-cta-button {
+    font-size: 0.9rem;
+    padding: 0.6em 1.5em; /* Slightly smaller padding for nav CTA */
+}
 
-/* Main Content Styles */
+/* Main Content Area */
 main {
-    /* padding: 30px; Removed, sections will handle their own padding */
-    max-width: 1100px; /* Increased max-width */
-    margin: 30px auto;
-    background: transparent; /* Main area transparent, sections will have background */
-    box-shadow: none; /* Removed shadow from main, will add to sections/cards */
+    padding-top: 2rem; /* Give space from sticky header */
 }
 
-
-main h2 {
-    border-bottom: 3px solid var(--accent-color); /* Use accent color for section title underline */
-    padding-bottom: 15px;
-    margin-top: 40px;
-    font-size: 2.4rem; /* Slightly larger for section titles */
-}
-main h3 {
-    margin-top: 35px;
-    font-size: 1.9rem; /* Slightly larger for sub-section titles */
-    color: var(--primary-color); /* Use primary color for sub-headings */
-}
-
-
-/* Section Specific Styles */
+/* Section Base Styles */
 section {
-    /* background-color: var(--card-background); // Will be set per section or default to white */
-    padding: 60px 0; /* Standard vertical padding for sections */
-    margin-bottom: 0; /* Remove bottom margin, spacing controlled by padding */
-    /* border-radius: var(--border-radius); // Might not be needed for full-width sections
-    box-shadow: var(--card-shadow); // Might not be needed for full-width sections */
+    padding: 4rem 0; /* Generous padding for sections */
+    overflow: hidden; /* For animations */
 }
 
-#hero {
+.section-title {
     text-align: center;
-    padding: 80px 0; /* Generous padding */
-    background: linear-gradient(120deg, var(--secondary-color) 0%, var(--background-color) 100%); /* Creamy gradient */
-    color: var(--text-color); /* Dark text on light gradient */
-    /* border-radius: 0; /* Full width, no radius needed here */
-    /* margin-bottom: 0; /* Spacing controlled by section padding */
-    /* box-shadow: none; */
+    margin-bottom: 3rem; /* More space below section titles */
+    font-size: 2.44rem; /* Consistent section title size */
+    position: relative;
+    padding-bottom: 0.5rem;
 }
 
-#hero .container { /* Ensure container within hero also allows text centering */
+.section-title::after { /* Subtle underline effect for section titles */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--secondary-color); /* Cyber Yellow */
+    border-radius: 2px;
+}
+
+
+/* Hero Section */
+.hero-section {
+    background-color: var(--primary-color); /* Deep Space Blue */
+    color: var(--text-color-light); /* White text */
+    padding: 6rem 0;
+    text-align: center;
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 3.8rem; /* Larger Hero Title */
+    font-weight: 800;
+    color: var(--text-color-light);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero-title .highlight {
+    color: var(--secondary-color); /* Cyber Yellow */
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    font-family: var(--font-secondary);
+    font-weight: 300; /* Lighter weight for subtitle */
+    color: var(--subtle-gray); /* Light gray for subtitle */
+    max-width: 700px;
+    margin: 0 auto 2.5rem auto;
+    line-height: 1.8;
+}
+
+.hero-cta-button {
+    font-size: 1.1rem;
+    padding: 1em 2.5em; /* Larger CTA button */
+}
+
+.hero-bg-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    /* Basic animated gradient example, replace with more sophisticated SVG or JS animations */
+    background: linear-gradient(45deg, rgba(26, 46, 64, 0.8), rgba(242, 183, 5, 0.1), rgba(26, 46, 64, 0.9));
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+/* Key Features Section */
+.key-features-section {
+    background-color: var(--background-color); /* Off-white */
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem; /* Increased gap */
+}
+
+.feature-item {
+    background-color: var(--card-background); /* White cards */
+    padding: 2.5rem 2rem; /* More padding */
+    border-radius: var(--border-radius-large); /* Larger radius */
+    box-shadow: var(--shadow-medium);
+    text-align: center;
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.feature-item:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-strong);
+}
+
+.feature-icon {
+    font-size: 2.8rem; /* Larger icons */
+    color: var(--secondary-color); /* Cyber Yellow */
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    transition: transform var(--transition-smooth);
+}
+
+.feature-item:hover .feature-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.feature-item h3 {
+    font-size: 1.5rem; /* Adjusted for Poppins */
+    margin-bottom: 0.8rem;
+    color: var(--primary-color);
+}
+
+.feature-item p {
+    font-size: 0.95rem;
+    color: var(--text-color-dark);
+    line-height: 1.6;
+    margin-bottom: 1.5rem; /* Space before link */
+}
+
+.learn-more-link {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+    text-decoration: none;
+    display: inline-block;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.learn-more-link:hover {
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+/* Community Spotlight Section */
+.community-spotlight-section {
+    background-color: #eef1f5; /* Slightly different light gray */
+}
+
+.spotlight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+}
+
+.spotlight-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-medium);
+    overflow: hidden; /* To contain image */
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.spotlight-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-strong);
+}
+
+.spotlight-image {
+    width: 100%;
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Crop images to fit */
+}
+
+.spotlight-card h4 {
+    font-size: 1.4rem; /* Adjusted */
+    color: var(--primary-color);
+    margin: 1.5rem 1.5rem 0.5rem 1.5rem; /* Padding around text */
+}
+
+.spotlight-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-color-dark);
+    margin: 0 1.5rem 1.5rem 1.5rem;
+    flex-grow: 1; /* Push button to bottom */
+}
+
+.spotlight-card .button {
+    margin: 0 1.5rem 1.5rem 1.5rem; /* Button padding */
+    align-self: flex-start; /* Align button to start if text is short */
+}
+
+
+/* Why Jules Community Section */
+.why-jules-section {
+    background-color: var(--background-color);
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    text-align: center;
+}
+
+.benefit-item {
+    padding: 2rem;
+    /* No card bg, direct on section bg */
+}
+
+.benefit-icon {
+    font-size: 3rem;
+    color: var(--primary-color); /* Deep Space Blue */
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    transition: transform var(--transition-smooth);
+}
+
+.benefit-item:hover .benefit-icon {
+    transform: scale(1.15) rotate(5deg);
+    color: var(--secondary-color); /* Yellow on hover */
+}
+
+.benefit-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+    color: var(--primary-color);
+}
+
+.benefit-item p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-color-dark);
+}
+
+
+/* CTA Section */
+.cta-section {
+    background-color: var(--secondary-color); /* Cyber Yellow */
+    color: var(--primary-color); /* Deep Space Blue text */
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.cta-subtitle {
+    font-size: 1.15rem;
+    font-family: var(--font-secondary);
+    font-weight: 400;
+    color: var(--primary-color);
+    max-width: 600px;
+    margin: 0 auto 2.5rem auto;
+    opacity: 0.9;
+}
+
+.cta-button {
+    background-color: var(--primary-color); /* Deep Space Blue button */
+    color: var(--text-color-light); /* White text */
+    border-color: var(--primary-color);
+    font-size: 1.1rem;
+    padding: 1em 2.5em;
+}
+
+.cta-button:hover {
+    background-color: #122330; /* Darker blue */
+    border-color: #122330;
+    color: var(--text-color-light);
+}
+
+
+/* Footer Styles */
+.site-footer {
+    background-color: var(--primary-color); /* Deep Space Blue */
+    color: var(--subtle-gray); /* Light Gray text */
+    padding: 3rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.site-footer .container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#hero h2 {
-    font-size: 3.2rem; /* Larger hero heading */
-    font-weight: 800; /* Extra bold */
-    margin-bottom: 0.6em;
-    color: var(--heading-color); /* Heading color (black) for hero title */
-    border-bottom: none;
-    max-width: 800px; /* Constrain width of heading */
-}
-#hero p {
-    font-size: 1.25rem; /* Slightly larger paragraph text */
-    font-weight: 400;
-    color: var(--text-color); /* Text color for hero paragraph */
-    max-width: 700px; /* Optimal reading width */
-    margin: 0 auto 1.8em auto; /* More space below paragraph */
-    line-height: 1.7;
-}
-
-.hero-button {
-    padding: 0.9rem 2.2rem; /* Larger padding for hero button */
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-transform: uppercase; /* Optional: for more emphasis */
-    letter-spacing: 0.5px;
-}
-
-
-#overview {
-    background-color: var(--background-color); /* Use main background color */
-}
-
-#overview h3 {
-    text-align: center;
-    margin-bottom: 1.5em;
-    color: var(--heading-color); /* Ensure heading color is applied */
-}
-
-#overview ul {
-    list-style-type: none;
-    padding-left: 0;
-    display: grid; /* Using grid for a more structured layout */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
-    gap: 25px;
-}
-
-#overview ul li {
-    padding: 20px 20px 20px 45px; /* Increased padding, space for icon */
-    position: relative;
-    font-size: 1rem;
-    background-color: var(--card-background); /* Use white card background */
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-}
-
-#overview ul li:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-}
-
-#overview ul li::before {
-    content: '✓'; /* Using checkmark, can be replaced with SVG icon */
-    position: absolute;
-    left: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--accent-color); /* Use accent color for icon */
-    font-weight: bold;
-    font-size: 1.3rem;
-}
-
-#overview ul li strong {
-    font-weight: 600;
-    color: var(--heading-color); /* Standard heading color (black) for emphasis */
-    display: block;
-    margin-bottom: 5px;
-}
-
-/* Featured Content Section */
-#featured-content {
-    background-color: var(--background-color); /* Use main background color */
-}
-
-#featured-content h3 {
-    text-align: center;
-    margin-bottom: 1.5em;
-    color: var(--heading-color); /* Ensure heading color is applied */
-}
-
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px; /* Gap between cards */
-}
-
-.feature-card {
-    background: var(--card-background); /* Use white card background */
-    padding: 30px; /* More padding for feature cards */
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    display: flex; /* For better internal alignment if needed */
-    flex-direction: column;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-}
-
-.feature-card h4 {
-    color: var(--primary-color); /* Primary color for card titles */
-    margin-top: 0;
-    margin-bottom: 0.75em;
-    font-size: 1.4rem; /* Slightly larger card titles */
+.footer-logo {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
     font-weight: 700;
+    color: var(--text-color-light); /* White */
+    margin-bottom: 1rem;
 }
 
-.feature-card p {
+.footer-nav {
+    margin-bottom: 1.5rem;
+}
+
+.footer-nav a {
+    color: var(--subtle-gray);
+    margin: 0 0.75rem;
+    font-size: 0.9rem;
+    transition: color var(--transition-fast);
+}
+
+.footer-nav a:hover {
+    color: var(--secondary-color); /* Cyber Yellow on hover */
+}
+
+.social-links {
+    margin-bottom: 1.5rem;
+}
+
+.social-links a {
+    color: var(--subtle-gray);
+    font-size: 1.3rem;
+    margin: 0 0.8rem;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.social-links a:hover {
+    color: var(--secondary-color); /* Cyber Yellow */
+    transform: scale(1.2);
+}
+
+.copyright {
+    font-size: 0.85rem;
+    color: #a0aec0; /* Slightly darker gray for copyright */
+    margin-top: 1rem;
+}
+
+
+/* --- Global Component Styles --- */
+
+/* General Card Styling (for .prompt-card, .guide-card, .project-card, .integration-card, .feedback-item) */
+.card { /* New generic card class to be added to relevant elements */
+    background-color: var(--card-background);
+    border-radius: var(--border-radius-large); /* Consistent larger radius */
+    padding: 2rem; /* Generous padding */
+    margin-bottom: 2rem; /* Space between cards */
+    box-shadow: var(--shadow-medium);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+    display: flex; /* For flexbox layouts within cards if needed */
+    flex-direction: column; /* Default stack */
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-strong);
+}
+
+.card h3, .card h4 { /* Titles within cards */
+    color: var(--primary-color);
+    margin-top: 0; /* Remove default top margin for headings in cards */
+    margin-bottom: 0.75rem;
+}
+.card h3 { font-size: 1.75rem; }
+.card h4 { font-size: 1.35rem; }
+
+
+.card p {
     font-size: 0.95rem;
     line-height: 1.6;
-    margin-bottom: 1em;
-    color: var(--text-color); /* Ensure paragraph text uses main text color */
-    flex-grow: 1; /* Allows paragraph to take available space, pushing link to bottom if card heights vary */
+    margin-bottom: 1rem;
+    color: var(--text-color-dark);
 }
 
-.feature-card a {
+.card a { /* Links within cards */
+    color: var(--secondary-color);
     font-weight: 600;
-    color: var(--accent-color); /* Use accent for links within cards */
-    text-decoration: none; /* Ensure no default underline */
+}
+.card a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
 }
 
-.feature-card a:hover {
-    color: var(--primary-color); /* Primary on hover for card links */
-    text-decoration: underline; /* Underline on hover for clarity */
+.card .button { /* Buttons within cards */
+    align-self: flex-start; /* Align button to the start of the flex container */
+    margin-top: auto; /* Push to bottom if card content varies */
 }
 
-
-/* Card styles for prompts, guides, showcase, integrations, feedback items */
-.prompt-card,
-.guide-card,
-.project-card,
-.integration-card,
-.feedback-item {
-    background: var(--card-background); /* Use white card background */
-    border: none;
-    padding: 25px;
-    margin-bottom: 25px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    overflow: hidden; /* To contain pseudo-elements if added */
-}
-
-.prompt-card:hover,
-.guide-card:hover,
-.project-card:hover,
-.integration-card:hover,
-.feedback-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Slightly more pronounced shadow on hover */
-}
-
-.prompt-card pre, .guide-card pre, .integration-card pre {
-    background-color: #f0f0f0; /* Slightly darker light gray for contrast with white card */
-    color: #333; /* Darker text for code blocks */
-    padding: 15px;
-    border-radius: 8px;
+/* Specific styles for prompt cards - content */
+.prompt-card pre, .guide-card pre, .integration-card pre { /* Re-style pre/code blocks */
+    background-color: #eef1f5; /* Light gray, distinct from card white */
+    color: var(--text-color-dark);
+    padding: 1rem;
+    border-radius: var(--border-radius-medium);
     overflow-x: auto;
-    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Menlo', Courier, monospace; /* Apple's SF Mono first */
-    border: 1px solid #e0e0e0;
-    font-size: 0.95em;
+    font-family: 'Fira Code', 'Roboto Mono', monospace; /* Modern monospace font */
+    border: 1px solid var(--subtle-gray);
+    font-size: 0.9em;
+    margin: 1rem 0;
 }
 
 .prompt-card strong, .guide-card strong, .project-card strong, .integration-card strong, .feedback-item strong {
     font-weight: 600;
-    color: var(--primary-color); /* Consistent with other strong elements */
+    color: var(--primary-color);
 }
 
-.prompt-rating {
-    font-size: 0.9em;
-    color: var(--secondary-color); /* Kept as secondary, good contrast */
-    margin-top: 10px;
-    font-weight: 600;
+.prompt-rating, .prompt-usage, .prompt-date {
+    font-size: 0.85rem;
+    color: #555; /* Slightly darker for meta text */
+    margin-top: 0.5rem;
+    font-family: var(--font-secondary);
+}
+.prompt-rating { font-weight: 600; color: var(--secondary-color); }
+
+
+.prompt-card .copy-prompt-button { /* Style copy button */
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    padding: 0.5em 1em;
+    font-size: 0.85rem;
+    border-color: var(--accent-color);
+}
+.prompt-card .copy-prompt-button:hover {
+    background-color: #3ababa; /* Darker accent */
+    border-color: #3ababa;
 }
 
-.prompt-usage, .prompt-date {
-    font-size: 0.85em;
-    color: #666; /* Slightly lighter gray for less prominent info */
-    margin-top: 8px;
-}
-
-.prompt-card button.copy-prompt-button {
-    background-color: var(--accent-color); /* Use accent color */
-    color: var(--light-text-color); /* White text on accent */
-    padding: 8px 15px;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 500;
-    margin-top: 15px;
-    transition: background-color var(--transition-speed);
-}
-
-.prompt-card button.copy-prompt-button:hover {
-    background-color: #4E8082; /* Darker shade of CadetBlue */
-}
-
-
+/* Project Card Specifics */
 .project-card img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Softer shadow for images */
+    border-radius: var(--border-radius-medium);
+    margin-bottom: 1rem;
+    border: 1px solid var(--subtle-gray);
 }
 
-/* Filter/Search Bar Styles */
-.prompt-filters, .guide-filters, .showcase-filters {
-    margin-bottom: 30px;
-    padding: 20px;
-    background-color: var(--card-background); /* White background for filter bar */
-    border-radius: var(--border-radius);
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    box-shadow: var(--card-shadow);
-    flex-wrap: wrap;
-}
-
-.prompt-filters input[type="text"],
-.guide-filters input[type="text"],
-.showcase-filters input[type="text"],
-.prompt-filters select,
-.guide-filters select,
-.showcase-filters select {
-    padding: 12px 15px;
-    border: 1px solid #ccc; /* Standard border */
-    border-radius: 8px;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 1rem;
-    background-color: #fff; /* Ensure white background for inputs */
-    color: var(--text-color); /* Ensure text color is applied */
-    flex-grow: 1;
-    min-width: 150px;
-}
-
-/* Ensure all filter elements have some bottom margin on wrap for smaller screens */
-.prompt-filters input[type="text"],
-.prompt-filters select,
-.prompt-filters button {
-    margin-bottom: 10px;
-}
-
-
-.prompt-filters input[type="text"]:focus,
-.guide-filters input[type="text"]:focus,
-.showcase-filters input[type="text"]:focus,
-.prompt-filters select:focus,
-.guide-filters select:focus,
-.showcase-filters select:focus {
-    border-color: var(--primary-color); /* Primary color for focus */
-    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
-    outline: none;
-}
-
-.prompt-filters button,
-.guide-filters button,
-.showcase-filters button {
-    padding: 12px 25px;
-    background: var(--accent-color); /* Solid accent color for filter buttons */
-    color: var(--light-text-color); /* White text */
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-weight: 600;
-    transition: background-color var(--transition-speed), transform var(--transition-speed);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
-}
-
-.prompt-filters button:hover,
-.guide-filters button:hover,
-.showcase-filters button:hover {
-    background: #4E8082; /* Darker shade of CadetBlue on hover */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-
-/* Form Styles (for feedback, prompt submission, project submission) */
+/* Form Styling */
 form {
-    background: var(--card-background); /* White background for forms */
-    padding: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
+    background-color: var(--card-background);
+    padding: 2.5rem; /* More padding for forms */
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-medium);
+    margin-top: 2rem; /* Space above forms */
 }
-form div {
-    margin-bottom: 20px;
+
+form div { /* Spacing for form groups */
+    margin-bottom: 1.5rem;
 }
 
 form label {
     display: block;
-    margin-bottom: 8px;
+    font-family: var(--font-primary);
     font-weight: 600;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    color: var(--heading-color); /* Black for labels */
-    font-size: 1.05rem;
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin-bottom: 0.6rem;
 }
 
 form input[type="text"],
 form input[type="email"],
 form input[type="url"],
+form input[type="file"],
 form select,
 form textarea {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd; /* Standard border */
-    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--subtle-gray);
+    border-radius: var(--border-radius-medium);
     box-sizing: border-box;
     font-size: 1rem;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    background-color: #fff; /* Ensure white background */
-    color: var(--text-color); /* Ensure text color is applied */
-    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    font-family: var(--font-secondary);
+    background-color: var(--text-color-light); /* White background */
+    color: var(--text-color-dark);
+    transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
 form input[type="text"]:focus,
 form input[type="email"]:focus,
 form input[type="url"]:focus,
+form input[type="file"]:focus,
 form select:focus,
 form textarea:focus {
-    border-color: var(--primary-color); /* Primary color for focus */
-    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb),0.25);
+    border-color: var(--secondary-color); /* Cyber Yellow focus */
+    box-shadow: 0 0 0 3px rgba(242, 183, 5, 0.25); /* Yellow glow */
     outline: none;
 }
 
@@ -566,253 +747,285 @@ form textarea {
     resize: vertical;
 }
 
-form button[type="submit"], .button { /* General button style, .button already updated */
-    background: var(--primary-color); /* Solid primary color for submit buttons */
-    color: var(--light-text-color); /* White text */
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1.1rem;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-weight: 600;
-    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+form input[type="file"] {
+    padding: 0.6rem 1rem; /* Different padding for file input */
 }
 
-form button[type="submit"]:hover, .button:hover {
-    background-color: #A0740A; /* Darker primary on hover */
-    transform: translateY(-3px);
-    box-shadow: 0 7px 20px rgba(0,0,0,0.15);
-    text-decoration: none;
-    color: var(--light-text-color); /* Keep text color white */
+form button[type="submit"] { /* Inherits .button and .button-primary/.button-secondary */
+    font-size: 1.05rem;
+    padding: 0.9em 2em;
+    /* Example: use primary button style for submit */
+    /* background-color: var(--secondary-color);
+       color: var(--primary-color);
+       border-color: var(--secondary-color); */
+}
+/* form button[type="submit"]:hover {
+    background-color: #e0ac00;
+    border-color: #e0ac00;
+} */
+
+/* Filter Bar Styling (for .prompt-filters, .guide-filters, .showcase-filters) */
+.filters-bar { /* New generic class for filter sections */
+    background-color: var(--card-background);
+    padding: 1.5rem 2rem;
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 2.5rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
-/* News Article Styles */
-article {
-    margin-bottom: 40px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid #e0e0e0; /* Slightly darker border for better visibility on cream */
-}
-article:last-child {
-    border-bottom: none;
-}
-article h3 {
-    margin-top: 0;
-    color: var(--primary-color); /* Primary color for article titles */
-    font-size: 1.7rem;
-}
-article .date {
-    font-size: 0.9em;
-    color: #666; /* Lighter gray for date */
-    margin-bottom: 15px;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+.filters-bar input[type="text"],
+.filters-bar select {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--subtle-gray);
+    border-radius: var(--border-radius-medium);
+    font-family: var(--font-secondary);
+    font-size: 0.95rem;
+    background-color: var(--text-color-light);
+    color: var(--text-color-dark);
+    flex-grow: 1; /* Allow inputs to grow */
+    min-width: 180px; /* Minimum width before wrapping */
+    transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
-/* Feedback Item Specifics */
-.feedback-item {
-    margin-top: 20px;
-    /* General card styles already apply (white background) */
-}
-.feedback-item h4 {
-    margin-bottom: 8px;
-    color: var(--primary-color); /* Primary color for feedback titles */
-    font-size: 1.4rem;
-}
-.feedback-meta {
-    font-size: 0.9em;
-    color: #666; /* Lighter gray for metadata */
-    margin-bottom: 10px;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-}
-.feedback-comments {
-    margin-top: 15px;
-    padding-left: 20px;
-    border-left: 4px solid var(--accent-color); /* Accent color for border */
-    font-size: 1rem;
-    background-color: #f9f9f9; /* Very light gray for comments background, distinct from white card */
-    padding: 15px;
-    border-radius: 0 8px 8px 0;
-}
-.feedback-comments p {
-    margin-bottom: 8px;
-    line-height: 1.6;
-    color: var(--text-color); /* Ensure main text color for comments */
+.filters-bar input[type="text"]:focus,
+.filters-bar select:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 2px rgba(242, 183, 5, 0.2);
+    outline: none;
 }
 
+.filters-bar button { /* Inherits .button, can add specific overrides */
+    padding: 0.75rem 1.5rem; /* Adjust padding for filter buttons */
+    font-size: 0.95rem;
+    /* Example: use secondary button style for filter apply */
+    /* background-color: transparent;
+       color: var(--primary-color);
+       border-color: var(--primary-color); */
+}
+/* .filters-bar button:hover {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+} */
 
-/* Footer Styles */
-footer {
-    background-color: #333333; /* Dark Gray for footer background */
-    color: #cccccc; /* Light Gray text for footer, good contrast on dark gray */
-    padding: 40px 0;
+/* Scroll-based Animations */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Loading Spinner Animation */
+.loading-spinner-container {
+    display: flex; /* Changed from block if JS handles display */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
     text-align: center;
-    margin-top: 60px;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: var(--primary-color);
 }
 
-footer .container p {
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
+.loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: var(--secondary-color); /* Cyber Yellow spinner part */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
 }
 
-footer a {
-    color: var(--secondary-color); /* Tan for links in footer, stands out on dark gray */
-    text-decoration: none;
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-footer a:hover {
-    color: var(--light-text-color); /* White on hover for footer links */
-    text-decoration: underline;
+
+/* Mobile Navigation Styles */
+.mobile-nav-toggle {
+    display: none; /* Hidden by default, shown in media query */
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 1001; /* Above sticky header content, below menu */
 }
 
-/* Add RGB versions of colors for box-shadows with alpha */
-:root {
-    /* RGB values for Modern Creamish Theme Palette */
-    --primary-color-rgb: 184, 134, 11;   /* DarkGoldenRod */
-    --secondary-color-rgb: 210, 180, 140; /* Tan */
-    --accent-color-rgb: 95, 158, 160;    /* CadetBlue */
+.hamburger-icon {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--primary-color);
+    position: relative;
+    transition: background-color 0s 0.15s linear; /* Delay hiding middle bar */
 }
 
-/* Utility class for active navigation link */
-nav a.active {
-    font-weight: 700;
-    color: var(--accent-color); /* Highlight with accent color */
-}
-nav a.active::after {
+.hamburger-icon::before,
+.hamburger-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
     width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: transform var(--transition-smooth), top var(--transition-smooth) 0.15s;
 }
+
+.hamburger-icon::before {
+    top: -7px;
+}
+
+.hamburger-icon::after {
+    top: 7px;
+}
+
+/* Active (X) state for hamburger */
+.nav-open .mobile-nav-toggle .hamburger-icon {
+    background-color: transparent; /* Middle bar disappears */
+}
+
+.nav-open .mobile-nav-toggle .hamburger-icon::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.nav-open .mobile-nav-toggle .hamburger-icon::after {
+    transform: rotate(-45deg);
+    top: 0;
+}
+
+
+/* General page structure for non-landing pages */
+/* Apply to <main> on news.html, prompts.html etc. */
+.page-main-content .container > h2:first-child { /* Main page title */
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--primary-color);
+}
+.page-main-content .container > p:first-of-type { /* Introductory paragraph */
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-color-dark);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3rem;
+}
+
 
 /* Responsive Design Adjustments */
-@media (max-width: 992px) {
-    main {
-        padding: 20px;
-        margin: 20px auto;
-    }
-    header h1 {
-        font-size: 2.4rem;
-    }
+@media (max-width: 992px) { /* Tablets and larger phones */
     h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
+    .hero-title { font-size: 3rem; }
+    h2, .section-title { font-size: 2rem; }
     h3 { font-size: 1.6rem; }
 
-    #hero h2 {
-        font-size: 2.3rem;
+    .main-nav ul {
+        /* Could implement a mobile menu toggle here */
     }
-    #hero p {
-        font-size: 1.1rem;
+    .features-grid, .spotlight-grid, .benefits-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
     }
-    .prompt-filters, .guide-filters, .showcase-filters {
+}
+
+@media (max-width: 768px) { /* Smaller tablets and mobile */
+    html { font-size: 15px; } /* Slightly smaller base font for mobile */
+
+    .site-header .container {
+        /* flex-direction: column; /* Keep logo and toggle on one line */
+        justify-content: space-between; /* Ensure logo and toggle are spaced */
+    }
+    /* .logo { margin-bottom: 0.5rem; } */ /* Not needed if on same line */
+
+    .mobile-nav-toggle {
+        display: block; /* Show hamburger */
+    }
+
+    .main-nav {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Start off-screen */
+        width: 70%; /* Or a fixed width like 280px */
+        max-width: 300px;
+        height: 100vh;
+        background-color: var(--card-background); /* White background for menu */
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        padding: 4rem 2rem 2rem; /* More padding at the top */
+        transition: right var(--transition-smooth);
+        z-index: 1000; /* Below toggle X, but above other content */
+        display: flex; /* Use flex for internal alignment */
         flex-direction: column;
-        align-items: stretch;
     }
-    .prompt-filters input[type="text"],
-    .guide-filters input[type="text"],
-    .showcase-filters input[type="text"],
-    .prompt-filters select,
-    .guide-filters select,
-    .showcase-filters select,
-    .prompt-filters button,
-    .guide-filters button,
-    .showcase-filters button {
+
+    .nav-open .main-nav {
+        right: 0; /* Slide in */
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        align-items: flex-start; /* Align items to the left in mobile menu */
         width: 100%;
-        box-sizing: border-box; /* Ensure padding doesn't break layout */
     }
+    .main-nav ul li {
+        margin: 0.8rem 0; /* More vertical spacing */
+        width: 100%;
+    }
+    .main-nav a {
+        display: block;
+        padding: 0.8rem 0; /* Padding for full width click */
+        font-size: 1.1rem; /* Larger font for mobile nav items */
+    }
+    .main-nav a::after { /* Adjust underline for mobile */
+        bottom: -2px;
+        height: 2px;
+    }
+
+    .nav-cta-button {
+        display: block; /* Show CTA in mobile menu */
+        margin-top: auto; /* Push to bottom of flex container */
+        text-align: center;
+        width: 100%;
+        padding: 0.8em 1.5em;
+    }
+
+    .hero-section { padding: 4rem 0; min-height: 60vh;}
+    .hero-title { font-size: 2.5rem; }
+    .hero-subtitle { font-size: 1.1rem; }
+
+    section { padding: 3rem 0; }
+    .section-title { margin-bottom: 2rem; }
+
+    .features-grid, .spotlight-grid, .benefits-grid {
+        grid-template-columns: 1fr; /* Stack cards on mobile */
+        gap: 1.5rem;
+    }
+    .feature-item, .spotlight-card {
+        padding: 1.5rem;
+    }
+    .cta-title { font-size: 2rem; }
+    .cta-subtitle { font-size: 1rem; }
 }
 
-@media (max-width: 768px) {
-    body {
-        line-height: 1.6;
-    }
-    header {
-        padding: 1rem 0;
-    }
-    header h1 {
-        font-size: 2rem;
-    }
-    nav ul li {
-        margin: 0 10px;
-    }
-    nav a {
-        font-size: 1rem;
-    }
-
-    main {
-        padding: 15px;
-        margin: 15px auto;
-    }
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.8rem; }
-    h3 { font-size: 1.5rem; }
-    main h2 { font-size: 2rem; padding-bottom: 10px;}
-    main h3 { font-size: 1.6rem;}
-
-
-    #hero {
-        padding: 30px 15px;
-    }
-    #hero h2 {
-        font-size: 2rem;
-    }
-    #hero p {
-        font-size: 1rem;
-    }
-
-    section {
-        padding: 20px;
-    }
-
-    form input[type="text"],
-    form input[type="email"],
-    form input[type="url"],
-    form select,
-    form textarea,
-    form button[type="submit"], .button {
-        padding: 10px 15px;
-        font-size: 1rem;
-    }
-    .prompt-filters button,
-    .guide-filters button,
-    .showcase-filters button {
-         padding: 10px 20px;
-    }
-
-}
-
-@media (max-width: 576px) {
-    nav ul {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    nav ul li {
-        margin: 8px 0;
-    }
-    header h1 {
-        font-size: 1.8rem;
-    }
+@media (max-width: 576px) { /* Small mobile phones */
     h1 { font-size: 2rem; }
-    h2 { font-size: 1.6rem; }
+    .hero-title { font-size: 2.2rem; }
+    h2, .section-title { font-size: 1.75rem; }
     h3 { font-size: 1.4rem; }
-    main h2 { font-size: 1.8rem;}
-    main h3 { font-size: 1.5rem;}
 
-
-    #hero h2 {
-        font-size: 1.8rem;
-    }
-    #hero p {
-        font-size: 0.95rem;
-    }
-
-    #featured-content .feature-card h4 {
-        font-size: 1.3rem;
-    }
-    .prompt-card h4, .guide-card h4, .project-card h4, .integration-card h4, .feedback-item h4, article h3 {
-        font-size: 1.3rem;
-    }
-
+    .button { padding: 0.7em 1.5em; font-size: 0.95rem; }
+    .hero-cta-button, .cta-button { padding: 0.8em 2em; font-size: 1rem; }
 }
+
+/* End of Stylesheet */

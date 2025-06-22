@@ -3,71 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guides & Tutorials - Jules Agent Community</title>
+    <title>Guides & Tutorials - Jules AI Community Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>Jules Agent Community</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="news.html">News & Updates</a></li>
-                <li><a href="prompts.html">JulesPrompts</a></li>
-                <li><a href="guides.html">Guides & Tutorials</a></li>
-                <li><a href="showcase.html">Project Showcase</a></li>
-                <li><a href="integrations.html">Tool Integrations</a></li>
-                <li><a href="feedback.html">Feedback</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h2>Guides & Tutorials</h2>
-        <p>Learn how to make the most out of Jules with our comprehensive guides, tutorials, and tips. From basic setup to advanced workflows, find everything you need to become a Jules power user.</p>
-
-        <div class="guide-filters">
-            <input type="text" placeholder="Search guides..." id="search-guides">
-            <select id="guide-category-filter">
-                <option value="all">All Categories</option>
-                <option value="getting-started">Getting Started</option>
-                <option value="prompt-engineering">Prompt Engineering</option>
-                <option value="tool-usage">Tool Usage</option>
-                <option value="advanced-techniques">Advanced Techniques</option>
-                <!-- More categories -->
-            </select>
-            <button id="filter-guides-button">Filter</button>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">Jules AI</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="news.html">News</a></li>
+                    <li><a href="prompts.html">Prompts</a></li>
+                    <li><a href="guides.html" class="active">Guides</a></li>
+                    <li><a href="showcase.html">Showcase</a></li>
+                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+            <a href="#cta-section" class="button button-secondary nav-cta-button">Join Us</a>
         </div>
+    </header>
 
-        <div class="guides-list">
-            <div class="guide-card">
-                <h3>Getting Started with Jules</h3>
-                <p><strong>Category:</strong> Getting Started</p>
-                <p>A beginner's guide to understanding Jules, setting up your environment, and executing your first commands. Covers core concepts and basic syntax.</p>
-                <a href="guides/getting-started.html">Read More</a>
+    <main class="page-main-content">
+        <div class="container">
+            <h2>Guides & Tutorials</h2>
+            <p>Learn how to make the most out of Jules with our comprehensive guides, tutorials, and tips. From basic setup to advanced workflows, find everything you need to become a Jules power user.</p>
+
+            <div class="filters-bar guide-filters"> <!-- Updated class -->
+                <input type="text" placeholder="Search guides..." id="search-guides">
+                <select id="guide-category-filter">
+                    <option value="all">All Categories</option>
+                    <option value="getting-started">Getting Started</option>
+                    <option value="prompt-engineering">Prompt Engineering</option>
+                    <option value="tool-usage">Tool Usage</option>
+                    <option value="advanced-techniques">Advanced Techniques</option>
+                    <!-- More categories -->
+                </select>
+                <button id="filter-guides-button" class="button button-secondary">Filter</button> <!-- Added button classes -->
             </div>
-            <div class="guide-card" id="advanced-workflows">
-                <h3>Advanced Jules Workflows: Chaining Commands</h3>
-                <p><strong>Category:</strong> Advanced Techniques</p>
-                <p>Learn how to create complex workflows by chaining multiple Jules commands and tools together. Includes examples for automating common development tasks.</p>
-                <a href="guides/advanced-workflows.html">Read More</a>
+
+            <div class="guides-list">
+                <div class="card guide-card"> <!-- Added .card class -->
+                    <h3>Getting Started with Jules</h3>
+                    <p><strong>Category:</strong> Getting Started</p>
+                    <p>A beginner's guide to understanding Jules, setting up your environment, and executing your first commands. Covers core concepts and basic syntax.</p>
+                    <a href="guides/getting-started.html" class="button button-primary button-small">Read More</a>
+                </div>
+                <div class="card guide-card" id="advanced-workflows"> <!-- Added .card class -->
+                    <h3>Advanced Jules Workflows: Chaining Commands</h3>
+                    <p><strong>Category:</strong> Advanced Techniques</p>
+                    <p>Learn how to create complex workflows by chaining multiple Jules commands and tools together. Includes examples for automating common development tasks.</p>
+                    <a href="guides/advanced-workflows.html" class="button button-primary button-small">Read More</a>
+                </div>
+                <div class="card guide-card"> <!-- Added .card class -->
+                    <h3>Effective Prompt Engineering for Jules</h3>
+                    <p><strong>Category:</strong> Prompt Engineering</p>
+                    <p>Tips and tricks for crafting effective prompts that get you the desired results from Jules. Covers clarity, context, and iteration.</p>
+                    <a href="guides/prompt-engineering.html" class="button button-primary button-small">Read More</a>
+                </div>
+                <div class="card guide-card"> <!-- Added .card class -->
+                    <h3>Using File System Tools (`ls`, `read_files`, etc.)</h3>
+                    <p><strong>Category:</strong> Tool Usage</p>
+                    <p>A deep dive into Jules's file system tools. Learn how to navigate, read, and manage files within your project repository.</p>
+                    <a href="guides/file-system-tools.html" class="button button-primary button-small">Read More</a>
+                </div>
+                <!-- More guides will be listed here. Each guide could link to its own page or expand in place. -->
             </div>
-            <div class="guide-card">
-                <h3>Effective Prompt Engineering for Jules</h3>
-                <p><strong>Category:</strong> Prompt Engineering</p>
-                <p>Tips and tricks for crafting effective prompts that get you the desired results from Jules. Covers clarity, context, and iteration.</p>
-                <a href="guides/prompt-engineering.html">Read More</a>
-            </div>
-            <div class="guide-card">
-                <h3>Using File System Tools (`ls`, `read_files`, etc.)</h3>
-                <p><strong>Category:</strong> Tool Usage</p>
-                <p>A deep dive into Jules's file system tools. Learn how to navigate, read, and manage files within your project repository.</p>
-                <a href="guides/file-system-tools.html">Read More</a>
-            </div>
-            <!-- More guides will be listed here. Each guide could link to its own page or expand in place. -->
         </div>
     </main>
-    <footer>
-        <p>&copy; 2024 Jules Agent Community</p>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Jules AI</div>
+                <nav class="footer-nav">
+                    <a href="index.html">Home</a> |
+                    <a href="news.html">News</a> |
+                    <a href="prompts.html">Prompts</a> |
+                    <a href="guides.html">Guides</a> |
+                    <a href="privacy.html">Privacy Policy</a> |
+                    <a href="terms.html">Terms of Service</a>
+                </nav>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <p class="copyright">&copy; <span id="current-year">2024</span> Jules AI Community. All rights reserved.</p>
+        </div>
     </footer>
     <script src="script.js"></script>
 </body>

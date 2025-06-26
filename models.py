@@ -1,113 +1,77 @@
-import datetime
-
-from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, Numeric, UniqueConstraint
-from sqlalchemy.orm import sessionmaker, declarative_base
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+from decimal import Decimal # For Numeric types if used by existing models
 
-DATABASE_URL = "sqlite:///./app.db"
+db = SQLAlchemy()
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False}) # check_same_thread for SQLite with Flask
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
+# --- Model Definitions ---
 
-class User(Base):
+class User(db.Model):
     __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    username = db.Column(db.String(80), unique=True, index=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, index=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    username = Column(String, unique=True, index=True, nullable=False)
-    email = Column(String, unique=True, index=True, nullable=False)
-    password_hash = Column(String, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
-
-    __table_args__ = (UniqueConstraint('username'), UniqueConstraint('email'),)
-
-class ApplicationSetting(Base):
-    __tablename__ = "application_settings"
-
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    key = Column(String, unique=True, index=True, nullable=False)
-    value = Column(Text, nullable=True)
-    description = Column(Text, nullable=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
-
-    __table_args__ = (UniqueConstraint('key'),)
-
-class Product(Base):
+class Product(db.Model):
     __tablename__ = "products"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    name = db.Column(db.String(100), index=True, nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    price = db.Column(db.Numeric(10, 2), nullable=False)
+    sku = db.Column(db.String(50), unique=True, index=True, nullable=True)
+    stock_quantity = db.Column(db.Integer, default=0)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = Column(String, nullable=False, index=True)
-    description = Column(Text, nullable=True)
-    price = Column(Numeric(10, 2), nullable=False) # Example: 10 digits in total, 2 after decimal point
-    sku = Column(String, unique=True, index=True, nullable=True)
-    stock_quantity = Column(Integer, default=0, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+class ApplicationSetting(db.Model):
+    __tablename__ = "application_settings"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    key = db.Column(db.String(50), unique=True, index=True, nullable=False)
+    value = db.Column(db.String(255), nullable=True)
+    description = db.Column(db.Text, nullable=True)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    __table_args__ = (UniqueConstraint('sku'),)
-
-
-class Prompt(Base):
+class Prompt(db.Model):
     __tablename__ = "prompts"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    title = db.Column(db.String(150), nullable=False, index=True)
+    category = db.Column(db.String(50), index=True)
+    description = db.Column(db.Text, nullable=True)
+    prompt_text = db.Column(db.Text, nullable=False)
+    rating = db.Column(db.Numeric(3, 2), nullable=True)
+    usage_count = db.Column(db.Integer, default=0)
+    is_featured = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    title = Column(String, nullable=False)
-    category = Column(String, nullable=False, index=True)
-    description = Column(Text, nullable=True)
-    prompt_text = Column(Text, nullable=False)
-    rating = Column(Numeric(2, 1), nullable=True)  # e.g., 4.5
-    usage_count = Column(Integer, default=0, nullable=False, index=True) # For popularity
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
-
-    def __repr__(self):
-        return f"<Prompt(id={self.id}, title='{self.title}', category='{self.category}')>"
-
-
-class ShowcaseProject(Base):
+class ShowcaseProject(db.Model):
     __tablename__ = "showcase_projects"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    title = db.Column(db.String(150), nullable=False, index=True)
+    category = db.Column(db.String(50), index=True)
+    description = db.Column(db.Text, nullable=False)
+    link = db.Column(db.String(255), nullable=True)
+    image_filename = db.Column(db.String(255), nullable=True)
+    submitted_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    title = Column(String, nullable=False)
-    category = Column(String, nullable=False, index=True)
-    description = Column(Text, nullable=False)
-    link = Column(String, nullable=True) # Link to GitHub, website, etc.
-    image_filename = Column(String, nullable=True) # Stores the name of the uploaded image file
-    submitted_at = Column(DateTime(timezone=True), server_default=func.now())
-    # Optional: user_id = Column(Integer, ForeignKey('users.id'), nullable=True) # If linking to a user
-
-    def __repr__(self):
-        return f"<ShowcaseProject(id={self.id}, title='{self.title}', category='{self.category}')>"
-
-
-class Guide(Base):
+class Guide(db.Model):
     __tablename__ = "guides"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    url = db.Column(db.String(255), nullable=False, unique=True)
+    category = db.Column(db.String(50), index=True, nullable=False)
+    submitted_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    url = Column(String, nullable=False)
-    category = Column(String, nullable=False, index=True)
-    submitted_at = Column(DateTime(timezone=True), server_default=func.now())
+# This is the new Project model for the original request
+class Project(db.Model): # Renamed from the original plan to avoid conflict if a 'Project' model already existed.
+    __tablename__ = "projects_data" # Using a more specific name to avoid conflict
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    url = db.Column(db.String(200), nullable=False)
 
     def __repr__(self):
-        return f"<Guide(id={self.id}, url='{self.url}', category='{self.category}')>"
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-# Utility to create tables (can be called from init_db.py)
-def create_tables():
-    Base.metadata.create_all(bind=engine)
-
-if __name__ == "__main__":
-    # This part is for demonstration or direct execution,
-    # normally table creation would be handled by a migration tool or a dedicated script.
-    print("Creating database tables...")
-    create_tables()
-    print("Database tables created (if they didn't exist).")
+        return f'<ProjectData {self.name}>'

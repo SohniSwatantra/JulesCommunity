@@ -822,6 +822,61 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
     color: var(--text-color-light);
 } */
 
+/* Submitted Projects Section (on index.html) */
+.submitted-projects-section {
+    background-color: var(--background-color); /* Consistent with key-features */
+}
+
+.projects-grid { /* Can be reused by showcase or be specific */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.project-card { /* This is also used in showcase.html, ensure consistency or make specific */
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-medium);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-strong);
+}
+
+.project-card h3 {
+    font-size: 1.5rem; /* Matches .feature-item h3 */
+    color: var(--text-color-light);
+    margin-bottom: 0.75rem;
+}
+
+.project-card p {
+    font-size: 0.95rem;
+    color: var(--text-color-dark);
+    line-height: 1.6;
+    margin-bottom: 1.5rem; /* Space before link/button */
+    flex-grow: 1; /* Pushes button to bottom if content varies */
+}
+
+.project-card .button { /* Specific to buttons within these project cards */
+    margin-top: auto; /* Pushes button to the bottom */
+    align-self: flex-start;
+}
+
+.no-projects-message {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+    color: var(--text-color-dark);
+    background-color: var(--card-background);
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-soft);
+}
+
 /* Scroll-based Animations */
 .animate-on-scroll {
     opacity: 0;

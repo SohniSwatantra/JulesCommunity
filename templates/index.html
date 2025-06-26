@@ -18,13 +18,13 @@
             <div class="logo">Jules Agent</div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li><a href="news.html">News</a></li>
-                    <li><a href="prompts.html">Prompts</a></li>
-                    <li><a href="guides.html">Guides</a></li>
-                    <li><a href="showcase.html">Projects</a></li>
-                    <li><a href="integrations.html">Integrations</a></li>
-                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="{{ url_for('hello') }}" class="active">Home</a></li>
+                    <li><a href="{{ url_for('news_page') }}">News</a></li>
+                    <li><a href="{{ url_for('prompts_page') }}">Prompts</a></li>
+                    <li><a href="{{ url_for('guides_page') }}">Guides</a></li>
+                    <li><a href="{{ url_for('showcase_page') }}">Projects</a></li>
+                    <li><a href="{{ url_for('integrations_page') }}">Integrations</a></li>
+                    <li><a href="{{ url_for('feedback_page') }}">Feedback</a></li>
                 </ul>
             </nav>
             <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -159,12 +159,12 @@
             <div class="footer-content">
                 <div class="footer-logo">Jules Agent</div>
                 <nav class="footer-nav">
-                    <a href="index.html">Home</a> |
-                    <a href="news.html">News</a> |
-                    <a href="prompts.html">Prompts</a> |
-                    <a href="guides.html">Guides</a> |
-                    <a href="privacy.html">Privacy Policy</a> |
-                    <a href="terms.html">Terms of Service</a>
+                    <a href="{{ url_for('hello') }}">Home</a> |
+                    <a href="{{ url_for('news_page') }}">News</a> |
+                    <a href="{{ url_for('prompts_page') }}">Prompts</a> |
+                    <a href="{{ url_for('guides_page') }}">Guides</a> |
+                    <a href="/privacy">Privacy Policy</a> |  {# Direct path as route might not exist yet #}
+                    <a href="/terms">Terms of Service</a>   {# Direct path as route might not exist yet #}
                 </nav>
                 <div class="social-links">
                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>

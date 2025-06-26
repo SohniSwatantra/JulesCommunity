@@ -256,6 +256,44 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"No community projects submitted yet", response.data)
 
+    # --- Tests for Static Page Routes ---
+
+    def test_16_news_page(self):
+        """Test the /news page route"""
+        response = self.client.get('/news')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"News, Updates, and Changelogs", response.data)
+
+    def test_17_prompts_page(self):
+        """Test the /prompts_page route"""
+        response = self.client.get('/prompts_page')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"JulesPrompts Collection", response.data)
+
+    def test_18_guides_page(self):
+        """Test the /guides_page route"""
+        response = self.client.get('/guides_page')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Guides & Tutorials", response.data)
+
+    def test_19_showcase_page(self):
+        """Test the /showcase page route"""
+        response = self.client.get('/showcase')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Project Showcase", response.data)
+
+    def test_20_integrations_page(self):
+        """Test the /integrations page route"""
+        response = self.client.get('/integrations')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Tool Integrations", response.data)
+
+    def test_21_feedback_page(self):
+        """Test the /feedback page route"""
+        response = self.client.get('/feedback')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Feedback Board", response.data)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -409,6 +409,43 @@ def list_project_data():
         app.logger.error(f"Error listing project data: {e}")
         return jsonify({"error": "An internal error occurred: " + str(e)}), 500
 
+# --- Static Page Routes ---
+# These routes serve the HTML pages that were previously static.
+
+@app.route('/news')
+def news_page():
+    return render_template('news.html')
+
+@app.route('/prompts_page') # Renamed to avoid conflict with /prompts API endpoint
+def prompts_page():
+    return render_template('prompts.html')
+
+@app.route('/guides_page') # Renamed to avoid conflict with /guides API endpoint
+def guides_page():
+    return render_template('guides.html')
+
+@app.route('/showcase')
+def showcase_page():
+    return render_template('showcase.html')
+
+@app.route('/integrations')
+def integrations_page():
+    return render_template('integrations.html')
+
+@app.route('/feedback')
+def feedback_page():
+    return render_template('feedback.html')
+
+# Note: privacy.html and terms.html are linked in the footer but do not exist.
+# If they are created later, routes for them would look like:
+# @app.route('/privacy')
+# def privacy_page():
+#     return render_template('privacy.html')
+#
+# @app.route('/terms')
+# def terms_page():
+#     return render_template('terms.html')
+
 
 if __name__ == '__main__':
     # The `db.create_all()` call is generally not needed here if using Flask-Migrate.

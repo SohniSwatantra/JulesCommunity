@@ -1,14 +1,14 @@
 /* Global Resets and Base Styles */
 :root {
-    --primary-color: #1A2E40;   /* Deep Space Blue */
-    --secondary-color: #F2B705; /* Cyber Yellow */
-    --accent-color: #4AD9D9;    /* Aqua Splash (new accent for links/hovers if needed) */
+    --primary-color: #34495E;   /* Graphite */
+    --secondary-color: #3498DB; /* Bright Clear Blue */
+    --accent-color: #95A5A6;    /* Cool Light Gray (Subtle Accent) */
 
-    --background-color: #F8F9FA; /* Off-White/Light Gray */
-    --text-color-dark: #212529;  /* Near Black */
+    --background-color: #FFFFFF; /* Pure White */
+    --text-color-dark: #2C3A47;  /* Dark Slate */
     --text-color-light: #FFFFFF; /* White */
-    --subtle-gray: #CED4DA;      /* Light Gray for borders/placeholders */
-    --card-background: #FFFFFF;
+    --subtle-gray: #EAEEF1;      /* Very Light Cool Gray (for borders/placeholders) */
+    --card-background: #FFFFFF; /* Pure White */
 
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Open Sans', sans-serif;
@@ -132,15 +132,15 @@ ul {
 }
 
 .button-primary {
-    background-color: var(--secondary-color); /* Cyber Yellow */
-    color: var(--primary-color); /* Deep Space Blue text */
+    background-color: var(--secondary-color); /* Bright Clear Blue */
+    color: var(--text-color-light); /* White text */
     border-color: var(--secondary-color);
 }
 
 .button-primary:hover {
-    background-color: #e0ac00; /* Darker Yellow */
-    border-color: #e0ac00;
-    color: var(--primary-color);
+    background-color: #2980B9; /* Darker Bright Clear Blue */
+    border-color: #2980B9;
+    color: var(--text-color-light); /* White text */
     transform: translateY(-2px);
     box-shadow: var(--shadow-medium);
 }
@@ -321,7 +321,7 @@ section {
     overflow: hidden;
     z-index: 1;
     /* Basic animated gradient example, replace with more sophisticated SVG or JS animations */
-    background: linear-gradient(45deg, rgba(26, 46, 64, 0.8), rgba(242, 183, 5, 0.1), rgba(26, 46, 64, 0.9));
+    background: linear-gradient(45deg, rgba(52, 73, 94, 0.8), rgba(52, 152, 219, 0.1), rgba(52, 73, 94, 0.9));
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
 }
@@ -400,7 +400,7 @@ section {
 
 /* Community Spotlight Section */
 .community-spotlight-section {
-    background-color: #eef1f5; /* Slightly different light gray */
+    background-color: var(--subtle-gray); /* Consistent light gray */
 }
 
 .spotlight-grid {
@@ -527,8 +527,8 @@ section {
 }
 
 .cta-button:hover {
-    background-color: #122330; /* Darker blue */
-    border-color: #122330;
+    background-color: #2C3E50; /* Darker Graphite */
+    border-color: #2C3E50;
     color: var(--text-color-light);
 }
 
@@ -589,7 +589,7 @@ section {
 
 .copyright {
     font-size: 0.85rem;
-    color: #a0aec0; /* Slightly darker gray for copyright */
+    color: var(--accent-color); /* Cool Light Gray */
     margin-top: 1rem;
 }
 
@@ -645,7 +645,7 @@ section {
 
 /* Specific styles for prompt cards - content */
 .prompt-card pre, .guide-card pre, .integration-card pre { /* Re-style pre/code blocks */
-    background-color: #eef1f5; /* Light gray, distinct from card white */
+    background-color: var(--subtle-gray); /* Consistent light gray, distinct from card white */
     color: var(--text-color-dark);
     padding: 1rem;
     border-radius: var(--border-radius-medium);
@@ -671,15 +671,17 @@ section {
 
 
 .prompt-card .copy-prompt-button { /* Style copy button */
-    background-color: var(--accent-color);
-    color: var(--primary-color);
+    background-color: transparent;
+    color: var(--secondary-color); /* Bright Clear Blue text */
+    border: 1px solid var(--secondary-color); /* Bright Clear Blue border */
     padding: 0.5em 1em;
     font-size: 0.85rem;
-    border-color: var(--accent-color);
+    transition: background-color var(--transition-fast), color var(--transition-fast); /* Added transition */
 }
 .prompt-card .copy-prompt-button:hover {
-    background-color: #3ababa; /* Darker accent */
-    border-color: #3ababa;
+    background-color: var(--secondary-color); /* Bright Clear Blue background */
+    color: var(--text-color-light); /* White text */
+    border-color: var(--secondary-color); /* Ensure border stays consistent */
 }
 
 /* Project Card Specifics */
@@ -737,8 +739,8 @@ form input[type="url"]:focus,
 form input[type="file"]:focus,
 form select:focus,
 form textarea:focus {
-    border-color: var(--secondary-color); /* Cyber Yellow focus */
-    box-shadow: 0 0 0 3px rgba(242, 183, 5, 0.25); /* Yellow glow */
+    border-color: var(--secondary-color); /* Bright Clear Blue focus */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25); /* Bright Clear Blue glow */
     outline: none;
 }
 
@@ -794,7 +796,7 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
 .filters-bar input[type="text"]:focus,
 .filters-bar select:focus {
     border-color: var(--secondary-color);
-    box-shadow: 0 0 0 2px rgba(242, 183, 5, 0.2);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2); /* Bright Clear Blue glow */
     outline: none;
 }
 

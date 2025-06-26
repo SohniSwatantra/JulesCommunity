@@ -1,14 +1,14 @@
 /* Global Resets and Base Styles */
 :root {
-    --primary-color: #34495E;   /* Graphite */
-    --secondary-color: #3498DB; /* Bright Clear Blue */
-    --accent-color: #95A5A6;    /* Cool Light Gray (Subtle Accent) */
+    --primary-color: #232A34;   /* Deep Charcoal Blue */
+    --secondary-color: #3A506B; /* Muted Teal Blue */
+    --accent-color: #6FFFE9;    /* Vibrant Light Teal/Mint */
 
-    --background-color: #FFFFFF; /* Pure White */
-    --text-color-dark: #2C3A47;  /* Dark Slate */
-    --text-color-light: #FFFFFF; /* White */
-    --subtle-gray: #EAEEF1;      /* Very Light Cool Gray (for borders/placeholders) */
-    --card-background: #FFFFFF; /* Pure White */
+    --background-color: #1B2028; /* Very Dark Desaturated Blue */
+    --text-color-dark: #D0D8E0;  /* Light Cool Gray-Blue (for text on dark BGs) */
+    --text-color-light: #FFFFFF; /* White (for strong emphasis on dark BGs) */
+    --subtle-gray: #4A5568;      /* Medium-Dark Gray (for borders/placeholders on dark) */
+    --card-background: #2D3748;  /* Dark Slate Gray (for cards) */
 
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Open Sans', sans-serif;
@@ -62,7 +62,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-primary);
     font-weight: 700;
-    color: var(--primary-color); /* Dark blue for headings */
+    color: var(--text-color-light); /* White for headings on dark background */
     line-height: 1.3;
     margin-bottom: 0.75em;
 }
@@ -79,13 +79,13 @@ p {
 }
 
 a {
-    color: var(--secondary-color); /* Cyber Yellow for links */
+    color: var(--accent-color); /* Vibrant Light Teal/Mint for links */
     text-decoration: none;
     transition: color var(--transition-fast);
 }
 
 a:hover {
-    color: var(--primary-color); /* Dark blue on hover */
+    color: var(--secondary-color); /* Muted Teal Blue on hover */
     text-decoration: none; /* No underline by default, add selectively */
 }
 
@@ -132,28 +132,29 @@ ul {
 }
 
 .button-primary {
-    background-color: var(--secondary-color); /* Bright Clear Blue */
-    color: var(--text-color-light); /* White text */
-    border-color: var(--secondary-color);
+    background-color: var(--accent-color); /* Vibrant Light Teal/Mint */
+    color: var(--primary-color); /* Deep Charcoal Blue text for contrast */
+    border-color: var(--accent-color);
 }
 
 .button-primary:hover {
-    background-color: #2980B9; /* Darker Bright Clear Blue */
-    border-color: #2980B9;
-    color: var(--text-color-light); /* White text */
+    background-color: #5DCDB9; /* Slightly darker Teal/Mint */
+    border-color: #5DCDB9;
+    color: var(--primary-color); /* Deep Charcoal Blue text */
     transform: translateY(-2px);
     box-shadow: var(--shadow-medium);
 }
 
 .button-secondary {
     background-color: transparent;
-    color: var(--primary-color); /* Deep Space Blue text */
-    border-color: var(--primary-color); /* Deep Space Blue border */
+    color: var(--text-color-dark); /* Light Cool Gray-Blue text */
+    border-color: var(--text-color-dark); /* Light Cool Gray-Blue border */
 }
 
 .button-secondary:hover {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color); /* Muted Teal Blue fill */
     color: var(--text-color-light); /* White text */
+    border-color: var(--secondary-color); /* Muted Teal Blue border */
     transform: translateY(-2px);
     box-shadow: var(--shadow-soft);
 }
@@ -166,9 +167,9 @@ ul {
 
 /* Header Styles */
 .site-header {
-    background-color: var(--text-color-light); /* White background for header */
+    background-color: var(--primary-color); /* Deep Charcoal Blue background for header */
     padding: 1rem 0;
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-soft); /* Shadow might need adjustment for dark theme */
     position: sticky;
     top: 0;
     z-index: 999; /* Adjusted z-index */
@@ -185,7 +186,7 @@ ul {
     font-family: var(--font-primary);
     font-size: 1.75rem;
     font-weight: 800;
-    color: var(--primary-color);
+    color: var(--text-color-light); /* White logo text */
     text-decoration: none;
 }
 
@@ -202,7 +203,7 @@ ul {
     font-family: var(--font-secondary);
     font-weight: 700; /* Bolder nav links */
     font-size: 0.95rem;
-    color: var(--primary-color); /* Deep blue for nav links */
+    color: var(--text-color-dark); /* Light Cool Gray-Blue for nav links */
     text-decoration: none;
     padding: 0.5rem 0;
     position: relative;
@@ -216,7 +217,7 @@ ul {
     left: 0;
     width: 0;
     height: 2px;
-    background-color: var(--secondary-color); /* Cyber yellow underline */
+    background-color: var(--accent-color); /* Vibrant Teal/Mint underline */
     transition: width var(--transition-smooth);
 }
 
@@ -227,7 +228,7 @@ ul {
 
 .main-nav a:hover,
 .main-nav a.active {
-    color: var(--secondary-color); /* Cyber yellow on hover/active */
+    color: var(--accent-color); /* Vibrant Teal/Mint on hover/active */
 }
 
 .nav-cta-button {
@@ -262,7 +263,7 @@ section {
     transform: translateX(-50%);
     width: 80px;
     height: 3px;
-    background-color: var(--secondary-color); /* Cyber Yellow */
+    background-color: var(--accent-color); /* Vibrant Light Teal/Mint */
     border-radius: 2px;
 }
 
@@ -294,14 +295,14 @@ section {
 }
 
 .hero-title .highlight {
-    color: var(--secondary-color); /* Cyber Yellow */
+    color: var(--accent-color); /* Vibrant Light Teal/Mint */
 }
 
 .hero-subtitle {
     font-size: 1.3rem;
     font-family: var(--font-secondary);
     font-weight: 300; /* Lighter weight for subtitle */
-    color: var(--subtle-gray); /* Light gray for subtitle */
+    color: var(--text-color-dark); /* Light Cool Gray-Blue for subtitle on dark hero */
     max-width: 700px;
     margin: 0 auto 2.5rem auto;
     line-height: 1.8;
@@ -320,10 +321,16 @@ section {
     height: 100%;
     overflow: hidden;
     z-index: 1;
-    /* Basic animated gradient example, replace with more sophisticated SVG or JS animations */
-    background: linear-gradient(45deg, rgba(52, 73, 94, 0.8), rgba(52, 152, 219, 0.1), rgba(52, 73, 94, 0.9));
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    /* Nebula Gradient Animation */
+    background: linear-gradient(45deg,
+        rgba(35, 42, 52, 0.9),      /* Primary Color (Deep Charcoal Blue) */
+        rgba(58, 80, 107, 0.6),      /* Secondary Color (Muted Teal Blue) */
+        rgba(111, 255, 233, 0.15),   /* Accent Color (Vibrant Light Teal/Mint) - subtle hint */
+        rgba(58, 80, 107, 0.6),      /* Secondary Color (Muted Teal Blue) */
+        rgba(35, 42, 52, 0.9)       /* Primary Color (Deep Charcoal Blue) */
+    );
+    background-size: 600% 600%; /* Larger size for smoother, slower animation */
+    animation: gradientBG 25s ease infinite; /* Slower animation */
 }
 
 @keyframes gradientBG {
@@ -360,7 +367,7 @@ section {
 
 .feature-icon {
     font-size: 2.8rem; /* Larger icons */
-    color: var(--secondary-color); /* Cyber Yellow */
+    color: var(--accent-color); /* Vibrant Light Teal/Mint */
     margin-bottom: 1.5rem;
     display: inline-block;
     transition: transform var(--transition-smooth);
@@ -373,7 +380,7 @@ section {
 .feature-item h3 {
     font-size: 1.5rem; /* Adjusted for Poppins */
     margin-bottom: 0.8rem;
-    color: var(--primary-color);
+    color: var(--text-color-light); /* White for card titles on dark card BG */
 }
 
 .feature-item p {
@@ -400,7 +407,7 @@ section {
 
 /* Community Spotlight Section */
 .community-spotlight-section {
-    background-color: var(--subtle-gray); /* Consistent light gray */
+    background-color: #eef1f5; /* Slightly different light gray */
 }
 
 .spotlight-grid {
@@ -432,7 +439,7 @@ section {
 
 .spotlight-card h4 {
     font-size: 1.4rem; /* Adjusted */
-    color: var(--primary-color);
+    color: var(--text-color-light); /* White for card titles */
     margin: 1.5rem 1.5rem 0.5rem 1.5rem; /* Padding around text */
 }
 
@@ -469,21 +476,21 @@ section {
 
 .benefit-icon {
     font-size: 3rem;
-    color: var(--primary-color); /* Deep Space Blue */
+    color: var(--accent-color); /* Vibrant Light Teal/Mint */
     margin-bottom: 1.5rem;
     display: inline-block;
-    transition: transform var(--transition-smooth);
+    transition: transform var(--transition-smooth), color var(--transition-smooth);
 }
 
 .benefit-item:hover .benefit-icon {
     transform: scale(1.15) rotate(5deg);
-    color: var(--secondary-color); /* Yellow on hover */
+    color: var(--secondary-color); /* Muted Teal Blue on hover */
 }
 
 .benefit-item h3 {
     font-size: 1.5rem;
     margin-bottom: 0.8rem;
-    color: var(--primary-color);
+    color: var(--text-color-light); /* White titles */
 }
 
 .benefit-item p {
@@ -495,8 +502,8 @@ section {
 
 /* CTA Section */
 .cta-section {
-    background-color: var(--secondary-color); /* Cyber Yellow */
-    color: var(--primary-color); /* Deep Space Blue text */
+    background-color: var(--secondary-color); /* Muted Teal Blue */
+    color: var(--text-color-light); /* White text */
     padding: 5rem 0;
     text-align: center;
 }
@@ -504,7 +511,7 @@ section {
 .cta-title {
     font-size: 2.5rem;
     font-weight: 800;
-    color: var(--primary-color);
+    color: var(--text-color-light); /* White text */
     margin-bottom: 1rem;
 }
 
@@ -512,31 +519,31 @@ section {
     font-size: 1.15rem;
     font-family: var(--font-secondary);
     font-weight: 400;
-    color: var(--primary-color);
+    color: var(--text-color-light); /* White text */
     max-width: 600px;
     margin: 0 auto 2.5rem auto;
     opacity: 0.9;
 }
 
 .cta-button {
-    background-color: var(--primary-color); /* Deep Space Blue button */
-    color: var(--text-color-light); /* White text */
-    border-color: var(--primary-color);
+    background-color: var(--accent-color); /* Vibrant Light Teal/Mint button */
+    color: var(--primary-color); /* Deep Charcoal Blue text for contrast */
+    border-color: var(--accent-color);
     font-size: 1.1rem;
     padding: 1em 2.5em;
 }
 
 .cta-button:hover {
-    background-color: #2C3E50; /* Darker Graphite */
-    border-color: #2C3E50;
-    color: var(--text-color-light);
+    background-color: #5DCDB9; /* Slightly darker Teal/Mint */
+    border-color: #5DCDB9;
+    color: var(--primary-color); /* Deep Charcoal Blue text */
 }
 
 
 /* Footer Styles */
 .site-footer {
-    background-color: var(--primary-color); /* Deep Space Blue */
-    color: var(--subtle-gray); /* Light Gray text */
+    background-color: var(--primary-color); /* Deep Charcoal Blue */
+    color: var(--text-color-dark); /* Light Cool Gray-Blue text */
     padding: 3rem 0;
     text-align: center;
     font-size: 0.9rem;
@@ -561,14 +568,14 @@ section {
 }
 
 .footer-nav a {
-    color: var(--subtle-gray);
+    color: var(--text-color-dark); /* Light Cool Gray-Blue */
     margin: 0 0.75rem;
     font-size: 0.9rem;
     transition: color var(--transition-fast);
 }
 
 .footer-nav a:hover {
-    color: var(--secondary-color); /* Cyber Yellow on hover */
+    color: var(--accent-color); /* Vibrant Light Teal/Mint on hover */
 }
 
 .social-links {
@@ -576,20 +583,20 @@ section {
 }
 
 .social-links a {
-    color: var(--subtle-gray);
+    color: var(--text-color-dark); /* Light Cool Gray-Blue */
     font-size: 1.3rem;
     margin: 0 0.8rem;
     transition: color var(--transition-fast), transform var(--transition-fast);
 }
 
 .social-links a:hover {
-    color: var(--secondary-color); /* Cyber Yellow */
+    color: var(--accent-color); /* Vibrant Light Teal/Mint */
     transform: scale(1.2);
 }
 
 .copyright {
     font-size: 0.85rem;
-    color: var(--accent-color); /* Cool Light Gray */
+    color: var(--subtle-gray); /* Medium-Dark Gray for copyright on dark footer */
     margin-top: 1rem;
 }
 
@@ -614,7 +621,7 @@ section {
 }
 
 .card h3, .card h4 { /* Titles within cards */
-    color: var(--primary-color);
+    color: var(--text-color-light); /* White titles on dark cards */
     margin-top: 0; /* Remove default top margin for headings in cards */
     margin-bottom: 0.75rem;
 }
@@ -645,43 +652,45 @@ section {
 
 /* Specific styles for prompt cards - content */
 .prompt-card pre, .guide-card pre, .integration-card pre { /* Re-style pre/code blocks */
-    background-color: var(--subtle-gray); /* Consistent light gray, distinct from card white */
-    color: var(--text-color-dark);
+    background-color: var(--primary-color); /* Deep Charcoal Blue BG for code */
+    color: var(--text-color-dark); /* Light Cool Gray-Blue text for code */
     padding: 1rem;
     border-radius: var(--border-radius-medium);
     overflow-x: auto;
     font-family: 'Fira Code', 'Roboto Mono', monospace; /* Modern monospace font */
-    border: 1px solid var(--subtle-gray);
+    border: 1px solid var(--subtle-gray); /* Medium-Dark Gray border */
     font-size: 0.9em;
     margin: 1rem 0;
 }
 
 .prompt-card strong, .guide-card strong, .project-card strong, .integration-card strong, .feedback-item strong {
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--text-color-light); /* Use lighter strong text on dark cards */
 }
 
 .prompt-rating, .prompt-usage, .prompt-date {
     font-size: 0.85rem;
-    color: #555; /* Slightly darker for meta text */
+    color: var(--text-color-dark); /* Light Cool Gray-Blue for meta text */
+    opacity: 0.8; /* Slightly less prominent */
     margin-top: 0.5rem;
     font-family: var(--font-secondary);
 }
-.prompt-rating { font-weight: 600; color: var(--secondary-color); }
+.prompt-rating { font-weight: 600; color: var(--accent-color); opacity: 1;} /* Vibrant Teal/Mint for rating */
 
 
 .prompt-card .copy-prompt-button { /* Style copy button */
-    background-color: transparent;
-    color: var(--secondary-color); /* Bright Clear Blue text */
-    border: 1px solid var(--secondary-color); /* Bright Clear Blue border */
+    background-color: var(--accent-color); /* This will be handled by button styles if it's a .button */
+    /* Assuming it might not be a standard button, let's style it like a .button-primary */
+    color: var(--primary-color); /* Deep Charcoal Blue text for contrast */
     padding: 0.5em 1em;
     font-size: 0.85rem;
-    transition: background-color var(--transition-fast), color var(--transition-fast); /* Added transition */
+    border-color: var(--accent-color);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 .prompt-card .copy-prompt-button:hover {
-    background-color: var(--secondary-color); /* Bright Clear Blue background */
-    color: var(--text-color-light); /* White text */
-    border-color: var(--secondary-color); /* Ensure border stays consistent */
+    background-color: #5DCDB9; /* Slightly darker Teal/Mint */
+    border-color: #5DCDB9;
+    color: var(--primary-color); /* Ensure text color remains consistent */
 }
 
 /* Project Card Specifics */
@@ -711,7 +720,7 @@ form label {
     font-family: var(--font-primary);
     font-weight: 600;
     font-size: 1rem;
-    color: var(--primary-color);
+    color: var(--text-color-dark); /* Light Cool Gray-Blue labels */
     margin-bottom: 0.6rem;
 }
 
@@ -723,13 +732,13 @@ form select,
 form textarea {
     width: 100%;
     padding: 0.8rem 1rem;
-    border: 1px solid var(--subtle-gray);
+    border: 1px solid var(--subtle-gray); /* Medium-Dark Gray border */
     border-radius: var(--border-radius-medium);
     box-sizing: border-box;
     font-size: 1rem;
     font-family: var(--font-secondary);
-    background-color: var(--text-color-light); /* White background */
-    color: var(--text-color-dark);
+    background-color: var(--primary-color); /* Deep Charcoal Blue background for inputs */
+    color: var(--text-color-dark); /* Light Cool Gray-Blue text in inputs */
     transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
@@ -739,8 +748,8 @@ form input[type="url"]:focus,
 form input[type="file"]:focus,
 form select:focus,
 form textarea:focus {
-    border-color: var(--secondary-color); /* Bright Clear Blue focus */
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25); /* Bright Clear Blue glow */
+    border-color: var(--accent-color); /* Vibrant Light Teal/Mint focus */
+    box-shadow: 0 0 0 3px rgba(111, 255, 233, 0.25); /* Vibrant Light Teal/Mint glow */
     outline: none;
 }
 
@@ -782,12 +791,12 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
 .filters-bar input[type="text"],
 .filters-bar select {
     padding: 0.75rem 1rem;
-    border: 1px solid var(--subtle-gray);
+    border: 1px solid var(--subtle-gray); /* Medium-Dark Gray border */
     border-radius: var(--border-radius-medium);
     font-family: var(--font-secondary);
     font-size: 0.95rem;
-    background-color: var(--text-color-light);
-    color: var(--text-color-dark);
+    background-color: var(--primary-color); /* Deep Charcoal Blue background */
+    color: var(--text-color-dark); /* Light Cool Gray-Blue text */
     flex-grow: 1; /* Allow inputs to grow */
     min-width: 180px; /* Minimum width before wrapping */
     transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
@@ -795,8 +804,8 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
 
 .filters-bar input[type="text"]:focus,
 .filters-bar select:focus {
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2); /* Bright Clear Blue glow */
+    border-color: var(--accent-color); /* Vibrant Light Teal/Mint focus */
+    box-shadow: 0 0 0 2px rgba(111, 255, 233, 0.2); /* Vibrant Light Teal/Mint glow */
     outline: none;
 }
 
@@ -833,12 +842,12 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
     justify-content: center;
     padding: 2rem;
     text-align: center;
-    color: var(--primary-color);
+    color: var(--text-color-dark); /* Light text for loading message */
 }
 
 .loading-spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: var(--secondary-color); /* Cyber Yellow spinner part */
+    border: 4px solid rgba(255, 255, 255, 0.1); /* Lighter base for spinner on dark BG */
+    border-left-color: var(--accent-color); /* Vibrant Light Teal/Mint spinner part */
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -867,7 +876,7 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
     display: block;
     width: 24px;
     height: 2px;
-    background-color: var(--primary-color);
+    background-color: var(--text-color-light); /* White hamburger icon */
     position: relative;
     transition: background-color 0s 0.15s linear; /* Delay hiding middle bar */
 }
@@ -879,7 +888,7 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: var(--primary-color);
+    background-color: var(--text-color-light); /* White hamburger icon */
     transition: transform var(--transition-smooth), top var(--transition-smooth) 0.15s;
 }
 
@@ -913,7 +922,7 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
     font-size: 2.8rem;
     text-align: center;
     margin-bottom: 2.5rem;
-    color: var(--primary-color);
+    color: var(--text-color-light); /* White title */
 }
 .page-main-content .container > p:first-of-type { /* Introductory paragraph */
     text-align: center;

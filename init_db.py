@@ -1,4 +1,4 @@
-from models import create_tables, engine, SessionLocal, User, ApplicationSetting, Product, Prompt, Guide
+from models import create_tables, engine, SessionLocal, User, ApplicationSetting, Product, Prompt, Guide, ShowcaseProject # Added ShowcaseProject
 from decimal import Decimal
 
 def initialize_database():
@@ -80,6 +80,27 @@ def initialize_database():
             print("Initial sample prompts added.")
         else:
             print("Prompts already exist, skipping initial data.")
+
+        # Check if showcase projects already exist
+        if db.query(ShowcaseProject).count() == 0:
+            print("Adding initial sample showcase projects...")
+            sample_projects = [
+                ShowcaseProject(title="Jules AI Community Hub",
+                                category="Web Development",
+                                description="The very website you are on! Built with Flask and Jules AI integration for content generation and assistance.",
+                                link="https://julescommunity.com", # Placeholder link
+                                image_filename=None), # No image for this initial one, or add a placeholder image
+                ShowcaseProject(title="Automated Code Reviewer",
+                                category="Automation",
+                                description="A tool that uses Jules to automatically review code submissions for common errors and style issues.",
+                                link="https://github.com/example/jules-code-reviewer", # Placeholder link
+                                image_filename=None)
+            ]
+            db.add_all(sample_projects)
+            db.commit()
+            print("Initial sample showcase projects added.")
+        else:
+            print("Showcase projects already exist, skipping initial data.")
 
     except Exception as e:
         print(f"An error occurred during initial data population: {e}")

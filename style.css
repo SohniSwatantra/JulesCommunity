@@ -168,7 +168,7 @@ ul {
 /* Header Styles */
 .site-header {
     background-color: var(--primary-color); /* Deep Charcoal Blue background for header */
-    padding: 1rem 0;
+    padding: 1.2rem 0; /* Slightly more padding */
     box-shadow: var(--shadow-soft); /* Shadow might need adjustment for dark theme */
     position: sticky;
     top: 0;
@@ -190,13 +190,20 @@ ul {
     text-decoration: none;
 }
 
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
 .main-nav ul {
     display: flex;
     align-items: center;
+    gap: 1.5rem;
 }
 
 .main-nav ul li {
-    margin-left: 1.8rem;
+    margin-left: 0;
 }
 
 .main-nav a {
@@ -213,11 +220,11 @@ ul {
 .main-nav a::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -2px; /* Move underline slightly down */
     left: 0;
     width: 0;
-    height: 2px;
-    background-color: var(--accent-color); /* Vibrant Teal/Mint underline */
+    height: 1.5px; /* Thinner underline */
+    background-color: var(--secondary-color); /* Muted Teal Blue for underline */
     transition: width var(--transition-smooth);
 }
 
@@ -231,9 +238,14 @@ ul {
     color: var(--accent-color); /* Vibrant Teal/Mint on hover/active */
 }
 
-.nav-cta-button {
+.nav-cta-button.desktop-only {
+    margin-left: 1.5rem;
     font-size: 0.9rem;
     padding: 0.6em 1.5em; /* Slightly smaller padding for nav CTA */
+}
+
+.mobile-only {
+    display: none;
 }
 
 /* Main Content Area */
@@ -1015,14 +1027,26 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
     }
     /* .logo { margin-bottom: 0.5rem; } */ /* Not needed if on same line */
 
+    .main-nav {
+        display: none; /* Hide nav by default on mobile */
+    }
+
+    .nav-cta-button.desktop-only {
+        display: none; /* Hide CTA button on mobile */
+    }
+
+    .mobile-only {
+        display: block;
+    }
+
     .mobile-nav-toggle {
         display: block; /* Show hamburger */
     }
 
-    .main-nav {
+    .main-nav.nav-open {
         position: fixed;
         top: 0;
-        right: -100%; /* Start off-screen */
+        right: 0; /* Changed to 0 to show */
         width: 70%; /* Or a fixed width like 280px */
         max-width: 300px;
         height: 100vh;
@@ -1058,10 +1082,14 @@ form button[type="submit"] { /* Inherits .button and .button-primary/.button-sec
         height: 2px;
     }
 
-    .nav-cta-button {
-        display: block; /* Show CTA in mobile menu */
+    .main-nav .mobile-only {
         margin-top: auto; /* Push to bottom of flex container */
         text-align: center;
+        width: 100%;
+    }
+
+    .main-nav .mobile-only a {
+        display: inline-block;
         width: 100%;
         padding: 0.8em 1.5em;
     }

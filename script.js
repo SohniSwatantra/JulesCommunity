@@ -388,9 +388,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainNav = document.querySelector('.main-nav');
     const siteHeader = document.querySelector('.site-header'); // Or body, if preferred for .nav-open
 
-    if (mobileNavToggle && mainNav && siteHeader) {
+    if (mobileNavToggle && mainNav) {
         mobileNavToggle.addEventListener('click', () => {
-            siteHeader.classList.toggle('nav-open'); // Toggles .nav-open on .site-header
+            mainNav.classList.toggle('nav-open');
             const isExpanded = mainNav.getAttribute('aria-expanded') === 'true' || false;
             mainNav.setAttribute('aria-expanded', !isExpanded);
             mobileNavToggle.setAttribute('aria-expanded', !isExpanded); // Also update toggle's aria

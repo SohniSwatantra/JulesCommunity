@@ -576,4 +576,376 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Ensure escapeHtml is used from the global scope defined at the top of DOMContentLoaded
+
+// ==========================================
+// NETLIFY FUNCTIONS INTEGRATION
+// ==========================================
+
+// Generic function to submit data to Netlify Functions
+async function submitToNetlifyFunction(endpoint, data) {
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            return { success: true, data: result };
+        } else {
+            throw new Error(result.error || 'Submission failed');
+        }
+    } catch (error) {
+        console.error('Network error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Generic function to fetch data from Netlify Functions
+async function fetchFromNetlifyFunction(endpoint, params = {}) {
+    try {
+        const queryString = new URLSearchParams(params).toString();
+        const url = queryString ? `${endpoint}?${queryString}` : endpoint;
+        
+        const response = await fetch(url);
+        const result = await response.json();
+        
+        if (response.ok) {
+            return { success: true, data: result };
+        } else {
+            throw new Error(result.error || 'Fetch failed');
+        }
+    } catch (error) {
+        console.error('Network error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+// ==========================================
+// FEEDBACK FORM HANDLING
+// ==========================================
+
+function initializeFeedbackForm() {
+    const feedbackForm = document.getElementById('feedback-form');
+    if (feedbackForm) {
+        feedbackForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const feedbackData = {
+                'feedback-type': formData.get('feedback-type'),
+                'feedback-summary': formData.get('feedback-summary'),
+                'feedback-details': formData.get('feedback-details'),
+                'feedback-email': formData.get('feedback-email')
+            };
+            
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Submitting...';
+            submitButton.disabled = true;
+            
+            try {
+                const result = await submitToNetlifyFunction('/.netlify/functions/feedback', feedbackData);
+                
+                if (result.success) {
+                    showMessage('Feedback submitted successfully! Thank you for your input.', 'success');
+                    this.reset();
+                } else {
+                    showMessage('Error submitting feedback: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Error submitting feedback: ' + error.message, 'error');
+            } finally {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
+    }
+}
+
+// ==========================================
+// PROMPT FORM HANDLING
+// ==========================================
+
+function initializePromptForm() {
+    const promptForm = document.getElementById('prompt-submission-form');
+    if (promptForm) {
+        promptForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const promptData = {
+                'prompt-title': formData.get('prompt-title'),
+                'prompt-category': formData.get('prompt-category'),
+                'prompt-description': formData.get('prompt-description'),
+                'prompt-text': formData.get('prompt-text')
+            };
+            
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Submitting...';
+            submitButton.disabled = true;
+            
+            try {
+                const result = await submitToNetlifyFunction('/.netlify/functions/prompts', promptData);
+                
+                if (result.success) {
+                    showMessage('Prompt submitted successfully!', 'success');
+                    this.reset();
+                    loadPrompts(); // Refresh the prompts list
+                } else {
+                    showMessage('Error submitting prompt: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Error submitting prompt: ' + error.message, 'error');
+            } finally {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
+    }
+}
+
+// ==========================================
+// GUIDE FORM HANDLING
+// ==========================================
+
+function initializeGuideForm() {
+    const guideForm = document.getElementById('guide-submission-form');
+    if (guideForm) {
+        guideForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const guideData = {
+                'guide-url': formData.get('guide-url'),
+                'guide-category': formData.get('guide-category')
+            };
+            
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Adding...';
+            submitButton.disabled = true;
+            
+            try {
+                const result = await submitToNetlifyFunction('/.netlify/functions/guides', guideData);
+                
+                if (result.success) {
+                    showMessage('Guide submitted successfully!', 'success');
+                    this.reset();
+                    loadGuides(); // Refresh the guides list
+                } else {
+                    showMessage('Error submitting guide: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Error submitting guide: ' + error.message, 'error');
+            } finally {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
+    }
+}
+
+// ==========================================
+// SHOWCASE PROJECT FORM HANDLING
+// ==========================================
+
+function initializeShowcaseForm() {
+    const showcaseForm = document.getElementById('project-submission-form');
+    if (showcaseForm) {
+        showcaseForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const projectData = {
+                'project-title': formData.get('project-title'),
+                'project-category': formData.get('project-category'),
+                'project-description': formData.get('project-description'),
+                'project-link': formData.get('project-link')
+            };
+            
+            // Handle image upload (convert to base64 for simple storage)
+            const imageFile = formData.get('project-image');
+            if (imageFile && imageFile.size > 0) {
+                try {
+                    const base64Image = await fileToBase64(imageFile);
+                    projectData['project-image'] = base64Image;
+                } catch (error) {
+                    showMessage('Error processing image: ' + error.message, 'error');
+                    return;
+                }
+            }
+            
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Submitting...';
+            submitButton.disabled = true;
+            
+            try {
+                const result = await submitToNetlifyFunction('/.netlify/functions/showcase_projects', projectData);
+                
+                if (result.success) {
+                    showMessage('Project submitted successfully!', 'success');
+                    this.reset();
+                    loadShowcaseProjects(); // Refresh the projects list
+                } else {
+                    showMessage('Error submitting project: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Error submitting project: ' + error.message, 'error');
+            } finally {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
+    }
+}
+
+// ==========================================
+// PROJECT DATA HANDLING (Homepage)
+// ==========================================
+
+async function loadProjectData() {
+    try {
+        const result = await fetchFromNetlifyFunction('/.netlify/functions/list_project_data');
+        
+        if (result.success && result.data.length > 0) {
+            const projectsSection = document.getElementById('submitted-projects');
+            if (projectsSection) {
+                const projectsGrid = projectsSection.querySelector('.projects-grid');
+                if (projectsGrid) {
+                    projectsGrid.innerHTML = result.data.map(project => `
+                        <div class="project-card">
+                            <h3>${escapeHtml(project.name)}</h3>
+                            <p>${escapeHtml(project.description)}</p>
+                            <a href="${escapeHtml(project.url)}" target="_blank" class="button button-secondary button-small">View Project</a>
+                        </div>
+                    `).join('');
+                } else {
+                    // Create projects grid if it doesn't exist
+                    const container = projectsSection.querySelector('.container');
+                    if (container) {
+                        const projectsGrid = document.createElement('div');
+                        projectsGrid.className = 'projects-grid';
+                        projectsGrid.innerHTML = result.data.map(project => `
+                            <div class="project-card">
+                                <h3>${escapeHtml(project.name)}</h3>
+                                <p>${escapeHtml(project.description)}</p>
+                                <a href="${escapeHtml(project.url)}" target="_blank" class="button button-secondary button-small">View Project</a>
+                            </div>
+                        `).join('');
+                        container.appendChild(projectsGrid);
+                    }
+                }
+            }
+        }
+        
+        return result.data || [];
+    } catch (error) {
+        console.error('Error loading projects:', error);
+        return [];
+    }
+}
+
+// ==========================================
+// DATA LOADING FUNCTIONS
+// ==========================================
+
+async function loadPrompts() {
+    const result = await fetchFromNetlifyFunction('/.netlify/functions/prompts');
+    if (result.success) {
+        displayPrompts(result.data);
+    }
+}
+
+async function loadGuides() {
+    const result = await fetchFromNetlifyFunction('/.netlify/functions/guides');
+    if (result.success) {
+        displayGuides(result.data);
+    }
+}
+
+async function loadShowcaseProjects() {
+    const result = await fetchFromNetlifyFunction('/.netlify/functions/showcase_projects');
+    if (result.success) {
+        displayShowcaseProjects(result.data);
+    }
+}
+
+// ==========================================
+// UTILITY FUNCTIONS
+// ==========================================
+
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
+function showMessage(message, type = 'info') {
+    // Create or update message display
+    let messageDiv = document.getElementById('message-display');
+    if (!messageDiv) {
+        messageDiv = document.createElement('div');
+        messageDiv.id = 'message-display';
+        messageDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            max-width: 400px;
+        `;
+        document.body.appendChild(messageDiv);
+    }
+    
+    messageDiv.textContent = message;
+    messageDiv.className = `message-${type}`;
+    
+    // Set colors based on type
+    if (type === 'success') {
+        messageDiv.style.backgroundColor = '#4CAF50';
+    } else if (type === 'error') {
+        messageDiv.style.backgroundColor = '#f44336';
+    } else {
+        messageDiv.style.backgroundColor = '#2196F3';
+    }
+    
+    messageDiv.style.display = 'block';
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        messageDiv.style.display = 'none';
+    }, 5000);
+}
+
+// ==========================================
+// INITIALIZATION
+// ==========================================
+
+// Initialize all forms when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all form handlers
+    initializeFeedbackForm();
+    initializePromptForm();
+    initializeGuideForm();
+    initializeShowcaseForm();
+    
+    // Load initial data
+    loadProjectData();
+    loadPrompts();
+    loadGuides();
+    loadShowcaseProjects();
+});
 });

@@ -18,17 +18,15 @@
             <div class="logo">Jules Agent</div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li><a href="news.html">News</a></li>
-                    <li><a href="prompts.html">Prompts</a></li>
-                    <li><a href="guides.html">Guides</a></li>
-                    <li><a href="showcase.html">Projects</a></li>
-                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="changelog.html">Changelog</a></li>
+                    <li><a href="guides.html" title="Details coming soon">Guides <small style="font-size: 0.7em; color: var(--text-light);">(Soon)</small></a></li>
+                    <li><a href="showcase.html" title="Details coming soon">Projects <small style="font-size: 0.7em; color: var(--text-light);">(Soon)</small></a></li>
                     <li><a href="feedback.html">Feedback</a></li>
-                    <li class="mobile-only"><a href="guides.html" class="button button-primary">Get Started</a></li>
                 </ul>
             </nav>
-            <a href="guides.html" class="button button-primary nav-cta-button desktop-only">Get Started</a>
+            <a href="docs.html" class="button button-primary nav-cta-button desktop-only">Get Started</a>
             <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span class="hamburger-icon"></span>
             </button>
@@ -39,108 +37,95 @@
         <section id="hero" class="hero-section">
             <div class="container">
                 <h1 class="hero-title">Jules Community: <span class="highlight">Empowering</span> Your AI Journey.</h1>
-                <p class="hero-subtitle">Connect, learn, and build with the future of AI agents. Explore a universe of possibilities with Jules.</p>
-                <a href="#key-features" class="button button-primary hero-cta-button">Discover Features</a>
+                <p class="hero-subtitle">Join the community around Jules - Google's software coding agent that helps you fix bugs, add documentation, update your app, and implement new features. Jules integrates with GitHub and works asynchronously, giving you more time for the code you want to write.</p>
+                
+                <!-- Jules Key Features -->
+                <div class="jules-features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6); margin-top: var(--space-8); max-width: 1200px; margin-left: auto; margin-right: auto;">
+                    <div class="jules-feature-item" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center; border: 1px solid rgba(124, 58, 237, 0.3); box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);">
+                        <div style="background: var(--primary-gradient); color: white; width: 50px; height: 50px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); font-size: var(--text-xl); font-weight: bold;">🐛</div>
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-2); font-size: var(--text-lg); font-weight: 600;">Bug Fixing</h4>
+                        <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0; line-height: 1.4;">Automatically identify and fix bugs in your codebase</p>
+                    </div>
+                    
+                    <div class="jules-feature-item" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center; border: 1px solid rgba(124, 58, 237, 0.3); box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);">
+                        <div style="background: var(--primary-gradient); color: white; width: 50px; height: 50px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); font-size: var(--text-xl); font-weight: bold;">⚡</div>
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-2); font-size: var(--text-lg); font-weight: 600;">Version Bumps</h4>
+                        <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0; line-height: 1.4;">Handle dependency updates and version management</p>
+                    </div>
+                    
+                    <div class="jules-feature-item" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center; border: 1px solid rgba(124, 58, 237, 0.3); box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);">
+                        <div style="background: var(--primary-gradient); color: white; width: 50px; height: 50px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); font-size: var(--text-xl); font-weight: bold;">🧪</div>
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-2); font-size: var(--text-lg); font-weight: 600;">Automated Tests</h4>
+                        <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0; line-height: 1.4;">Generate and run comprehensive test suites</p>
+                    </div>
+                    
+                    <div class="jules-feature-item" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center; border: 1px solid rgba(124, 58, 237, 0.3); box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);">
+                        <div style="background: var(--primary-gradient); color: white; width: 50px; height: 50px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); font-size: var(--text-xl); font-weight: bold;">🔧</div>
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-2); font-size: var(--text-lg); font-weight: 600;">Feature Building</h4>
+                        <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0; line-height: 1.4;">Implement new features from detailed descriptions</p>
+                    </div>
+                    
+                    <div class="jules-feature-item" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center; border: 1px solid rgba(124, 58, 237, 0.3); box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);">
+                        <div style="background: var(--primary-gradient); color: white; width: 50px; height: 50px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); font-size: var(--text-xl); font-weight: bold;">🔄</div>
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-2); font-size: var(--text-lg); font-weight: 600;">GitHub Integration</h4>
+                        <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0; line-height: 1.4;">Seamless workflow with repositories and pull requests</p>
+                    </div>
+                    
+                    <div class="jules-feature-item" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center; border: 1px solid rgba(124, 58, 237, 0.3); box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);">
+                        <div style="background: var(--primary-gradient); color: white; width: 50px; height: 50px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); font-size: var(--text-xl); font-weight: bold;">🤖</div>
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-2); font-size: var(--text-lg); font-weight: 600;">Gemini 2.5 Pro Powered</h4>
+                        <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0; line-height: 1.4;">Advanced AI capabilities for intelligent coding</p>
+                    </div>
+                </div>
             </div>
             <div class="hero-bg-animation">
                 <!-- Placeholder for animated background elements -->
             </div>
         </section>
 
-        <section id="key-features" class="key-features-section">
+        <!-- Statistics Section (Elementor-inspired) -->
+        <section class="stats-section">
             <div class="container">
-                <h2 class="section-title">Discover the Possibilities</h2>
-                <div class="features-grid">
-                    <div class="feature-item animate-on-scroll">
-                        <i class="fas fa-newspaper feature-icon"></i>
-                        <h3>Latest News & Updates</h3>
-                        <p>Stay informed on Jules developments, new features, and community announcements.</p>
-                        <a href="news.html" class="learn-more-link">Learn more &rarr;</a>
-                    </div>
-                    <div class="feature-item animate-on-scroll">
-                        <i class="fas fa-lightbulb feature-icon"></i>
-                        <h3>JulesPrompts Library</h3>
-                        <p>Access a vast collection of prompts to maximize Jules' potential for any task.</p>
-                        <a href="prompts.html" class="learn-more-link">Explore Prompts &rarr;</a>
-                    </div>
-                    <div class="feature-item animate-on-scroll">
-                        <i class="fas fa-book-open feature-icon"></i>
-                        <h3>Expert Guides & Tutorials</h3>
-                        <p>From beginner steps to advanced strategies, master Jules with our resources.</p>
-                        <a href="guides.html" class="learn-more-link">View Guides &rarr;</a>
-                    </div>
-                    <div class="feature-item animate-on-scroll">
-                        <i class="fas fa-star feature-icon"></i>
-                        <h3>Project Showcase</h3>
-                        <p>Get inspired by innovative projects and share your own Jules-powered creations.</p>
-                        <a href="showcase.html" class="learn-more-link">See Projects &rarr;</a>
+                <div class="stats-grid" style="justify-content: center;">
+                    <div class="stat-item">
+                        <span class="stat-number">2K+</span>
+                        <span class="stat-label">Active Community Members on Reddit</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="submitted-projects" class="submitted-projects-section">
+        <!-- FAQ Section -->
+        <section id="faq" class="faq-section">
             <div class="container">
-                <h2 class="section-title">Submitted Community Projects</h2>
-                {% if submitted_projects %}
-                    <div class="projects-grid">
-                        {% for project in submitted_projects %}
-                            <div class="project-card">
-                                <h3>{{ project.name }}</h3>
-                                <p>{{ project.description }}</p>
-                                <a href="{{ project.url }}" target="_blank" class="button button-secondary button-small">View Project</a>
-                            </div>
-                        {% endfor %}
+                <h2 class="section-title">Frequently Asked <span class="highlight">Questions</span></h2>
+                <p class="text-center text-large" style="max-width: 800px; margin: 0 auto var(--space-12);">
+                    Everything you need to know about Jules - Google's software coding agent.
+                </p>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>What is Jules?</h3>
+                        <p>Jules is a software coding agent that helps you fix bugs, add documentation, update your app, and implement new features. It integrates with GitHub and works asynchronously — meaning you can submit a task, go do something else, and return when it's done. Jules is currently in Public Beta.</p>
                     </div>
-                {% else %}
-                    <p class="no-projects-message">No community projects submitted yet. <a href="/submit_project_data">Be the first to submit one!</a></p>
-                    {# Assuming /submit_project_data is a page or a modal trigger to submit projects of this type #}
-                    {# If there's a dedicated page like feedback.html for submissions, that link could be used too #}
-                {% endif %}
-            </div>
-        </section>
-
-        <section id="community-spotlight" class="community-spotlight-section">
-            <div class="container">
-                <h2 class="section-title">Community Spotlight</h2>
-                <div class="spotlight-grid">
-                    <div class="spotlight-card">
-                        <h4>Jules v1.3: The Generative Update!</h4>
-                        <p>Explore enhanced creative capabilities and more robust tool integrations. Dive into what's new!</p>
-                        <a href="news.html#jules-v1.3" class="button button-secondary button-small">Read Article</a>
+                    <div class="faq-item">
+                        <h3>Is Jules available without cost?</h3>
+                        <p>Jules has multiple plans to fit your development needs, including a plan available to all users without cost. See the official Jules documentation for more details on limits and plans.</p>
                     </div>
-                    <div class="spotlight-card">
-                        <h4>Top Prompt: "Strategic Content Planner"</h4>
-                        <p>Revolutionize your content creation with this community-favorite prompt for Jules.</p>
-                        <a href="prompts.html#content-planner" class="button button-secondary button-small">View Prompt</a>
+                    <div class="faq-item">
+                        <h3>How does Jules work under the hood?</h3>
+                        <p>Each task runs in a fresh virtual machine where Jules clones your repo, installs dependencies, and makes changes based on your prompt. You can provide setup scripts to ensure your project builds and tests correctly.</p>
                     </div>
-                    <div class="spotlight-card">
-                        <h4>Guide: "Automating Workflows with Jules"</h4>
-                        <p>Unlock new levels of productivity by learning to automate complex tasks seamlessly.</p>
-                        <a href="guides.html#automation-workflows" class="button button-secondary button-small">Read Guide</a>
+                    <div class="faq-item">
+                        <h3>What languages does Jules support?</h3>
+                        <p>Jules is language agnostic but works best with projects that use JavaScript/TypeScript, Python, Go, Java, and Rust. Support depends on what's installed on the VM and the clarity of your environment setup script.</p>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="why-jules-community" class="why-jules-section">
-            <div class="container">
-                <h2 class="section-title">Why Join the Jules Community?</h2>
-                <div class="benefits-grid">
-                    <div class="benefit-item animate-on-scroll">
-                        <i class="fas fa-users benefit-icon"></i>
-                        <h3>Collaborate & Innovate</h3>
-                        <p>Connect with a vibrant network of developers, creators, and AI enthusiasts to share ideas and build together.</p>
+                    <div class="faq-item">
+                        <h3>Can I leave Jules while it's working?</h3>
+                        <p>Yes! Jules is designed to be asynchronous. You can leave the app after submitting a task. Make sure to enable notifications so you'll be alerted when a plan is ready or a task completes.</p>
                     </div>
-                    <div class="benefit-item animate-on-scroll">
-                        <i class="fas fa-cogs benefit-icon"></i>
-                        <h3>Access Exclusive Resources</h3>
-                        <p>Gain early access to new tools, prompts, and in-depth guides developed by experts and the community.</p>
-                    </div>
-                    <div class="benefit-item animate-on-scroll">
-                        <i class="fas fa-chart-line benefit-icon"></i>
-                        <h3>Shape the Future</h3>
-                        <p>Your feedback and contributions directly influence the evolution of Jules and its ecosystem.</p>
+                    <div class="faq-item">
+                        <h3>How do I provide feedback or report a bug?</h3>
+                        <p>Click the feedback button in the bottom left of the Jules UI. No account or tracking system required — feedback goes straight to the team. You can also join our <a href="https://www.reddit.com/r/JulesAgent/" target="_blank" class="highlight">Reddit community</a> for discussions.</p>
                     </div>
                 </div>
             </div>
@@ -148,9 +133,11 @@
 
         <section id="cta-section" class="cta-section">
             <div class="container">
-                <h2 class="cta-title">Ready to Dive In?</h2>
-                <p class="cta-subtitle">Become a part of the Jules AI Community today and start exploring the limitless potential of AI.</p>
-                <a href="feedback.html" class="button button-primary cta-button">Submit Your Project or Feedback</a>
+                <h2 class="cta-title">Ready to <span class="highlight">Build Something Amazing?</span></h2>
+                <p class="cta-subtitle">Join thousands of creators, developers, and innovators who are already using Jules AI to transform their ideas into reality. Start your journey today.</p>
+                <div style="display: flex; justify-content: center; margin-top: var(--space-8);">
+                    <a href="https://www.reddit.com/r/JulesAgent/" target="_blank" class="button button-primary button-large">Join the Community</a>
+                </div>
             </div>
         </section>
 
@@ -161,9 +148,9 @@
             <div class="footer-content">
                 <div class="footer-logo">Jules Agent</div>
                 <nav class="footer-nav">
-                    <a href="index.html">Home</a> |
-                    <a href="news.html">News</a> |
-                    <a href="prompts.html">Prompts</a> |
+                    <a href="/">Home</a> |
+                    <a href="docs.html">Documentation</a> |
+                    <a href="changelog.html">Changelog</a> |
                     <a href="guides.html">Guides</a> |
                     <a href="privacy.html">Privacy Policy</a> |
                     <a href="terms.html">Terms of Service</a>

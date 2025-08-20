@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_migrate import Migrate # Added for Flask-Migrate
 import logging
 from sqlalchemy.exc import IntegrityError
@@ -7,10 +7,9 @@ from decimal import Decimal
 import bcrypt
 import os
 from werkzeug.utils import secure_filename
-from flask import send_from_directory
 
 # Import db instance and all models from models.py
-from models import db, User, Product, ApplicationSetting, Prompt, ShowcaseProject, Guide, Project as ProjectData # Renamed imported Project to ProjectData
+from models import db, User, Product, ApplicationSetting, Prompt, ShowcaseProject, Guide, Project as ProjectData, Feedback # Added Feedback model
 
 app = Flask(__name__)
 
@@ -321,6 +320,41 @@ def get_showcase_projects():
 def uploaded_showcase_image(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+# --- Static File Routes ---
+@app.route('/style.css')
+def serve_css():
+    return send_file('style.css', mimetype='text/css')
+
+@app.route('/script.js')
+def serve_js():
+    return send_file('script.js', mimetype='application/javascript')
+
+@app.route('/image.png')
+def serve_image():
+    return send_file('image.png', mimetype='image/png')
+
+@app.route('/placeholder.jpg')
+def serve_placeholder():
+    return send_file('placeholder.jpg', mimetype='image/jpeg')
+
+# --- Documentation Pages ---
+@app.route('/docs.html')
+def docs_page():
+    return render_template('docs.html')
+
+@app.route('/changelog.html')
+def changelog_page():
+    return render_template('changelog.html')
+
+# --- Coming Soon Pages ---
+@app.route('/guides.html')
+def guides_page():
+    return render_template('guides.html')
+
+@app.route('/showcase.html')
+def showcase_page():
+    return render_template('showcase.html')
+
 # --- Guide Routes ---
 @app.route('/guides', methods=['POST'])
 def create_guide():
@@ -409,6 +443,68 @@ def list_project_data():
         app.logger.error(f"Error listing project data: {e}")
         return jsonify({"error": "An internal error occurred: " + str(e)}), 500
 
+# --- Feedback Routes ---
+@app.route('/feedback', methods=['POST'])
+def submit_feedback():
+    data = request.get_json()
+    app.logger.info(f"Received feedback submission data: {data}")
+    
+    if not data or not data.get('feedback_type') or not data.get('summary') or not data.get('details'):
+        app.logger.warning("Feedback submission failed: Missing required fields.")
+        return jsonify({"error": "Missing required fields: feedback_type, summary, or details"}), 400
+
+    try:
+        new_feedback = Feedback(
+            feedback_type=data['feedback_type'],
+            summary=data['summary'],
+            details=data['details'],
+            email=data.get('email')  # Optional field
+        )
+        db.session.add(new_feedback)
+        db.session.commit()
+        app.logger.info(f"Feedback committed to database. New feedback ID: {new_feedback.id}")
+        
+        return jsonify({
+            "message": "Feedback submitted successfully!",
+            "feedback": {
+                "id": new_feedback.id,
+                "feedback_type": new_feedback.feedback_type,
+                "summary": new_feedback.summary,
+                "details": new_feedback.details,
+                "email": new_feedback.email,
+                "status": new_feedback.status,
+                "submitted_at": new_feedback.submitted_at.isoformat() if new_feedback.submitted_at else None
+            }
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        app.logger.error(f"Error submitting feedback: {e}", exc_info=True)
+        return jsonify({"error": "An unexpected error occurred."}), 500
+
+@app.route('/feedback', methods=['GET'])
+def get_feedback():
+    try:
+        query = db.session.query(Feedback)
+        feedback_type = request.args.get('type')
+        if feedback_type:
+            query = query.filter(Feedback.feedback_type == feedback_type)
+        
+        query = query.order_by(desc(Feedback.submitted_at))
+        feedback_list = query.all()
+        
+        return jsonify([{
+            "id": f.id,
+            "feedback_type": f.feedback_type,
+            "summary": f.summary,
+            "details": f.details,
+            "email": f.email,
+            "status": f.status,
+            "submitted_at": f.submitted_at.isoformat() if f.submitted_at else None
+        } for f in feedback_list])
+    except Exception as e:
+        app.logger.error(f"Error fetching feedback: {e}", exc_info=True)
+        return jsonify({"error": "An unexpected error occurred."}), 500
+
 
 if __name__ == '__main__':
     # The `db.create_all()` call is generally not needed here if using Flask-Migrate.
@@ -416,4 +512,4 @@ if __name__ == '__main__':
     # However, for simple non-migration setups or testing, you might use:
     # with app.app_context():
     #     db.create_all()
-    app.run(debug=True)
+    app.run(debug=True, host='127.0.0.1', port=8000)

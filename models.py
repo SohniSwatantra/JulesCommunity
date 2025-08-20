@@ -65,6 +65,17 @@ class Guide(db.Model):
     category = db.Column(db.String(50), index=True, nullable=False)
     submitted_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
+# Feedback model for user feedback submissions
+class Feedback(db.Model):
+    __tablename__ = "feedback"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    feedback_type = db.Column(db.String(20), nullable=False)  # bug, feature, suggestion, general, kudos
+    summary = db.Column(db.String(200), nullable=False)
+    details = db.Column(db.Text, nullable=False)
+    email = db.Column(db.String(120), nullable=True)
+    status = db.Column(db.String(20), default='submitted')  # submitted, under_review, resolved
+    submitted_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+
 # This is the new Project model for the original request
 class Project(db.Model): # Renamed from the original plan to avoid conflict if a 'Project' model already existed.
     __tablename__ = "projects_data" # Using a more specific name to avoid conflict

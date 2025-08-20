@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Showcase - Jules AI Community Hub</title>
+    <title>Projects - Jules AI Community Hub</title>
+    <link rel="icon" href="image.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
@@ -16,17 +17,15 @@
             <div class="logo">Jules Agent</div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="news.html">News</a></li>
-                    <li><a href="prompts.html">Prompts</a></li>
-                    <li><a href="guides.html">Guides</a></li>
-                    <li><a href="showcase.html" class="active">Projects</a></li>
-                    <li><a href="integrations.html">Integrations</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="changelog.html">Changelog</a></li>
+                    <li><a href="guides.html" title="Details coming soon">Guides <small style="font-size: 0.7em; color: var(--text-light);">(Soon)</small></a></li>
+                    <li><a href="showcase.html" class="active">Projects <small style="font-size: 0.7em; color: var(--text-light);">(Soon)</small></a></li>
                     <li><a href="feedback.html">Feedback</a></li>
-                    <li class="mobile-only"><a href="guides.html" class="button button-primary">Get Started</a></li>
                 </ul>
             </nav>
-            <a href="guides.html" class="button button-primary nav-cta-button desktop-only">Get Started</a>
+            <a href="docs.html" class="button button-primary nav-cta-button desktop-only">Get Started</a>
             <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span class="hamburger-icon"></span>
             </button>
@@ -35,55 +34,105 @@
 
     <main class="page-main-content">
         <div class="container">
-            <h2>Project Showcase</h2>
-            <p>Get inspired by what others have built with Jules and share your own creations! See how Jules is being used in real-world applications and discover new possibilities.</p>
+            <!-- Coming Soon Message -->
+            <div style="text-align: center; padding: var(--space-32) 0;">
+                <div style="margin-bottom: var(--space-8);">
+                    <i class="fas fa-star" style="font-size: 5rem; color: var(--accent-orange); margin-bottom: var(--space-6);"></i>
+                </div>
+                
+                <h1 style="font-size: var(--text-6xl); margin-bottom: var(--space-6); color: var(--text-primary);">
+                    Project Showcase
+                </h1>
+                
+                <div class="card" style="max-width: 600px; margin: 0 auto var(--space-8); background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-pink) 100%); color: white; text-align: center;">
+                    <h2 style="color: white; margin-bottom: var(--space-4);">
+                        <i class="fas fa-tools" style="margin-right: var(--space-2);"></i>
+                        Under Development
+                    </h2>
+                    <p style="color: white; opacity: 0.9; font-size: var(--text-lg); margin-bottom: var(--space-6);">
+                        We're building an amazing showcase platform where you can share your Jules AI-powered projects, 
+                        get inspired by the community, and discover innovative use cases.
+                    </p>
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: var(--space-4); border-radius: var(--radius); margin-bottom: var(--space-6);">
+                        <h4 style="color: white; margin-bottom: var(--space-3);">Features In Development:</h4>
+                        <ul style="color: white; opacity: 0.9; text-align: left; margin: 0; padding-left: var(--space-4);">
+                            <li>Project submission and sharing</li>
+                            <li>Category-based filtering</li>
+                            <li>Community voting and ratings</li>
+                            <li>Featured project highlights</li>
+                            <li>Developer profiles and portfolios</li>
+                            <li>Integration with GitHub repositories</li>
+                        </ul>
+                    </div>
+                    <p style="color: white; opacity: 0.8; font-size: var(--text-sm); margin: 0;">
+                        Want to be notified when it launches? Leave us feedback to stay in the loop!
+                    </p>
+                </div>
 
-            <div class="filters-bar showcase-filters"> <!-- Updated class -->
-                <input type="text" placeholder="Search projects..." id="search-projects">
-                <select id="project-category-filter">
-                    <option value="all">All Categories</option>
-                    <option value="automation">Automation</option>
-                    <option value="web-dev">Web Development</option>
-                    <option value="data-analysis">Data Analysis</option>
-                    <option value="code-generation">Code Generation</option>
-                    <!-- More categories might be populated by JS or added here -->
-                </select>
-                <button id="filter-projects-button" class="button button-secondary">Filter</button> <!-- Added button classes -->
+                <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; margin-top: var(--space-8);">
+                    <a href="feedback.html" class="button button-primary button-large">
+                        <i class="fas fa-bell" style="margin-right: var(--space-2);"></i>
+                        Get Notified
+                    </a>
+                    <a href="docs.html" class="button button-secondary button-large">
+                        <i class="fas fa-book" style="margin-right: var(--space-2);"></i>
+                        Learn Jules AI
+                    </a>
+                    <a href="/" class="button button-secondary button-large">
+                        <i class="fas fa-home" style="margin-right: var(--space-2);"></i>
+                        Back to Home
+                    </a>
+                </div>
+
+                <!-- Preview Gallery -->
+                <div style="margin-top: var(--space-16);">
+                    <h3 style="color: var(--primary-purple); margin-bottom: var(--space-8);">
+                        <i class="fas fa-eye" style="margin-right: var(--space-2);"></i>
+                        Preview: What's Coming
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6); max-width: 800px; margin: 0 auto;">
+                        <div class="card" style="background: var(--primary-light); text-align: left;">
+                            <div style="background: var(--primary-purple); color: white; padding: var(--space-3); border-radius: var(--radius); margin-bottom: var(--space-4); text-align: center;">
+                                <i class="fas fa-code" style="font-size: var(--text-2xl);"></i>
+                            </div>
+                            <h4 style="color: var(--primary-purple); margin-bottom: var(--space-2);">Code Generation Projects</h4>
+                            <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0;">Showcase apps, tools, and scripts generated with Jules AI assistance.</p>
+                        </div>
+                        
+                        <div class="card" style="background: var(--primary-light); text-align: left;">
+                            <div style="background: var(--accent-green); color: white; padding: var(--space-3); border-radius: var(--radius); margin-bottom: var(--space-4); text-align: center;">
+                                <i class="fas fa-robot" style="font-size: var(--text-2xl);"></i>
+                            </div>
+                            <h4 style="color: var(--primary-purple); margin-bottom: var(--space-2);">Automation Solutions</h4>
+                            <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0;">Workflow automations and productivity tools built with Jules.</p>
+                        </div>
+                        
+                        <div class="card" style="background: var(--primary-light); text-align: left;">
+                            <div style="background: var(--accent-orange); color: white; padding: var(--space-3); border-radius: var(--radius); margin-bottom: var(--space-4); text-align: center;">
+                                <i class="fas fa-lightbulb" style="font-size: var(--text-2xl);"></i>
+                            </div>
+                            <h4 style="color: var(--primary-purple); margin-bottom: var(--space-2);">Creative Use Cases</h4>
+                            <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0;">Innovative and unexpected applications of Jules AI capabilities.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div style="margin-top: var(--space-16); max-width: 400px; margin-left: auto; margin-right: auto;">
+                    <div class="card" style="background: var(--gray-50); padding: var(--space-6);">
+                        <h4 style="color: var(--accent-orange); margin-bottom: var(--space-4); text-align: center;">
+                            <i class="fas fa-chart-line" style="margin-right: var(--space-2);"></i>
+                            Development Progress
+                        </h4>
+                        <div style="background: var(--gray-200); height: 8px; border-radius: var(--radius-full); overflow: hidden; margin-bottom: var(--space-3);">
+                            <div style="background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-pink) 100%); height: 100%; width: 60%; border-radius: var(--radius-full); transition: var(--transition);"></div>
+                        </div>
+                        <p style="text-align: center; color: var(--text-secondary); font-size: var(--text-sm); margin: 0;">
+                            60% Complete - Expected Launch: Coming Soon
+                        </p>
+                    </div>
+                </div>
             </div>
-
-            <div class="showcase-gallery">
-                <!-- Projects will be dynamically loaded here by script.js. Each project should be wrapped in <div class="card project-card"> -->
-                <div id="loading-projects-message" class="loading-spinner-container" style="display: none;">
-                    <div class="loading-spinner"></div>
-                    <p>Loading projects...</p>
-                </div>
-            </div>
-
-            <h3 class="section-title" style="margin-top: 3rem; margin-bottom:1.5rem;">Submit Your Project</h3>
-            <p>Have a project you're proud of that uses Jules? Share it with the community!</p>
-            <form id="project-submission-form">
-                <div>
-                    <label for="project-title">Project Title:</label>
-                    <input type="text" id="project-title" name="project-title" required>
-                </div>
-                <div>
-                    <label for="project-category">Category:</label>
-                    <input type="text" id="project-category" name="project-category" placeholder="e.g., Automation, Web Dev" required>
-                </div>
-                <div>
-                    <label for="project-description">Brief Description (How was Jules used?):</label>
-                    <textarea id="project-description" name="project-description" rows="4" required></textarea>
-                </div>
-                <div>
-                    <label for="project-link">Link to Project (e.g., GitHub Repo, Website):</label>
-                    <input type="url" id="project-link" name="project-link">
-                </div>
-                <div>
-                    <label for="project-image">Project Image (Optional):</label>
-                    <input type="file" id="project-image" name="project-image" accept="image/*">
-                </div>
-                <button type="submit" class="button button-primary">Submit Project</button> <!-- Added button classes -->
-            </form>
         </div>
     </main>
 
@@ -92,9 +141,9 @@
             <div class="footer-content">
                 <div class="footer-logo">Jules Agent</div>
                 <nav class="footer-nav">
-                    <a href="index.html">Home</a> |
-                    <a href="news.html">News</a> |
-                    <a href="prompts.html">Prompts</a> |
+                    <a href="/">Home</a> |
+                    <a href="docs.html">Documentation</a> |
+                    <a href="changelog.html">Changelog</a> |
                     <a href="guides.html">Guides</a> |
                     <a href="privacy.html">Privacy Policy</a> |
                     <a href="terms.html">Terms of Service</a>
@@ -108,6 +157,7 @@
             <p class="copyright">&copy; <span id="current-year">2024</span> Jules Agent Community. All rights reserved.</p>
         </div>
     </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

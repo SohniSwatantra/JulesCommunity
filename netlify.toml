@@ -1,0 +1,51 @@
+[build]
+  command = "python build_static.py"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/feedback"
+  to = "/.netlify/functions/feedback"
+  status = 200
+
+[[redirects]]
+  from = "/prompts"
+  to = "/.netlify/functions/prompts"
+  status = 200
+
+[[redirects]]
+  from = "/guides"
+  to = "/.netlify/functions/guides"
+  status = 200
+
+[[redirects]]
+  from = "/showcase/projects"
+  to = "/.netlify/functions/showcase_projects"
+  status = 200
+
+[[redirects]]
+  from = "/submit_project_data"
+  to = "/.netlify/functions/submit_project_data"
+  status = 200
+
+[[redirects]]
+  from = "/list_project_data"
+  to = "/.netlify/functions/list_project_data"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  directory = "netlify/functions"
+  external_node_modules = ["sqlite3"]

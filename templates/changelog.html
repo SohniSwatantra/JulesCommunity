@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - Jules AI Community Hub</title>
+    <link rel="icon" href="image.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">Jules Agent</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="changelog.html" class="active">Changelog</a></li>
+                    <li><a href="guides.html" title="Details coming soon">Guides <small style="font-size: 0.7em; color: var(--text-light);">(Soon)</small></a></li>
+                    <li><a href="showcase.html" title="Details coming soon">Projects <small style="font-size: 0.7em; color: var(--text-light);">(Soon)</small></a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </nav>
+            <a href="guides.html" class="button button-primary nav-cta-button desktop-only">Get Started</a>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger-icon"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="page-main-content">
+        <div class="container">
+            <!-- Reference Banner -->
+            <div class="card" style="background: var(--primary-light); border-left: 4px solid var(--primary-purple); margin-bottom: var(--space-8);">
+                <p style="margin: 0; color: var(--primary-purple); font-weight: 600;">
+                    <i class="fas fa-external-link-alt" style="margin-right: var(--space-2);"></i>
+                    Official Changelog: <a href="https://jules.google/docs/changelog/" target="_blank" style="color: var(--primary-purple); text-decoration: underline;">https://jules.google/docs/changelog/</a>
+                </p>
+            </div>
+
+            <h1 style="font-size: var(--text-5xl); margin-bottom: var(--space-6); text-align: center;">
+                Jules AI <span class="highlight">Changelog</span>
+            </h1>
+            <p class="text-center text-large" style="max-width: 800px; margin: 0 auto var(--space-12);">
+                Stay up to date with the latest features, improvements, and updates to Jules AI coding agent.
+            </p>
+
+            <!-- Timeline of Updates -->
+            <div class="changelog-timeline">
+                
+                <!-- August 15, 2025 - Export at any time -->
+                <div class="card changelog-item" style="margin-bottom: var(--space-8); border-left: 4px solid var(--accent-green);">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <span class="changelog-date" style="background: var(--accent-green); color: white; padding: var(--space-2) var(--space-3); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 600;">August 15, 2025</span>
+                        <span style="background: var(--primary-light); color: var(--primary-purple); padding: var(--space-1) var(--space-2); border-radius: var(--radius); font-size: var(--text-xs); font-weight: 600;">NEW</span>
+                    </div>
+                    <h3 style="color: var(--primary-purple); margin-bottom: var(--space-3);">
+                        <i class="fas fa-download" style="margin-right: var(--space-2);"></i>
+                        Export at any time
+                    </h3>
+                    <p>You're now in full control of when your code gets to GitHub. No need to wait for a task to finish or ask Jules to do it for you. At any point during a task, just click the GitHub icon in the top right to publish the current work-in-progress as a new branch or open a pull request.</p>
+                    <div style="background: var(--gray-50); padding: var(--space-3); border-radius: var(--radius); margin-top: var(--space-4);">
+                        <p style="margin: 0; font-style: italic; color: var(--text-secondary);">This gives you more flexibility and control to review, test, or take over whenever you're ready.</p>
+                    </div>
+                </div>
+
+                <!-- August 15, 2025 - VM Size Increase -->
+                <div class="card changelog-item" style="margin-bottom: var(--space-8); border-left: 4px solid var(--secondary-blue);">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <span class="changelog-date" style="background: var(--secondary-blue); color: white; padding: var(--space-2) var(--space-3); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 600;">August 15, 2025</span>
+                        <span style="background: var(--secondary-blue); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius); font-size: var(--text-xs); font-weight: 600;">IMPROVEMENT</span>
+                    </div>
+                    <h3 style="color: var(--primary-purple); margin-bottom: var(--space-3);">
+                        <i class="fas fa-hdd" style="margin-right: var(--space-2);"></i>
+                        Increasing the VM Size to 20GB
+                    </h3>
+                    <p>We heard your feedback about running into disk space limits on larger projects. To address this, we've significantly increased the available disk space in the Jules VM to <strong>20GB</strong>.</p>
+                    <p>This provides more room for large dependencies, build artifacts, and complex repositories, reducing disk-related failures so Jules can tackle bigger tasks. Happy Julesing!</p>
+                </div>
+
+                <!-- August 8, 2025 - Web Surfing -->
+                <div class="card changelog-item" style="margin-bottom: var(--space-8); border-left: 4px solid var(--accent-orange);">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <span class="changelog-date" style="background: var(--accent-orange); color: white; padding: var(--space-2) var(--space-3); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 600;">August 8, 2025</span>
+                        <span style="background: var(--accent-green); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius); font-size: var(--text-xs); font-weight: 600;">MAJOR</span>
+                    </div>
+                    <h3 style="color: var(--primary-purple); margin-bottom: var(--space-3);">
+                        <i class="fas fa-globe" style="margin-right: var(--space-2);"></i>
+                        Jules can surf the web
+                    </h3>
+                    <p>Jules can now proactively search the web for relevant content, documentation, or code snippets to help complete your tasks. This means Jules can get the information it needs, resulting in more accurate and successful task completion.</p>
+                    <div style="background: var(--primary-light); padding: var(--space-4); border-radius: var(--radius); margin-top: var(--space-4);">
+                        <h4 style="margin: 0 0 var(--space-2) 0; color: var(--primary-purple);">What this means:</h4>
+                        <ul style="margin: 0; padding-left: var(--space-4);">
+                            <li>Jules can find the latest documentation for dependencies/libraries you're using</li>
+                            <li>Jules can proactively find examples or code snippets that can help inform its implementation</li>
+                        </ul>
+                        <p style="margin: var(--space-3) 0 0 0; font-size: var(--text-sm); color: var(--text-secondary);">
+                            <strong>Note:</strong> web search works best when working on technical documentation. Queries like: "What is the latest news today?" are not supported.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- August 8, 2025 - Interactive Plan -->
+                <div class="card changelog-item" style="margin-bottom: var(--space-8); border-left: 4px solid var(--primary-purple);">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <span class="changelog-date" style="background: var(--primary-purple); color: white; padding: var(--space-2) var(--space-3); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 600;">August 8, 2025</span>
+                        <span style="background: var(--accent-green); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius); font-size: var(--text-xs); font-weight: 600;">FEATURE</span>
+                    </div>
+                    <h3 style="color: var(--primary-purple); margin-bottom: var(--space-3);">
+                        <i class="fas fa-comments" style="margin-right: var(--space-2);"></i>
+                        Interactive Plan
+                    </h3>
+                    <p>Meet Interactive Plan. Instead of jumping straight to the solution, Jules will now read your codebase, ask clarifying questions, and work with you to refine the plan. This collaborative approach gives you more control and ensures you're on the same page, leading to higher-quality code and a more reliable solution.</p>
+                    <div style="background: var(--gray-50); padding: var(--space-3); border-radius: var(--radius); margin-top: var(--space-4);">
+                        <p style="margin: 0; font-weight: 600;">How to use:</p>
+                        <ul style="margin: var(--space-2) 0 0 0; padding-left: var(--space-4);">
+                            <li>Trigger the interactive plan from the dropdown when you start a task</li>
+                            <li>Jules will start a brainstorm with you and ask clarifying questions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- August 8, 2025 - Critic Agent -->
+                <div class="card changelog-item" style="margin-bottom: var(--space-8); border-left: 4px solid var(--accent-pink);">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <span class="changelog-date" style="background: var(--accent-pink); color: white; padding: var(--space-2) var(--space-3); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 600;">August 8, 2025</span>
+                        <span style="background: var(--accent-green); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius); font-size: var(--text-xs); font-weight: 600;">AI ADVANCEMENT</span>
+                    </div>
+                    <h3 style="color: var(--primary-purple); margin-bottom: var(--space-3);">
+                        <i class="fas fa-search" style="margin-right: var(--space-2);"></i>
+                        Critic Agent
+                    </h3>
+                    <p>Great developers don't just write code, they question it. And now, so does Jules. We've built the Jules critic agent to ensure that every line of code isn't just functional, but robust, secure, and efficient. It acts as an internal peer reviewer, challenging every proposed change to elevate the quality of the final output.</p>
+                    <div style="background: var(--primary-gradient); color: white; padding: var(--space-4); border-radius: var(--radius); margin-top: var(--space-4);">
+                        <h4 style="margin: 0 0 var(--space-3) 0; color: white;">Key Features:</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                            <div>
+                                <h5 style="color: white; margin: 0 0 var(--space-1) 0;">Critic-augmented generation</h5>
+                                <p style="margin: 0; font-size: var(--text-sm); opacity: 0.9;">The Jules critic is integrated directly into the generation process.</p>
+                            </div>
+                            <div>
+                                <h5 style="color: white; margin: 0 0 var(--space-1) 0;">Improved code quality</h5>
+                                <p style="margin: 0; font-size: var(--text-sm); opacity: 0.9;">The critic flags subtle bugs, missed edge cases, and inefficient code.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- August 7, 2025 - Web App Testing -->
+                <div class="card changelog-item" style="margin-bottom: var(--space-8); border-left: 4px solid var(--secondary-teal);">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <span class="changelog-date" style="background: var(--secondary-teal); color: white; padding: var(--space-2) var(--space-3); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 600;">August 7, 2025</span>
+                        <span style="background: var(--accent-green); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius); font-size: var(--text-xs); font-weight: 600;">FEATURE</span>
+                    </div>
+                    <h3 style="color: var(--primary-purple); margin-bottom: var(--space-3);">
+                        <i class="fas fa-desktop" style="margin-right: var(--space-2);"></i>
+                        Jules can test web-apps and show you the results
+                    </h3>
+                    <p>Next time you are working on a front end project with Jules, ask it to verify its work and it'll render the website and send you back a screenshot!</p>
+                    <ul style="padding-left: var(--space-4); margin: var(--space-4) 0;">
+                        <li>Ask Jules to complete a web development task and to verify the front end</li>
+                        <li>Jules will send you a screenshot of the front end along with any code changes</li>
+                        <li>The default Jules base image now includes Playwright for front end testing</li>
+                        <li>Users can also add images in the form of public URLs for Jules to use as input</li>
+                    </ul>
+                </div>
+
+                <!-- August 6, 2025 - Out of Beta -->
+                <div class="card changelog-item" style="margin-bottom: var(--space-8); border-left: 4px solid var(--accent-green); background: linear-gradient(135deg, var(--primary-light) 0%, var(--gray-50) 100%);">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <span class="changelog-date" style="background: var(--accent-green); color: white; padding: var(--space-2) var(--space-3); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 600;">August 6, 2025</span>
+                        <span style="background: var(--primary-gradient); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius); font-size: var(--text-xs); font-weight: 600;">🎉 MILESTONE</span>
+                    </div>
+                    <h3 style="color: var(--primary-purple); margin-bottom: var(--space-3);">
+                        <i class="fas fa-graduation-cap" style="margin-right: var(--space-2);"></i>
+                        Jules is out of beta!
+                    </h3>
+                    <p>Today we are thrilled to announce that Jules is no longer in beta! Since launch just two months ago, Jules has passed over <strong>140k public commits</strong>. Thank you to our amazing beta users for all your support and feedback.</p>
+                    <div style="background: white; padding: var(--space-4); border-radius: var(--radius); margin-top: var(--space-4); box-shadow: var(--shadow);">
+                        <h4 style="color: var(--primary-purple); margin: 0 0 var(--space-3) 0;">What's New:</h4>
+                        <ul style="margin: 0; padding-left: var(--space-4);">
+                            <li>Get higher task limits through the Google AI Pro and Ultra plans</li>
+                            <li>Jules now uses the power of Gemini 2.5 thinking when creating its plan</li>
+                            <li>Numerous bug fixes so Jules gets stuck less</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- May 19, 2025 - Launch -->
+                <div class="card changelog-item" style="margin-bottom: var(--space-8); border-left: 4px solid var(--primary-gradient); background: var(--primary-gradient); color: white;">
+                    <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                        <span class="changelog-date" style="background: rgba(255, 255, 255, 0.2); color: white; padding: var(--space-2) var(--space-3); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: 600;">May 19, 2025</span>
+                        <span style="background: var(--accent-green); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius); font-size: var(--text-xs); font-weight: 600;">🚀 LAUNCH</span>
+                    </div>
+                    <h3 style="color: white; margin-bottom: var(--space-3);">
+                        <i class="fas fa-rocket" style="margin-right: var(--space-2);"></i>
+                        Jules is here
+                    </h3>
+                    <p style="color: white; opacity: 0.95;">Today, we're launching <strong>Jules,</strong> a new AI coding agent.</p>
+                    <p style="color: white; opacity: 0.95;">Jules helps you move faster by working asynchronously on tasks in your GitHub repo. It can fix bugs, update dependencies, migrate code, and add new features.</p>
+                    <div style="background: rgba(255, 255, 255, 0.1); padding: var(--space-4); border-radius: var(--radius); margin-top: var(--space-4);">
+                        <h4 style="color: white; margin: 0 0 var(--space-3) 0;">What Jules can do:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-2);">
+                            <div style="color: white; opacity: 0.9;">• Fix bugs with test verified patches</div>
+                            <div style="color: white; opacity: 0.9;">• Handle version bumps and dependency upgrades</div>
+                            <div style="color: white; opacity: 0.9;">• Perform scoped code transformations</div>
+                            <div style="color: white; opacity: 0.9;">• Migrate code across languages or frameworks</div>
+                            <div style="color: white; opacity: 0.9;">• Ship isolated, scoped, features</div>
+                            <div style="color: white; opacity: 0.9;">• Open PRs with runnable code and test results</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Jules Agent</div>
+                <nav class="footer-nav">
+                    <a href="/">Home</a> |
+                    <a href="docs.html">Documentation</a> |
+                    <a href="changelog.html">Changelog</a> |
+                    <a href="guides.html">Guides</a> |
+                    <a href="privacy.html">Privacy Policy</a> |
+                    <a href="terms.html">Terms of Service</a>
+                </nav>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <p class="copyright">&copy; <span id="current-year">2024</span> Jules Agent Community. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

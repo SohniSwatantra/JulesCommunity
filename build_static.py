@@ -8,7 +8,7 @@ import os
 import shutil
 import json
 from flask import Flask
-from models import db, ProjectData, ShowcaseProject, Prompt, Guide, Feedback
+from models import db, Project as ProjectData, ShowcaseProject, Prompt, Guide, Feedback
 from app import app
 
 def create_static_site():

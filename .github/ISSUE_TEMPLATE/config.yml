@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 GitHub Discussions
+    url: https://github.com/SohniSwatantra/JulesCommunity/discussions
+    about: Ask questions, share ideas, and discuss with the community
+  - name: 📚 Jules AI Documentation
+    url: https://jules.google/docs
+    about: Official documentation for Jules AI
+  - name: 🐛 Jules AI Issues
+    url: https://jules.google
+    about: Report issues with Jules AI itself (not this community site)
+  - name: 💬 Reddit Community
+    url: https://www.reddit.com/r/JulesAgent/
+    about: Join 2K+ community members discussing Jules AI
+  - name: 📖 Contributing Guide
+    url: https://github.com/SohniSwatantra/JulesCommunity/blob/main/CONTRIBUTING.md
+    about: Learn how to contribute to Jules Community Hub

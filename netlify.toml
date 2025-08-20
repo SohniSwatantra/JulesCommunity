@@ -41,10 +41,7 @@
   to = "/.netlify/functions/list_project_data"
   status = 200
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Let Netlify serve static HTML files directly - no catch-all needed
 
 [functions]
   directory = "netlify/functions"

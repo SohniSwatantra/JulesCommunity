@@ -72,7 +72,7 @@ def create_static_site():
     
     # Copy other HTML template files (convert them to static)
     template_files = [
-        'news.html', 'prompts.html', 'guides.html', 
+        'docs.html', 'changelog.html', 'news.html', 'prompts.html', 'guides.html', 
         'showcase.html', 'integrations.html', 'feedback.html'
     ]
     

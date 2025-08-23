@@ -947,5 +947,107 @@ document.addEventListener('DOMContentLoaded', function() {
     loadPrompts();
     loadGuides();
     loadShowcaseProjects();
+    
+    // Initialize scroll animations
+    initializeScrollAnimations();
 });
-});
+
+// Scroll-triggered animation system
+function initializeScrollAnimations() {
+    // Check if Intersection Observer is supported
+    if (!('IntersectionObserver' in window)) {
+        return; // Fallback for older browsers - animations will still work on page load
+    }
+    
+    // Create observer for scroll-triggered animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in-view');
+                // Stop observing once animated
+                scrollObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    // Observe elements that should animate on scroll
+    const animateElements = document.querySelectorAll('.faq-item, .section-title');
+    animateElements.forEach(el => {
+        el.classList.add('animate-on-scroll');
+        scrollObserver.observe(el);
+    });
+    
+    // Add floating animation to feature icons with staggered delays
+    const featureIcons = document.querySelectorAll('.jules-feature-item div:first-child');
+    featureIcons.forEach((icon, index) => {
+        icon.style.animationDelay = `${index * 0.5}s`;
+    });
+    
+    // Add pulse animation to stat numbers with counter effect
+    const statNumbers = document.querySelectorAll('.stat-number');
+    statNumbers.forEach(stat => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(stat);
+    });
+    
+    // Add smooth hover effects to navigation links
+    const navLinks = document.querySelectorAll('.main-nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.transition = 'all 0.3s ease';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // Add shimmer effect to buttons on hover
+    const buttons = document.querySelectorAll('.button');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.classList.add('shimmer-hover');
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.classList.remove('shimmer-hover');
+        });
+    });
+}
+
+// Animate counter numbers
+function animateCounter(element) {
+    const text = element.textContent;
+    const match = text.match(/(\d+)/);
+    
+    if (match) {
+        const number = parseInt(match[0]);
+        const suffix = text.replace(match[0], '');
+        let current = 0;
+        const increment = number / 50; // 50 steps for smooth animation
+        const duration = 2000; // 2 seconds
+        const stepTime = duration / 50;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= number) {
+                current = number;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current) + suffix;
+        }, stepTime);
+    }
+}

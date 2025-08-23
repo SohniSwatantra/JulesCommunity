@@ -12,13 +12,13 @@
     --primary-light: #f3e8ff;
     --primary-hover: #6d28d9;
     
-    /* Netlify-Style Beautiful Gradient Colors */
-    --netlify-mint: #D4F4E8;
-    --netlify-light-mint: #E6F7F1;
-    --netlify-blue: #DCE8FF;
-    --netlify-light-blue: #E8F0FF;
-    --netlify-gradient: linear-gradient(135deg, #E6F7F1 0%, #E8F0FF 100%);
-    --netlify-gradient-reverse: linear-gradient(135deg, #E8F0FF 0%, #E6F7F1 100%);
+    /* Netlify-Style Beautiful Gradient Colors - EXACT MATCH */
+    --netlify-mint: #F0FDF4;
+    --netlify-light-mint: #F7FEF9;
+    --netlify-blue: #F8FAFF;
+    --netlify-light-blue: #F3F4F6;
+    --netlify-gradient: linear-gradient(120deg, #F7FEF9 0%, #F0FDF4 25%, #F8FAFF 75%, #F3F4F6 100%);
+    --netlify-gradient-reverse: linear-gradient(120deg, #F3F4F6 0%, #F8FAFF 25%, #F0FDF4 75%, #F7FEF9 100%);
     
     /* Secondary Colors */
     --secondary-blue: #3b82f6;
@@ -348,6 +348,19 @@ p {
     overflow: hidden;
 }
 
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at top left, rgba(247, 254, 249, 0.8) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(248, 250, 255, 0.8) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
 .hero-section::before {
     content: '';
     position: absolute;
@@ -365,7 +378,7 @@ p {
     line-height: 1.1;
     margin-bottom: var(--space-6);
     position: relative;
-    z-index: 1;
+    z-index: 10;
 }
 
 .hero-subtitle {
@@ -376,14 +389,20 @@ p {
     margin-left: auto;
     margin-right: auto;
     position: relative;
-    z-index: 1;
+    z-index: 10;
 }
 
 .hero-cta-button {
     font-size: var(--text-lg);
     padding: var(--space-4) var(--space-8);
     position: relative;
-    z-index: 1;
+    z-index: 10;
+}
+
+/* Ensure all hero content appears above gradient overlays */
+.hero-section > * {
+    position: relative;
+    z-index: 10;
 }
 
 /* ===== SECTIONS ===== */

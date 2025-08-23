@@ -5,12 +5,20 @@
 
 /* Modern CSS Variables */
 :root {
-    /* Brand Colors - Purple/Pink Gradient Theme */
+    /* Brand Colors - Netlify-Inspired Mint-to-Blue Gradient Theme */
     --primary-purple: #7c3aed;
     --primary-pink: #ec4899;
     --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
     --primary-light: #f3e8ff;
     --primary-hover: #6d28d9;
+    
+    /* Netlify-Style Beautiful Gradient Colors */
+    --netlify-mint: #D4F4E8;
+    --netlify-light-mint: #E6F7F1;
+    --netlify-blue: #DCE8FF;
+    --netlify-light-blue: #E8F0FF;
+    --netlify-gradient: linear-gradient(135deg, #E6F7F1 0%, #E8F0FF 100%);
+    --netlify-gradient-reverse: linear-gradient(135deg, #E8F0FF 0%, #E6F7F1 100%);
     
     /* Secondary Colors */
     --secondary-blue: #3b82f6;
@@ -116,7 +124,7 @@ body {
     font-size: var(--text-base);
     line-height: 1.6;
     color: var(--text-primary);
-    background-color: var(--bg-primary);
+    background: var(--netlify-gradient);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -334,7 +342,7 @@ p {
 
 /* ===== HERO SECTION ===== */
 .hero-section {
-    background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+    background: var(--netlify-gradient);
     padding: var(--space-32) 0;
     position: relative;
     overflow: hidden;
@@ -498,7 +506,7 @@ p {
 
 /* ===== CTA SECTION ===== */
 .cta-section {
-    background: linear-gradient(135deg, var(--primary-light) 0%, var(--gray-50) 100%);
+    background: var(--netlify-gradient-reverse);
     padding: var(--space-24) 0;
     margin: var(--space-24) 0;
     position: relative;

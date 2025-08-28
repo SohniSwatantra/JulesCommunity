@@ -486,10 +486,14 @@ p {
 }
 
 /* ===== REDDIT JOIN BUTTON - RED SUBWAY TICKET ===== */
-.reddit-join-button {
-    display: inline-block;
+a.reddit-join-button,
+a.reddit-join-button:link,
+a.reddit-join-button:visited,
+a.reddit-join-button:active {
+    display: inline-block !important;
+    background: #dc2626 !important;
     background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
-    border: 2px solid #000 !important;
+    border: 3px solid #000000 !important;
     color: #ffffff !important;
     font-weight: 700 !important;
     font-size: 16px !important;
@@ -502,50 +506,56 @@ p {
     position: relative !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
+    min-width: 180px !important;
+    text-align: center !important;
 }
 
 /* Red ticket barcode design */
-.reddit-join-button::before {
-    content: '';
-    position: absolute;
-    bottom: 6px;
-    left: 10px;
-    right: 10px;
-    height: 10px;
+a.reddit-join-button::before {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 4px !important;
+    left: 8px !important;
+    right: 8px !important;
+    height: 12px !important;
+    background: #000000 !important;
     background-image: 
         linear-gradient(90deg, 
             #000 0%, #000 2px, transparent 2px, transparent 4px,
-            #000 4px, #000 5px, transparent 5px, transparent 7px,
-            #000 7px, #000 9px, transparent 9px, transparent 11px,
-            #000 11px, #000 13px, transparent 13px, transparent 14px,
-            #000 14px, #000 15px, transparent 15px, transparent 17px,
-            #000 17px, #000 19px, transparent 19px, transparent 21px,
-            #000 21px, #000 23px, transparent 23px, transparent 25px,
-            #000 25px, #000 27px, transparent 27px, transparent 28px);
-    background-size: 28px 100%;
-    background-repeat: repeat-x;
-    border-radius: 2px;
+            #000 4px, #000 6px, transparent 6px, transparent 8px,
+            #000 8px, #000 9px, transparent 9px, transparent 11px,
+            #000 11px, #000 14px, transparent 14px, transparent 16px,
+            #000 16px, #000 17px, transparent 17px, transparent 19px,
+            #000 19px, #000 22px, transparent 22px, transparent 24px,
+            #000 24px, #000 25px, transparent 25px, transparent 27px,
+            #000 27px, #000 30px, transparent 30px, transparent 32px) !important;
+    background-size: 32px 100% !important;
+    background-repeat: repeat-x !important;
+    border-radius: 1px !important;
+    z-index: 1 !important;
 }
 
 /* Reddit logo badge */
-.reddit-join-button::after {
-    content: '🚇 REDDIT';
-    position: absolute;
-    top: -3px;
-    right: -3px;
-    font-size: 9px;
-    background: #ff4500;
-    color: white;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-weight: bold;
-    border: 1px solid #000;
+a.reddit-join-button::after {
+    content: '🚇 REDDIT' !important;
+    position: absolute !important;
+    top: -4px !important;
+    right: -4px !important;
+    font-size: 10px !important;
+    background: #ff4500 !important;
+    color: #ffffff !important;
+    padding: 3px 6px !important;
+    border-radius: 4px !important;
+    font-weight: bold !important;
+    border: 2px solid #000000 !important;
+    z-index: 2 !important;
 }
 
-.reddit-join-button:hover {
+a.reddit-join-button:hover {
     transform: translateY(-3px) scale(1.05) !important;
-    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4) !important;
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.5) !important;
     filter: brightness(1.1) !important;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
 }
 
 .mobile-nav-toggle {

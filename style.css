@@ -607,9 +607,9 @@ p {
 .jules-feature-item:nth-child(5) > div:first-child { border-color: var(--subway-purple) !important; color: var(--subway-purple) !important; }
 .jules-feature-item:nth-child(6) > div:first-child { border-color: var(--subway-yellow) !important; color: var(--subway-yellow) !important; }
 
-/* Subway station-style typography */
+/* Dark grey titles for subway station features */
 .jules-feature-item h4 {
-    color: white !important;
+    color: #4a4a4a !important;
     font-weight: 700 !important;
     font-size: var(--text-lg) !important;
     text-transform: uppercase !important;
@@ -639,6 +639,62 @@ p {
 .jules-feature-item:nth-child(5):hover,
 .jules-feature-item:nth-child(6):hover { 
     box-shadow: none !important; 
+}
+
+/* ===== STRAIGHT SUBWAY LINE CONNECTIONS ===== */
+.jules-features-grid {
+    position: relative;
+}
+
+/* Straight subway lines connecting the route badges */
+.jules-feature-item::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: 60px;
+    height: 3px;
+    z-index: 2;
+    opacity: 0.8;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+/* Red Line: D → A */
+.jules-feature-item:nth-child(1)::after {
+    background: var(--subway-red);
+}
+
+/* Blue Line: A → G */
+.jules-feature-item:nth-child(2)::after {
+    background: var(--subway-blue);
+}
+
+/* Green Line: G → B */
+.jules-feature-item:nth-child(3)::after {
+    background: var(--subway-green);
+}
+
+/* Orange Line: B → N */
+.jules-feature-item:nth-child(4)::after {
+    background: var(--subway-orange);
+}
+
+/* Purple Line: N → Q */
+.jules-feature-item:nth-child(5)::after {
+    background: var(--subway-purple);
+}
+
+/* Hide connection from last item */
+.jules-feature-item:nth-child(6)::after {
+    display: none;
+}
+
+/* Responsive - hide lines on mobile */
+@media (max-width: 768px) {
+    .jules-feature-item::after {
+        display: none;
+    }
 }
 
 /* Subway map connections in FAQ section */

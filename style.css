@@ -334,42 +334,117 @@ p {
     border-radius: 1px;
 }
 
+/* ===== SUBWAY ROUTE NAVIGATION DESIGN ===== */
 .main-nav ul {
     display: flex;
     align-items: center;
-    gap: var(--space-8);
+    gap: var(--space-4);
     list-style: none;
 }
 
 .main-nav a {
-    font-weight: 500;
-    color: #e0e0e0;
-    text-decoration: none;
-    transition: var(--transition);
-    position: relative;
-    padding: 8px 12px;
-    border-radius: 4px;
-}
-
-.main-nav a:hover,
-.main-nav a.active {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
     color: #ffffff;
-    background: rgba(0, 57, 166, 0.2);
-    box-shadow: 0 0 8px rgba(0, 57, 166, 0.3);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ffffff;
+    border-radius: 6px;
+    padding: 6px 12px;
+    
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.main-nav a.active::after {
+/* Route badges for each navigation item */
+.main-nav a::before {
     content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    background: var(--subway-blue);
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    box-shadow: 0 0 6px var(--subway-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 12px;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    flex-shrink: 0;
 }
+
+/* Home - 1 Train (Red Line) */
+.main-nav a[href="/"]::before {
+    content: '1';
+    background: #EE352E;
+    border: 2px solid #ffffff;
+}
+
+/* Docs - 4 Train (Green Line) */
+.main-nav a[href="docs.html"]::before {
+    content: '4';
+    background: #00933C;
+    border: 2px solid #ffffff;
+}
+
+/* Changelog - 7 Train (Purple Line) */
+.main-nav a[href="changelog.html"]::before {
+    content: '7';
+    background: #B933AD;
+    border: 2px solid #ffffff;
+}
+
+/* Guides - N Train (Yellow Line) */
+.main-nav a[href="guides.html"]::before {
+    content: 'N';
+    background: #FCCC0A;
+    color: #000000;
+    border: 2px solid #ffffff;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Projects - L Train (Gray Line) */
+.main-nav a[href="showcase.html"]::before {
+    content: 'L';
+    background: #A7A9AC;
+    border: 2px solid #ffffff;
+}
+
+/* Hover and Active States */
+.main-nav a:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.main-nav a.active {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffffff;
+    box-shadow: 
+        0 2px 12px rgba(0, 0, 0, 0.4),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Route color glow on hover */
+.main-nav a[href="/"]:hover { box-shadow: 0 4px 16px rgba(238, 53, 46, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
+.main-nav a[href="docs.html"]:hover { box-shadow: 0 4px 16px rgba(0, 147, 60, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
+.main-nav a[href="changelog.html"]:hover { box-shadow: 0 4px 16px rgba(185, 51, 173, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
+.main-nav a[href="guides.html"]:hover { box-shadow: 0 4px 16px rgba(252, 204, 10, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
+.main-nav a[href="showcase.html"]:hover { box-shadow: 0 4px 16px rgba(167, 169, 172, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
 
 .nav-cta-button {
     margin-left: var(--space-4);

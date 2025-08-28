@@ -33,13 +33,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
     const mainNav = document.querySelector('.main-nav');
     
+    console.log('Mobile Nav Toggle:', mobileNavToggle); // Debug
+    console.log('Main Nav:', mainNav); // Debug
+    
     if (mobileNavToggle && mainNav) {
+        // Remove any existing event listeners to prevent conflicts
+        mobileNavToggle.removeEventListener('click', arguments.callee);
+        
         mobileNavToggle.addEventListener('click', function(e) {
+            console.log('Hamburger clicked!'); // Debug
             e.preventDefault();
             e.stopPropagation();
             
             // Toggle the mobile nav
             mainNav.classList.toggle('mobile-nav-open');
+            console.log('Nav classes:', mainNav.classList); // Debug
             
             // Update button state
             const isOpen = mainNav.classList.contains('mobile-nav-open');
@@ -76,6 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+    } else {
+        console.error('Mobile nav elements not found!');
     }
 
     // --- Prompts Page Functionality ---
@@ -432,19 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchAndDisplayShowcaseProjects();
     }
 
-    // --- Mobile Navigation Toggle ---
-    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-    const mainNav = document.querySelector('.main-nav');
-    const siteHeader = document.querySelector('.site-header'); // Or body, if preferred for .nav-open
-
-    if (mobileNavToggle && mainNav) {
-        mobileNavToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('nav-open');
-            const isExpanded = mainNav.getAttribute('aria-expanded') === 'true' || false;
-            mainNav.setAttribute('aria-expanded', !isExpanded);
-            mobileNavToggle.setAttribute('aria-expanded', !isExpanded); // Also update toggle's aria
-        });
-    }
+    // Mobile navigation toggle functionality moved to top of file
 
     // --- Scroll Animations with Intersection Observer ---
     const animatedElements = document.querySelectorAll('.animate-on-scroll');

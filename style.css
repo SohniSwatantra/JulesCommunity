@@ -824,16 +824,21 @@ a.reddit-join-button:hover {
     display: none;
 }
 
-/* Responsive - adjust lines for mobile */
+/* Responsive - vertical lines for mobile */
 @media (max-width: 768px) {
     .jules-feature-item::after {
         display: block !important;
-        width: 80px !important;
-        height: 4px !important;
-        top: 25px !important;
-        left: calc(50% + 25px) !important;
+        width: 4px !important;
+        height: 60px !important;
+        top: 55px !important;
+        left: calc(50% - 2px) !important;
         opacity: 0.9 !important;
         border-radius: 2px !important;
+    }
+    
+    /* Hide last vertical line on mobile */
+    .jules-feature-item:nth-child(6)::after {
+        display: none !important;
     }
 }
 

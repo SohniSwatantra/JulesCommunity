@@ -628,9 +628,9 @@ p {
 .jules-feature-item:nth-child(5) > div:first-child { border-color: var(--subway-purple) !important; color: var(--subway-purple) !important; }
 .jules-feature-item:nth-child(6) > div:first-child { border-color: var(--subway-yellow) !important; color: var(--subway-yellow) !important; }
 
-/* Light grey text for floating badges */
+/* Subway station-style typography */
 .jules-feature-item h4 {
-    color: #b0b0b0 !important;
+    color: white !important;
     font-weight: 700 !important;
     font-size: var(--text-lg) !important;
     text-transform: uppercase !important;
@@ -640,7 +640,7 @@ p {
 }
 
 .jules-feature-item p {
-    color: #a0a0a0 !important;
+    color: #e0e0e0 !important;
     font-size: var(--text-sm) !important;
     line-height: 1.5 !important;
     margin: 0 !important;

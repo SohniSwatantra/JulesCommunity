@@ -315,139 +315,146 @@ p {
 }
 
 .logo {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: 800;
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(0, 57, 166, 0.5);
-    position: relative;
-}
-
-.logo::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--subway-blue) 0%, var(--subway-green) 50%, var(--subway-orange) 100%);
-    border-radius: 1px;
-}
-
-/* ===== SUBWAY ROUTE NAVIGATION DESIGN ===== */
-.main-nav ul {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    list-style: none;
-}
-
-.main-nav a {
-    font-family: 'Helvetica', 'Arial', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    font-size: 22px;
+    font-weight: 600;
     color: #ffffff;
     text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: -0.02em;
     
     display: flex;
     align-items: center;
     gap: 8px;
     
-    background: rgba(0, 0, 0, 0.7);
-    border: 2px solid #ffffff;
-    border-radius: 6px;
-    padding: 6px 12px;
-    
     position: relative;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    box-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Route badges for each navigation item */
-.main-nav a::before {
-    content: '';
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
+.logo::before {
+    content: '🚇';
+    font-size: 20px;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.logo:hover {
+    transform: translateY(-1px);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+/* ===== OPENAI-CLASS NYC SUBWAY NAVIGATION ===== */
+.main-nav ul {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 12px;
-    color: #ffffff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    gap: 2px;
+    list-style: none;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 4px;
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.main-nav a {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    background: transparent;
+    border-radius: 8px;
+    padding: 8px 14px;
+    
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    white-space: nowrap;
+}
+
+/* Elegant subway line indicators */
+.main-nav a::before {
+    content: '';
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
     flex-shrink: 0;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.6;
 }
 
-/* Home - 1 Train (Red Line) */
-.main-nav a[href="/"]::before {
-    content: '1';
-    background: #EE352E;
-    border: 2px solid #ffffff;
+/* Subway line colors - refined and sophisticated */
+.main-nav a[href="/"]::before { 
+    background: linear-gradient(135deg, #FF6B6B 0%, #EE5A52 100%); /* Red Line - Modern */
 }
 
-/* Docs - 4 Train (Green Line) */
-.main-nav a[href="docs.html"]::before {
-    content: '4';
-    background: #00933C;
-    border: 2px solid #ffffff;
+.main-nav a[href="docs.html"]::before { 
+    background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%); /* Teal Line - Documentation */
 }
 
-/* Changelog - 7 Train (Purple Line) */
-.main-nav a[href="changelog.html"]::before {
-    content: '7';
-    background: #B933AD;
-    border: 2px solid #ffffff;
+.main-nav a[href="changelog.html"]::before { 
+    background: linear-gradient(135deg, #A8E6CF 0%, #88D8A3 100%); /* Green Line - Updates */
 }
 
-/* Guides - N Train (Yellow Line) */
-.main-nav a[href="guides.html"]::before {
-    content: 'N';
-    background: #FCCC0A;
-    color: #000000;
-    border: 2px solid #ffffff;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+.main-nav a[href="guides.html"]::before { 
+    background: linear-gradient(135deg, #FFD93D 0%, #6BCF7F 100%); /* Yellow-Green - Learning */
 }
 
-/* Projects - L Train (Gray Line) */
-.main-nav a[href="showcase.html"]::before {
-    content: 'L';
-    background: #A7A9AC;
-    border: 2px solid #ffffff;
+.main-nav a[href="showcase.html"]::before { 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Purple Line - Showcase */
 }
 
-/* Hover and Active States */
+/* Hover States - OpenAI style micro-interactions */
 .main-nav a:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    border-color: #ffffff;
+    color: #ffffff;
     background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
 }
 
+.main-nav a:hover::before {
+    opacity: 1;
+    height: 24px;
+    box-shadow: 0 0 12px currentColor;
+}
+
+/* Active state */
 .main-nav a.active {
+    color: #ffffff;
     background: rgba(255, 255, 255, 0.15);
-    border-color: #ffffff;
-    box-shadow: 
-        0 2px 12px rgba(0, 0, 0, 0.4),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
-/* Route color glow on hover */
-.main-nav a[href="/"]:hover { box-shadow: 0 4px 16px rgba(238, 53, 46, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
-.main-nav a[href="docs.html"]:hover { box-shadow: 0 4px 16px rgba(0, 147, 60, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
-.main-nav a[href="changelog.html"]:hover { box-shadow: 0 4px 16px rgba(185, 51, 173, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
-.main-nav a[href="guides.html"]:hover { box-shadow: 0 4px 16px rgba(252, 204, 10, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
-.main-nav a[href="showcase.html"]:hover { box-shadow: 0 4px 16px rgba(167, 169, 172, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
+.main-nav a.active::before {
+    opacity: 1;
+    height: 24px;
+    width: 4px;
+}
+
+/* Subtle focus states for accessibility */
+.main-nav a:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
 
 .nav-cta-button {
     margin-left: var(--space-4);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 2px 12px rgba(102, 126, 234, 0.25) !important;
+}
+
+.nav-cta-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4) !important;
 }
 
 .mobile-nav-toggle {

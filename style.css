@@ -506,12 +506,12 @@ p {
 .jules-feature-item {
     position: relative;
     z-index: 5;
-    background: #1a1a1a !important;
-    border-radius: 8px !important;
+    background: rgba(26, 26, 26, 0.85) !important;
+    border-radius: 20px !important;
     border: 3px solid !important;
     padding: var(--space-5) !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
-    backdrop-filter: none !important;
+    backdrop-filter: blur(10px) !important;
     color: white !important;
     transition: all 0.3s ease !important;
 }
@@ -519,32 +519,32 @@ p {
 /* Individual subway line themes for each feature */
 .jules-feature-item:nth-child(1) {
     border-color: var(--subway-red) !important;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a1a1a 100%) !important;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(42, 26, 26, 0.85) 100%) !important;
 }
 
 .jules-feature-item:nth-child(2) {
     border-color: var(--subway-blue) !important;
-    background: linear-gradient(135deg, #1a1a1a 0%, #1a1a2a 100%) !important;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(26, 26, 42, 0.85) 100%) !important;
 }
 
 .jules-feature-item:nth-child(3) {
     border-color: var(--subway-green) !important;
-    background: linear-gradient(135deg, #1a1a1a 0%, #1a2a1a 100%) !important;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(26, 42, 26, 0.85) 100%) !important;
 }
 
 .jules-feature-item:nth-child(4) {
     border-color: var(--subway-orange) !important;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2010 100%) !important;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(42, 32, 16, 0.85) 100%) !important;
 }
 
 .jules-feature-item:nth-child(5) {
     border-color: var(--subway-purple) !important;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a1a2a 100%) !important;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(42, 26, 42, 0.85) 100%) !important;
 }
 
 .jules-feature-item:nth-child(6) {
     border-color: var(--subway-yellow) !important;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a1a 100%) !important;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(42, 42, 26, 0.85) 100%) !important;
 }
 
 /* Subway station-style icons */

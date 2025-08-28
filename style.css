@@ -558,6 +558,40 @@ a.reddit-join-button:hover {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
 }
 
+/* ===== CODING WORD WITH RED STRIPES ===== */
+.coding-striped {
+    position: relative;
+    display: inline-block;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.coding-striped::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(0deg, transparent 0%, transparent 15%, #dc2626 15%, #dc2626 25%, transparent 25%, transparent 40%, #dc2626 40%, #dc2626 50%, transparent 50%, transparent 65%, #dc2626 65%, #dc2626 75%, transparent 75%, transparent 90%, #dc2626 90%, #dc2626 100%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+.coding-striped::after {
+    content: 'Coding';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #ffffff;
+    z-index: 2;
+    font-weight: inherit;
+}
+
 .mobile-nav-toggle {
     display: none;
     background: rgba(0, 57, 166, 0.2);

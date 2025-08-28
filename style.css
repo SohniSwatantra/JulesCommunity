@@ -332,7 +332,7 @@ p {
 
 .logo::before {
     content: '🚇';
-    font-size: 20px;
+    font-size: 26px;
     filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
 
@@ -481,7 +481,7 @@ p {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    padding: var(--space-32) 0;
+    padding: var(--space-20) 0;
     position: relative;
     overflow: hidden;
 }
@@ -530,10 +530,10 @@ p {
 /* .jules-features-grid::before - removed grey overlay */
 
 .hero-title {
-    font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
+    font-size: clamp(calc(var(--text-4xl) * 0.75), 3.75vw, calc(var(--text-6xl) * 0.75));
     font-weight: 800;
     line-height: 1.1;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-4);
     position: relative;
     z-index: 10;
 }

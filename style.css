@@ -281,13 +281,13 @@ p {
 
 /* ===== HEADER & NAVIGATION - NYC SUBWAY THEME ===== */
 .site-header {
-    background: rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: sticky;
     top: 0;
     z-index: 50;
-    backdrop-filter: blur(25px) saturate(180%);
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px) saturate(120%);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
     position: relative;
 }
 
@@ -318,9 +318,10 @@ p {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
     font-size: 22px;
     font-weight: 600;
-    color: #ffffff;
+    color: #dc2626;
     text-decoration: none;
     letter-spacing: -0.02em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     
     display: flex;
     align-items: center;
@@ -347,11 +348,11 @@ p {
     align-items: center;
     gap: 2px;
     list-style: none;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 12px;
     padding: 4px;
     backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .main-nav a {

@@ -353,7 +353,7 @@ p {
 /* ===== HERO SECTION ===== */
 .hero-section {
     background: var(--netlify-gradient);
-    background-image: url('nyc_subway_map.png');
+    background-image: url('nyc_subway_map.png?v=2');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

@@ -486,7 +486,7 @@ p {
     overflow: hidden;
 }
 
-.hero-section::after {
+/* .hero-section::after {
     content: '';
     position: absolute;
     top: 0;
@@ -498,7 +498,7 @@ p {
                 radial-gradient(ellipse at bottom right, rgba(248, 250, 255, 0.35) 0%, rgba(255, 255, 255, 0.3) 50%);
     pointer-events: none;
     z-index: 1;
-}
+} */
 
 /* NYC Subway Map Style Background Elements */
 .hero-section::before {

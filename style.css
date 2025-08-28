@@ -825,10 +825,16 @@ a.reddit-join-button:hover {
     display: none;
 }
 
-/* Responsive - hide lines on mobile */
+/* Responsive - adjust lines for mobile */
 @media (max-width: 768px) {
     .jules-feature-item::after {
-        display: none;
+        display: block !important;
+        width: 80px !important;
+        height: 4px !important;
+        top: 25px !important;
+        left: calc(50% + 25px) !important;
+        opacity: 0.9 !important;
+        border-radius: 2px !important;
     }
 }
 
@@ -1777,10 +1783,51 @@ textarea {
     
     .main-nav {
         display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.95);
+        padding: var(--space-4);
+        border-radius: 0 0 12px 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .main-nav.mobile-nav-open {
+        display: block !important;
+    }
+    
+    .main-nav ul {
+        flex-direction: column;
+        gap: var(--space-2);
+        background: transparent;
+        padding: 0;
+        border: none;
+    }
+    
+    .main-nav a {
+        padding: var(--space-3) var(--space-4);
+        border-radius: 8px;
+        width: 100%;
+        text-align: left;
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .main-nav a:hover,
+    .main-nav a.active {
+        background: rgba(255, 255, 255, 0.2) !important;
+        transform: none !important;
     }
     
     .mobile-nav-toggle {
         display: block;
+        background: rgba(0, 0, 0, 0.7) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        color: #ffffff !important;
+        border-radius: 8px !important;
+        padding: 8px 12px !important;
     }
     
     .hero-section {
@@ -1795,6 +1842,18 @@ textarea {
     
     .hero-subtitle {
         font-size: var(--text-lg);
+    }
+    
+    /* Mobile subway route badges adjustments */
+    .jules-feature-item > div:first-child {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: var(--text-lg) !important;
+    }
+    
+    /* Mobile coding stripes adjustment */
+    .coding-striped {
+        font-size: inherit;
     }
     
     .features-grid,

@@ -29,6 +29,55 @@ document.addEventListener('DOMContentLoaded', () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
+    // ===== MOBILE NAVIGATION TOGGLE =====
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    
+    if (mobileNavToggle && mainNav) {
+        mobileNavToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Toggle the mobile nav
+            mainNav.classList.toggle('mobile-nav-open');
+            
+            // Update button state
+            const isOpen = mainNav.classList.contains('mobile-nav-open');
+            mobileNavToggle.setAttribute('aria-expanded', isOpen);
+            
+            // Update hamburger icon
+            const hamburgerIcon = mobileNavToggle.querySelector('.hamburger-icon');
+            if (hamburgerIcon) {
+                hamburgerIcon.style.transform = isOpen ? 'rotate(90deg)' : 'rotate(0deg)';
+            }
+        });
+        
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileNavToggle.contains(e.target) && !mainNav.contains(e.target)) {
+                mainNav.classList.remove('mobile-nav-open');
+                mobileNavToggle.setAttribute('aria-expanded', 'false');
+                const hamburgerIcon = mobileNavToggle.querySelector('.hamburger-icon');
+                if (hamburgerIcon) {
+                    hamburgerIcon.style.transform = 'rotate(0deg)';
+                }
+            }
+        });
+        
+        // Close mobile nav when clicking on a nav link
+        const mobileNavLinks = mainNav.querySelectorAll('a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mainNav.classList.remove('mobile-nav-open');
+                mobileNavToggle.setAttribute('aria-expanded', 'false');
+                const hamburgerIcon = mobileNavToggle.querySelector('.hamburger-icon');
+                if (hamburgerIcon) {
+                    hamburgerIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+    }
+
     // --- Prompts Page Functionality ---
     // Ensure prompt-list ID is present on prompts.html for this to work
     const promptList = document.getElementById('prompt-list');

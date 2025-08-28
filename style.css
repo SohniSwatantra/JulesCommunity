@@ -652,7 +652,7 @@ p {
     position: absolute;
     top: 30px;
     left: calc(50% + 30px);
-    width: calc(50% + var(--space-3));
+    width: calc(100% - 30px);
     height: 5px;
     z-index: 2;
     opacity: 0.9;
@@ -1444,9 +1444,9 @@ textarea {
     transform: scale(1.05);
 }
 
-/* Icon Animations */
+/* Fixed icons - no transitions */
 .jules-feature-item div:first-child {
-    transition: all var(--transition);
+    transition: none !important;
 }
 
 .jules-feature-item:hover div:first-child {
@@ -1513,9 +1513,9 @@ textarea {
     animation: shimmer 3s ease-in-out infinite;
 }
 
-/* Floating animation for feature icons */
+/* Fixed feature icons - no animation */
 .jules-feature-item div:first-child {
-    animation: float 3s ease-in-out infinite;
+    animation: none !important;
 }
 
 .jules-feature-item:nth-child(even) div:first-child {

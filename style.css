@@ -288,7 +288,6 @@ p {
     z-index: 50;
     backdrop-filter: none;
     box-shadow: none;
-    position: relative;
 }
 
 /* .site-header::before - removed for transparent header */
@@ -1791,6 +1790,9 @@ textarea {
         padding: var(--space-4);
         border-radius: 0 0 12px 12px;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
     
     .main-nav.mobile-nav-open {
@@ -1828,6 +1830,37 @@ textarea {
         color: #ffffff !important;
         border-radius: 8px !important;
         padding: 8px 12px !important;
+        cursor: pointer !important;
+        z-index: 1001 !important;
+        position: relative !important;
+    }
+    
+    .hamburger-icon {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: #ffffff;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .hamburger-icon::before,
+    .hamburger-icon::after {
+        content: '';
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: #ffffff;
+        position: absolute;
+        transition: all 0.3s ease;
+    }
+    
+    .hamburger-icon::before {
+        top: -6px;
+    }
+    
+    .hamburger-icon::after {
+        top: 6px;
     }
     
     .hero-section {

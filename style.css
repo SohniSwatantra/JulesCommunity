@@ -281,13 +281,13 @@ p {
 
 /* ===== HEADER & NAVIGATION - NYC SUBWAY THEME ===== */
 .site-header {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    border-bottom: 3px solid var(--subway-blue);
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     position: sticky;
     top: 0;
     z-index: 50;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(25px) saturate(180%);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     position: relative;
 }
 
@@ -441,15 +441,56 @@ p {
 
 .nav-cta-button {
     margin-left: var(--space-4);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    border: none !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    font-size: 15px !important;
-    padding: 10px 20px !important;
-    border-radius: 10px !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+    border: 2px solid #333 !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    font-family: 'Courier New', monospace !important;
+    padding: 12px 20px !important;
+    border-radius: 6px !important;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    box-shadow: 0 2px 12px rgba(102, 126, 234, 0.25) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    position: relative !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Subway ticket barcode design */
+.nav-cta-button::before {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 8px;
+    right: 8px;
+    height: 8px;
+    background-image: 
+        linear-gradient(90deg, 
+            #000 0%, #000 1px, transparent 1px, transparent 2px,
+            #000 2px, #000 4px, transparent 4px, transparent 5px,
+            #000 5px, #000 6px, transparent 6px, transparent 8px,
+            #000 8px, #000 10px, transparent 10px, transparent 11px,
+            #000 11px, #000 12px, transparent 12px, transparent 14px,
+            #000 14px, #000 16px, transparent 16px, transparent 17px,
+            #000 17px, #000 18px, transparent 18px, transparent 20px,
+            #000 20px, #000 22px, transparent 22px, transparent 23px,
+            #000 23px, #000 24px, transparent 24px, transparent 26px);
+    background-size: 26px 100%;
+    background-repeat: repeat-x;
+    border-radius: 1px;
+}
+
+.nav-cta-button::after {
+    content: '🎫 METRO PASS';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    font-size: 8px;
+    background: #ff6b35;
+    color: white;
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-weight: bold;
 }
 
 .nav-cta-button:hover {

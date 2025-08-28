@@ -527,28 +527,7 @@ p {
     position: relative;
 }
 
-.jules-features-grid::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-        /* Dotted connection lines between features */
-        radial-gradient(circle at 16.66% 50%, var(--subway-blue) 3px, transparent 4px),
-        radial-gradient(circle at 33.33% 50%, var(--subway-green) 3px, transparent 4px),
-        radial-gradient(circle at 50% 50%, var(--subway-orange) 3px, transparent 4px),
-        radial-gradient(circle at 66.66% 50%, var(--subway-purple) 3px, transparent 4px),
-        radial-gradient(circle at 83.33% 50%, var(--subway-red) 3px, transparent 4px),
-        /* Connecting lines */
-        linear-gradient(90deg, transparent 0%, transparent 16%, var(--subway-gray) 16%, var(--subway-gray) 84%, transparent 84%, transparent 100%);
-    background-size: 100% 100%;
-    background-position: 0 0;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
-}
+/* .jules-features-grid::before - removed grey overlay */
 
 .hero-title {
     font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));

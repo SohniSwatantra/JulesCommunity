@@ -445,11 +445,20 @@ p {
     font-family: 'Courier New', monospace !important;
     padding: 12px 20px !important;
     border-radius: 6px !important;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
     position: relative !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
+    
+    /* 3D CTA Transform */
+    transform: translateZ(8px) rotateX(2deg);
+    transform-style: preserve-3d;
+}
+
+.nav-cta-button:hover {
+    transform: translateZ(15px) rotateX(-5deg) scale(1.05) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* Subway ticket barcode design */

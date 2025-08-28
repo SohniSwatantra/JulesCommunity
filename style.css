@@ -502,100 +502,151 @@ p {
     z-index: 10;
 }
 
-/* ===== NYC SUBWAY FEATURE TILES ===== */
+/* ===== NYC SUBWAY STATION TILES - APPLE DESIGN ===== */
 .jules-feature-item {
     position: relative;
     z-index: 5;
-    background: rgba(26, 26, 26, 0.85) !important;
-    border-radius: 20px !important;
-    border: 3px solid !important;
-    padding: var(--space-5) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
-    backdrop-filter: blur(10px) !important;
-    color: white !important;
-    transition: all 0.3s ease !important;
+    background: linear-gradient(135deg, rgba(248, 248, 248, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%) !important;
+    border-radius: 16px !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    backdrop-filter: blur(20px) !important;
+    color: #1d1d1f !important;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    overflow: hidden !important;
+    min-height: 280px !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-/* Individual subway line themes for each feature */
-.jules-feature-item:nth-child(1) {
-    border-color: var(--subway-red) !important;
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(42, 26, 26, 0.85) 100%) !important;
+/* Station Header Band - Like Real NYC Subway Signs */
+.jules-feature-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    z-index: 1;
+    border-radius: 16px 16px 0 0;
 }
 
-.jules-feature-item:nth-child(2) {
-    border-color: var(--subway-blue) !important;
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(26, 26, 42, 0.85) 100%) !important;
+/* Individual NYC Subway Station Themes */
+.jules-feature-item:nth-child(1)::before { background: var(--subway-red); }
+.jules-feature-item:nth-child(2)::before { background: var(--subway-blue); }  
+.jules-feature-item:nth-child(3)::before { background: var(--subway-green); }
+.jules-feature-item:nth-child(4)::before { background: var(--subway-orange); }
+.jules-feature-item:nth-child(5)::before { background: var(--subway-purple); }
+.jules-feature-item:nth-child(6)::before { background: var(--subway-yellow); }
+
+/* Station Names - Authentic NYC Subway Typography */
+.jules-feature-item:nth-child(1)::after { content: "DEBUG CENTRAL"; }
+.jules-feature-item:nth-child(2)::after { content: "UPGRADE JUNCTION"; }
+.jules-feature-item:nth-child(3)::after { content: "QUALITY CONTROL"; }
+.jules-feature-item:nth-child(4)::after { content: "BUILD TERMINAL"; }
+.jules-feature-item:nth-child(5)::after { content: "SOURCE CONTROL"; }
+.jules-feature-item:nth-child(6)::after { content: "AI PROCESSING"; }
+
+.jules-feature-item::after {
+    position: absolute;
+    top: 15px;
+    left: 80px;
+    right: 20px;
+    color: white;
+    font-family: 'Helvetica Neue', -apple-system, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    z-index: 2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.jules-feature-item:nth-child(3) {
-    border-color: var(--subway-green) !important;
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(26, 42, 26, 0.85) 100%) !important;
-}
-
-.jules-feature-item:nth-child(4) {
-    border-color: var(--subway-orange) !important;
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(42, 32, 16, 0.85) 100%) !important;
-}
-
-.jules-feature-item:nth-child(5) {
-    border-color: var(--subway-purple) !important;
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(42, 26, 42, 0.85) 100%) !important;
-}
-
-.jules-feature-item:nth-child(6) {
-    border-color: var(--subway-yellow) !important;
-    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(42, 42, 26, 0.85) 100%) !important;
-}
-
-/* Subway station-style icons */
+/* NYC Subway Route Circles - Authentic Design */
 .jules-feature-item > div:first-child {
-    background: transparent !important;
-    border: 2px solid !important;
+    position: absolute !important;
+    top: 12px !important;
+    left: 20px !important;
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 50% !important;
-    width: 60px !important;
-    height: 60px !important;
-    margin: 0 auto var(--space-4) !important;
-    font-size: var(--text-2xl) !important;
-    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: white !important;
+    margin: 0 !important;
+    z-index: 3 !important;
+    text-shadow: none !important;
+    font-family: 'Helvetica Neue', -apple-system, sans-serif !important;
 }
 
-.jules-feature-item:nth-child(1) > div:first-child { border-color: var(--subway-red) !important; color: var(--subway-red) !important; }
-.jules-feature-item:nth-child(2) > div:first-child { border-color: var(--subway-blue) !important; color: var(--subway-blue) !important; }
-.jules-feature-item:nth-child(3) > div:first-child { border-color: var(--subway-green) !important; color: var(--subway-green) !important; }
-.jules-feature-item:nth-child(4) > div:first-child { border-color: var(--subway-orange) !important; color: var(--subway-orange) !important; }
-.jules-feature-item:nth-child(5) > div:first-child { border-color: var(--subway-purple) !important; color: var(--subway-purple) !important; }
-.jules-feature-item:nth-child(6) > div:first-child { border-color: var(--subway-yellow) !important; color: var(--subway-yellow) !important; }
+/* Route Circle Colors - Match Station Header */
+.jules-feature-item:nth-child(1) > div:first-child { background: var(--subway-red) !important; }
+.jules-feature-item:nth-child(2) > div:first-child { background: var(--subway-blue) !important; }
+.jules-feature-item:nth-child(3) > div:first-child { background: var(--subway-green) !important; }
+.jules-feature-item:nth-child(4) > div:first-child { background: var(--subway-orange) !important; }
+.jules-feature-item:nth-child(5) > div:first-child { background: var(--subway-purple) !important; }
+.jules-feature-item:nth-child(6) > div:first-child { background: var(--subway-yellow) !important; }
 
-/* Subway station-style typography */
+/* Route circles now get their content from HTML - D, A, G, B, N, Q */
+
+/* Station Content Area */
 .jules-feature-item h4 {
-    color: white !important;
-    font-weight: 700 !important;
-    font-size: var(--text-lg) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
+    margin-top: 80px !important;
     margin-bottom: var(--space-3) !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    padding: 0 var(--space-5) !important;
+    color: #1d1d1f !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+    text-transform: none !important;
+    text-shadow: none !important;
+    line-height: 1.2 !important;
 }
 
 .jules-feature-item p {
-    color: #e0e0e0 !important;
-    font-size: var(--text-sm) !important;
-    line-height: 1.5 !important;
+    padding: 0 var(--space-5) var(--space-5) !important;
+    color: #6e6e73 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.47 !important;
     margin: 0 !important;
+    font-weight: 400 !important;
 }
 
-/* Hover effects like subway platform lighting */
+/* Apple-style Premium Hover Effects */
 .jules-feature-item:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6) !important;
+    transform: translateY(-12px) scale(1.02) !important;
+    box-shadow: 0 20px 64px rgba(0, 0, 0, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(24px) !important;
 }
 
-.jules-feature-item:nth-child(1):hover { box-shadow: 0 12px 30px rgba(238, 53, 46, 0.3) !important; }
-.jules-feature-item:nth-child(2):hover { box-shadow: 0 12px 30px rgba(0, 57, 166, 0.3) !important; }
-.jules-feature-item:nth-child(3):hover { box-shadow: 0 12px 30px rgba(0, 147, 60, 0.3) !important; }
-.jules-feature-item:nth-child(4):hover { box-shadow: 0 12px 30px rgba(255, 99, 25, 0.3) !important; }
-.jules-feature-item:nth-child(5):hover { box-shadow: 0 12px 30px rgba(185, 51, 173, 0.3) !important; }
-.jules-feature-item:nth-child(6):hover { box-shadow: 0 12px 30px rgba(252, 204, 10, 0.3) !important; }
+/* Subtle Line-Color Glow on Hover */
+.jules-feature-item:nth-child(1):hover { box-shadow: 0 20px 64px rgba(238, 53, 46, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1) !important; }
+.jules-feature-item:nth-child(2):hover { box-shadow: 0 20px 64px rgba(0, 57, 166, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1) !important; }
+.jules-feature-item:nth-child(3):hover { box-shadow: 0 20px 64px rgba(0, 147, 60, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1) !important; }
+.jules-feature-item:nth-child(4):hover { box-shadow: 0 20px 64px rgba(255, 99, 25, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1) !important; }
+.jules-feature-item:nth-child(5):hover { box-shadow: 0 20px 64px rgba(185, 51, 173, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1) !important; }
+.jules-feature-item:nth-child(6):hover { box-shadow: 0 20px 64px rgba(252, 204, 10, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1) !important; }
+
+/* Transfer/Connection Indicators */
+.jules-feature-item:hover h4::after {
+    content: " →";
+    color: #86868b;
+    font-size: 18px;
+    font-weight: 300;
+    transition: all 0.3s ease;
+    animation: arrow-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes arrow-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
 
 /* Subway map connections in FAQ section */
 .faq-grid {

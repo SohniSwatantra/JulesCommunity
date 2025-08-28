@@ -353,6 +353,11 @@ p {
 /* ===== HERO SECTION ===== */
 .hero-section {
     background: var(--netlify-gradient);
+    background-image: url('image.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     padding: var(--space-32) 0;
     position: relative;
     overflow: hidden;
@@ -365,8 +370,9 @@ p {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(ellipse at top left, rgba(247, 254, 249, 0.8) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom right, rgba(248, 250, 255, 0.8) 0%, transparent 50%);
+    background: rgba(255, 255, 255, 0.9);
+    background: radial-gradient(ellipse at top left, rgba(247, 254, 249, 0.85) 0%, rgba(255, 255, 255, 0.75) 50%),
+                radial-gradient(ellipse at bottom right, rgba(248, 250, 255, 0.85) 0%, rgba(255, 255, 255, 0.75) 50%);
     pointer-events: none;
     z-index: 1;
 }
@@ -1328,6 +1334,8 @@ textarea {
     
     .hero-section {
         padding: var(--space-20) 0;
+        background-attachment: scroll; /* Fixed attachment can cause issues on mobile */
+        background-size: cover;
     }
     
     .hero-title {

@@ -650,14 +650,14 @@ p {
 .jules-feature-item::after {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 100%;
-    width: 60px;
-    height: 3px;
+    top: 30px;
+    left: 50%;
+    width: calc(100% + var(--space-6));
+    height: 5px;
     z-index: 2;
     opacity: 0.8;
     pointer-events: none;
-    transform: translateY(-50%);
+    transform: translateX(30px);
 }
 
 /* Red Line: D → A */

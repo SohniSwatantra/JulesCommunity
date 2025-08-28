@@ -370,9 +370,9 @@ p {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.3);
-    background: radial-gradient(ellipse at top left, rgba(247, 254, 249, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%),
-                radial-gradient(ellipse at bottom right, rgba(248, 250, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%);
+    background: rgba(255, 255, 255, 0.45);
+    background: radial-gradient(ellipse at top left, rgba(247, 254, 249, 0.35) 0%, rgba(255, 255, 255, 0.3) 50%),
+                radial-gradient(ellipse at bottom right, rgba(248, 250, 255, 0.35) 0%, rgba(255, 255, 255, 0.3) 50%);
     pointer-events: none;
     z-index: 1;
 }
@@ -439,6 +439,7 @@ p {
 .hero-subtitle {
     font-size: var(--text-xl);
     color: var(--text-secondary);
+    font-weight: 600;
     margin-bottom: var(--space-8);
     max-width: 600px;
     margin-left: auto;

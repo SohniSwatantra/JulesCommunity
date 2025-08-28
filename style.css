@@ -338,6 +338,16 @@ p {
     padding: 4px;
     backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    
+    /* 3D Navigation Enhancement */
+    transform: translateZ(10px);
+    transform-style: preserve-3d;
+    transition: all 0.3s ease;
+}
+
+.main-nav ul:hover {
+    transform: translateZ(15px) rotateX(2deg);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .main-nav a {
@@ -607,7 +617,7 @@ a.reddit-join-button:hover {
     box-shadow: 0 0 8px rgba(0, 57, 166, 0.3);
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== 3D HERO SECTION ===== */
 .hero-section {
     background: var(--netlify-gradient);
     background-image: url('nyc_subway_map.png?v=2');
@@ -618,6 +628,10 @@ a.reddit-join-button:hover {
     padding: var(--space-20) 0;
     position: relative;
     overflow: hidden;
+    
+    /* 3D Perspective Container */
+    perspective: 1200px;
+    transform-style: preserve-3d;
 }
 
 .hero-section::after {
@@ -670,6 +684,21 @@ a.reddit-join-button:hover {
     margin-bottom: var(--space-4);
     position: relative;
     z-index: 10;
+    
+    /* 3D Text Effects */
+    transform: translateZ(30px);
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 255, 255, 0.1);
+    transform-style: preserve-3d;
+    transition: all 0.6s ease;
+}
+
+.hero-title:hover {
+    transform: translateZ(50px) rotateX(2deg);
+    text-shadow: 
+        3px 3px 8px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(255, 255, 255, 0.2);
 }
 
 .hero-subtitle {
@@ -682,6 +711,15 @@ a.reddit-join-button:hover {
     margin-right: auto;
     position: relative;
     z-index: 10;
+    
+    /* 3D Layered Effect */
+    transform: translateZ(15px);
+    transform-style: preserve-3d;
+    transition: all 0.6s ease;
+}
+
+.hero-subtitle:hover {
+    transform: translateZ(25px) rotateX(1deg);
 }
 
 .hero-cta-button {
@@ -697,7 +735,12 @@ a.reddit-join-button:hover {
     z-index: 10;
 }
 
-/* ===== FLOATING SUBWAY ROUTE BADGES ===== */
+/* ===== 3D FLOATING SUBWAY ROUTE BADGES ===== */
+.jules-features-grid {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
 .jules-feature-item {
     position: relative;
     z-index: 15;
@@ -708,7 +751,8 @@ a.reddit-join-button:hover {
     box-shadow: none !important;
     backdrop-filter: none !important;
     color: white !important;
-    transition: all 0.3s ease !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transform-style: preserve-3d;
 }
 
 /* Remove all individual tile backgrounds and borders */
@@ -722,7 +766,7 @@ a.reddit-join-button:hover {
     background: transparent !important;
 }
 
-/* Subway station-style icons */
+/* 3D Subway station-style icons */
 .jules-feature-item > div:first-child {
     background: transparent !important;
     border: 2px solid !important;
@@ -732,6 +776,21 @@ a.reddit-join-button:hover {
     margin: 0 auto var(--space-4) !important;
     font-size: var(--text-2xl) !important;
     position: relative !important;
+    
+    /* 3D Transform Effects */
+    transform: translateZ(20px) rotateX(5deg);
+    transform-style: preserve-3d;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(255, 255, 255, 0.1) inset;
+}
+
+.jules-feature-item:hover > div:first-child {
+    transform: translateZ(40px) rotateX(-10deg) rotateY(5deg) scale(1.1);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(255, 255, 255, 0.2) inset;
 }
 
 .jules-feature-item:nth-child(1) > div:first-child { border-color: var(--subway-red) !important; color: var(--subway-red) !important; }

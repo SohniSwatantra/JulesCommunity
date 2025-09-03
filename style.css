@@ -327,49 +327,98 @@ p {
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
 }
 
-/* ===== OPENAI-CLASS NYC SUBWAY NAVIGATION ===== */
+/* ===== ADVANCED 3D NYC SUBWAY NAVIGATION ===== */
 .main-nav ul {
     display: flex;
     align-items: center;
     gap: 2px;
     list-style: none;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 12px;
-    padding: 4px;
-    backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 16px;
+    padding: 6px;
+    backdrop-filter: blur(30px) saturate(200%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     
-    /* 3D Navigation Enhancement */
-    transform: translateZ(10px);
+    /* Advanced 3D Navigation Enhancement */
+    transform: translateZ(20px) perspective(1000px);
     transform-style: preserve-3d;
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 255, 255, 0.1) inset;
+    position: relative;
+}
+
+.main-nav ul::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        var(--subway-red), var(--subway-blue), var(--subway-green), 
+        var(--subway-orange), var(--subway-purple), var(--subway-yellow));
+    border-radius: 18px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .main-nav ul:hover {
-    transform: translateZ(15px) rotateX(2deg);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transform: translateZ(40px) rotateX(-5deg) rotateY(2deg) scale(1.02);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(255, 255, 255, 0.2) inset;
+}
+
+.main-nav ul:hover::before {
+    opacity: 0.3;
+    animation: navGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes navGlow {
+    0% { opacity: 0.2; }
+    100% { opacity: 0.5; }
 }
 
 .main-nav a {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.02em;
     
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     
-    background: transparent;
-    border-radius: 8px;
-    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 10px 16px;
     
     position: relative;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
     
     white-space: nowrap;
+    overflow: hidden;
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.main-nav a:hover::after {
+    left: 100%;
 }
 
 /* Elegant subway line indicators */
@@ -404,29 +453,60 @@ p {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Purple Line - Showcase */
 }
 
-/* Hover States - OpenAI style micro-interactions */
+/* Advanced Hover States - Premium 3D micro-interactions */
 .main-nav a:hover {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateZ(10px) rotateX(-5deg) scale(1.05);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 255, 255, 0.3) inset;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .main-nav a:hover::before {
     opacity: 1;
-    height: 24px;
-    box-shadow: 0 0 12px currentColor;
+    height: 28px;
+    width: 5px;
+    box-shadow: 
+        0 0 15px currentColor,
+        0 0 30px currentColor;
+    animation: pulse 1.5s ease-in-out infinite;
 }
 
-/* Active state */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Advanced Active state */
 .main-nav a.active {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateZ(8px) scale(1.02);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(255, 255, 255, 0.2) inset;
 }
 
 .main-nav a.active::before {
     opacity: 1;
-    height: 24px;
-    width: 4px;
+    height: 28px;
+    width: 5px;
+    animation: activeGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes activeGlow {
+    0% {
+        box-shadow: 
+            0 0 10px currentColor,
+            0 0 20px currentColor;
+    }
+    100% {
+        box-shadow: 
+            0 0 20px currentColor,
+            0 0 40px currentColor;
+    }
 }
 
 /* Subtle focus states for accessibility */
@@ -626,7 +706,7 @@ a.reddit-join-button:hover {
     box-shadow: 0 0 8px rgba(0, 57, 166, 0.3);
 }
 
-/* ===== 3D HERO SECTION ===== */
+/* ===== ADVANCED 3D HERO SECTION ===== */
 .hero-section {
     background: var(--netlify-gradient);
     background-image: url('nyc_subway_map.png?v=2');
@@ -638,9 +718,69 @@ a.reddit-join-button:hover {
     position: relative;
     overflow: hidden;
     
-    /* 3D Perspective Container */
-    perspective: 1200px;
+    /* Advanced 3D Perspective Container */
+    perspective: 2000px;
     transform-style: preserve-3d;
+    min-height: 100vh;
+}
+
+/* 3D WebGL Canvas */
+.three-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+/* 3D Particle Container */
+.particle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* 3D Floating Particles */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: float3d 20s linear infinite;
+    transform-style: preserve-3d;
+}
+
+.particle.subway-red { background: var(--subway-red); box-shadow: 0 0 10px var(--subway-red); }
+.particle.subway-blue { background: var(--subway-blue); box-shadow: 0 0 10px var(--subway-blue); }
+.particle.subway-green { background: var(--subway-green); box-shadow: 0 0 10px var(--subway-green); }
+.particle.subway-orange { background: var(--subway-orange); box-shadow: 0 0 10px var(--subway-orange); }
+.particle.subway-purple { background: var(--subway-purple); box-shadow: 0 0 10px var(--subway-purple); }
+.particle.subway-yellow { background: var(--subway-yellow); box-shadow: 0 0 10px var(--subway-yellow); }
+
+@keyframes float3d {
+    0% {
+        transform: translate3d(0, 100vh, 0) rotateX(0deg) rotateY(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate3d(0, -100vh, 0) rotateX(360deg) rotateY(180deg);
+        opacity: 0;
+    }
 }
 
 .hero-section::after {
@@ -694,20 +834,40 @@ a.reddit-join-button:hover {
     position: relative;
     z-index: 10;
     
-    /* 3D Text Effects */
-    transform: translateZ(30px);
+    /* Advanced 3D Text Effects */
+    transform: translateZ(50px) perspective(1000px);
     text-shadow: 
         2px 2px 4px rgba(0, 0, 0, 0.5),
-        0 0 20px rgba(255, 255, 255, 0.1);
+        4px 4px 8px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(255, 255, 255, 0.1),
+        0 0 40px rgba(124, 58, 237, 0.2);
     transform-style: preserve-3d;
-    transition: all 0.6s ease;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: titleFloat 6s ease-in-out infinite;
 }
 
 .hero-title:hover {
-    transform: translateZ(50px) rotateX(2deg);
+    transform: translateZ(80px) rotateX(-5deg) rotateY(2deg) scale(1.02);
     text-shadow: 
-        3px 3px 8px rgba(0, 0, 0, 0.7),
-        0 0 30px rgba(255, 255, 255, 0.2);
+        5px 5px 15px rgba(0, 0, 0, 0.8),
+        0 0 50px rgba(255, 255, 255, 0.3),
+        0 0 80px rgba(124, 58, 237, 0.4);
+    animation-play-state: paused;
+}
+
+@keyframes titleFloat {
+    0%, 100% {
+        transform: translateZ(50px) rotateX(0deg) rotateY(0deg);
+    }
+    25% {
+        transform: translateZ(60px) rotateX(1deg) rotateY(-1deg);
+    }
+    50% {
+        transform: translateZ(55px) rotateX(-1deg) rotateY(1deg);
+    }
+    75% {
+        transform: translateZ(65px) rotateX(1deg) rotateY(-0.5deg);
+    }
 }
 
 .hero-subtitle {
@@ -721,14 +881,36 @@ a.reddit-join-button:hover {
     position: relative;
     z-index: 10;
     
-    /* 3D Layered Effect */
-    transform: translateZ(15px);
+    /* Advanced 3D Layered Effect */
+    transform: translateZ(25px) perspective(800px);
     transform-style: preserve-3d;
-    transition: all 0.6s ease;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: subtitleGlow 8s ease-in-out infinite;
+    text-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 .hero-subtitle:hover {
-    transform: translateZ(25px) rotateX(1deg);
+    transform: translateZ(40px) rotateX(-2deg) scale(1.01);
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 25px rgba(255, 255, 255, 0.2);
+    animation-play-state: paused;
+}
+
+@keyframes subtitleGlow {
+    0%, 100% {
+        text-shadow: 
+            1px 1px 2px rgba(0, 0, 0, 0.3),
+            0 0 15px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        text-shadow: 
+            1px 1px 2px rgba(0, 0, 0, 0.3),
+            0 0 25px rgba(255, 255, 255, 0.2),
+            0 0 35px rgba(124, 58, 237, 0.1);
+    }
 }
 
 .hero-cta-button {
@@ -744,24 +926,66 @@ a.reddit-join-button:hover {
     z-index: 10;
 }
 
-/* ===== 3D FLOATING SUBWAY ROUTE BADGES ===== */
+/* ===== ADVANCED 3D FLOATING SUBWAY ROUTE BADGES ===== */
 .jules-features-grid {
-    perspective: 1000px;
+    perspective: 1500px;
     transform-style: preserve-3d;
+    position: relative;
+}
+
+.jules-features-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .jules-feature-item {
     position: relative;
     z-index: 15;
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: var(--space-5) !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: var(--space-6) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
     color: white !important;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
     transform-style: preserve-3d;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.jules-feature-item::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    border-radius: 22px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.jules-feature-item::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 50%;
+    z-index: -1;
 }
 
 /* Remove all individual tile backgrounds and borders */
@@ -775,31 +999,68 @@ a.reddit-join-button:hover {
     background: transparent !important;
 }
 
-/* 3D Subway station-style icons */
+/* Advanced 3D Subway station-style icons */
 .jules-feature-item > div:first-child {
-    background: transparent !important;
-    border: 2px solid !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 3px solid !important;
     border-radius: 50% !important;
-    width: 60px !important;
-    height: 60px !important;
+    width: 70px !important;
+    height: 70px !important;
     margin: 0 auto var(--space-4) !important;
     font-size: var(--text-2xl) !important;
     position: relative !important;
     
-    /* 3D Transform Effects */
-    transform: translateZ(20px) rotateX(5deg);
+    /* Advanced 3D Transform Effects */
+    transform: translateZ(30px) rotateX(5deg) perspective(500px);
     transform-style: preserve-3d;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.3),
-        0 0 20px rgba(255, 255, 255, 0.1) inset;
+        0 15px 40px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(255, 255, 255, 0.15) inset,
+        0 0 50px rgba(255, 255, 255, 0.05);
+    animation: iconFloat 4s ease-in-out infinite;
+}
+
+.jules-feature-item > div:first-child::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, currentColor, transparent, currentColor);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .jules-feature-item:hover > div:first-child {
-    transform: translateZ(40px) rotateX(-10deg) rotateY(5deg) scale(1.1);
+    transform: translateZ(60px) rotateX(-15deg) rotateY(10deg) scale(1.15);
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.4),
-        0 0 30px rgba(255, 255, 255, 0.2) inset;
+        0 30px 70px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(255, 255, 255, 0.3) inset,
+        0 0 80px currentColor;
+    animation-play-state: paused;
+}
+
+.jules-feature-item:hover > div:first-child::before {
+    opacity: 0.3;
+    animation: iconGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes iconFloat {
+    0%, 100% {
+        transform: translateZ(30px) rotateX(5deg) rotateY(0deg);
+    }
+    50% {
+        transform: translateZ(35px) rotateX(3deg) rotateY(2deg);
+    }
+}
+
+@keyframes iconGlow {
+    0% { opacity: 0.2; }
+    100% { opacity: 0.5; }
 }
 
 .jules-feature-item:nth-child(1) > div:first-child { border-color: var(--subway-red) !important; color: var(--subway-red) !important; }
@@ -809,38 +1070,100 @@ a.reddit-join-button:hover {
 .jules-feature-item:nth-child(5) > div:first-child { border-color: var(--subway-purple) !important; color: var(--subway-purple) !important; }
 .jules-feature-item:nth-child(6) > div:first-child { border-color: var(--subway-yellow) !important; color: var(--subway-yellow) !important; }
 
-/* Dark grey titles for subway station features */
+/* Enhanced titles for subway station features */
 .jules-feature-item h4 {
-    color: #4a4a4a !important;
+    color: #ffffff !important;
     font-weight: 700 !important;
     font-size: var(--text-lg) !important;
     text-transform: uppercase !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 1.2px !important;
     margin-bottom: var(--space-3) !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.7),
+        0 0 10px rgba(255, 255, 255, 0.3) !important;
+    transition: all 0.3s ease;
+    transform: translateZ(10px);
+}
+
+.jules-feature-item:hover h4 {
+    text-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(255, 255, 255, 0.5),
+        0 0 30px currentColor;
+    transform: translateZ(15px);
 }
 
 .jules-feature-item p {
-    color: #e0e0e0 !important;
+    color: #f0f0f0 !important;
     font-size: var(--text-sm) !important;
-    line-height: 1.5 !important;
+    line-height: 1.6 !important;
     margin: 0 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.3s ease;
+    transform: translateZ(5px);
+}
+
+.jules-feature-item:hover p {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+    transform: translateZ(10px);
 }
 
 /* Fixed floating badges - no hover movement */
 .jules-feature-item:hover {
-    transform: none !important;
-    box-shadow: none !important;
+    transform: translateZ(20px) rotateX(-5deg) rotateY(2deg) scale(1.02) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(255, 255, 255, 0.1) inset,
+        0 0 80px rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Remove all tile hover shadows */
-.jules-feature-item:nth-child(1):hover,
-.jules-feature-item:nth-child(2):hover,
-.jules-feature-item:nth-child(3):hover,
-.jules-feature-item:nth-child(4):hover,
-.jules-feature-item:nth-child(5):hover,
+.jules-feature-item:hover::before {
+    opacity: 1;
+}
+
+.jules-feature-item:hover::after {
+    width: 100%;
+    height: 100%;
+}
+
+/* Individual card color enhancements */
+.jules-feature-item:nth-child(1):hover { 
+    box-shadow: 
+        0 25px 60px rgba(238, 53, 46, 0.3),
+        0 0 40px rgba(238, 53, 46, 0.1) inset !important;
+}
+
+.jules-feature-item:nth-child(2):hover { 
+    box-shadow: 
+        0 25px 60px rgba(0, 57, 166, 0.3),
+        0 0 40px rgba(0, 57, 166, 0.1) inset !important;
+}
+
+.jules-feature-item:nth-child(3):hover { 
+    box-shadow: 
+        0 25px 60px rgba(0, 147, 60, 0.3),
+        0 0 40px rgba(0, 147, 60, 0.1) inset !important;
+}
+
+.jules-feature-item:nth-child(4):hover { 
+    box-shadow: 
+        0 25px 60px rgba(255, 99, 25, 0.3),
+        0 0 40px rgba(255, 99, 25, 0.1) inset !important;
+}
+
+.jules-feature-item:nth-child(5):hover { 
+    box-shadow: 
+        0 25px 60px rgba(185, 51, 173, 0.3),
+        0 0 40px rgba(185, 51, 173, 0.1) inset !important;
+}
+
 .jules-feature-item:nth-child(6):hover { 
-    box-shadow: none !important; 
+    box-shadow: 
+        0 25px 60px rgba(252, 204, 10, 0.3),
+        0 0 40px rgba(252, 204, 10, 0.1) inset !important;
 }
 
 /* ===== STRAIGHT SUBWAY LINE CONNECTIONS ===== */
@@ -1591,19 +1914,61 @@ textarea {
 /* FAQ Section Animation */
 .faq-section {
     animation: fadeInUp 1s ease-out 1s both;
+    perspective: 1500px;
+    transform-style: preserve-3d;
 }
 
 .faq-item {
     animation: fadeInUp 0.8s ease-out both;
-    transition: all var(--transition);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+}
+
+.faq-item::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        var(--subway-blue), var(--subway-green), var(--subway-orange), var(--subway-blue));
+    border-radius: var(--radius-xl);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .faq-item:nth-child(odd) {
-    animation: slideInLeft 0.8s ease-out both;
+    animation: slideInLeft3D 1s ease-out both;
 }
 
 .faq-item:nth-child(even) {
-    animation: slideInRight 0.8s ease-out both;
+    animation: slideInRight3D 1s ease-out both;
+}
+
+@keyframes slideInLeft3D {
+    from {
+        opacity: 0;
+        transform: translateX(-100px) rotateY(-45deg) translateZ(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg) translateZ(0);
+    }
+}
+
+@keyframes slideInRight3D {
+    from {
+        opacity: 0;
+        transform: translateX(100px) rotateY(45deg) translateZ(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg) translateZ(0);
+    }
 }
 
 /* CTA Section Animation */

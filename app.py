@@ -355,6 +355,11 @@ def guides_page():
 def showcase_page():
     return render_template('showcase.html')
 
+@app.route('/blog.html')
+def blog_page():
+    return render_template('blog.html')
+
+
 # --- Guide Routes ---
 @app.route('/guides', methods=['POST'])
 def create_guide():

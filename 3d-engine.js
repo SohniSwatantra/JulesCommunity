@@ -1,16 +1,17 @@
-/* global THREE */
+/* global THREE, sceneData */
 
 class JulesSubwayScene {
     constructor(canvas) {
         this.canvas = canvas;
         this.stageElement = canvas ? canvas.parentElement : null;
+        this.data = sceneData;
 
         this.renderer = null;
         this.scene = null;
         this.camera = null;
         this.clock = null;
 
-        this.mapElevation = -18;
+        this.mapElevation = this.data.map.elevation;
         this.mapGroup = new THREE.Group();
         this.mapBaseY = this.mapElevation;
 
@@ -20,14 +21,18 @@ class JulesSubwayScene {
 
         this.subwayTrain = null;
         this.trainProgress = 0;
-        this.baseTrainSpeed = 0.00065;
+        this.baseTrainSpeed = this.data.train.speed;
         this.trainSpeed = this.baseTrainSpeed;
         this.lastArrivedStationIndex = null;
 
         this.subwayStations = [];
         this.stationLights = [];
 
-        this.cameraBasePosition = new THREE.Vector3(0, 220, 360);
+        this.cameraBasePosition = new THREE.Vector3(
+            this.data.camera.basePosition.x,
+            this.data.camera.basePosition.y,
+            this.data.camera.basePosition.z
+        );
         this.cameraTarget = new THREE.Vector3(0, this.mapElevation + 20, 0);
         this.pointer = new THREE.Vector2(0, 0);
         this.pointerTarget = new THREE.Vector2(0, 0);
@@ -40,14 +45,7 @@ class JulesSubwayScene {
         this.floatingParticles = null;
         this.trainTrail = null;
 
-        this.colors = {
-            red: 0xEE352E,
-            blue: 0x0039A6,
-            green: 0x00933C,
-            orange: 0xFF6319,
-            purple: 0xB933AD,
-            yellow: 0xFCCC0A
-        };
+        this.colors = this.data.colors;
 
         this.onWindowResize = this.onWindowResize.bind(this);
         this.onPointerMove = this.onPointerMove.bind(this);
@@ -123,7 +121,7 @@ class JulesSubwayScene {
 
     updateMotionPreferences() {
         this.trainSpeed = this.prefersReducedMotion ? this.baseTrainSpeed * 0.35 : this.baseTrainSpeed;
-        this.mapFloatAmplitude = this.prefersReducedMotion ? 1.6 : 4.2;
+        this.mapFloatAmplitude = this.prefersReducedMotion ? 1.6 : this.data.map.floatAmplitude;
     }
 
     getCanvasSize() {
@@ -198,13 +196,13 @@ class JulesSubwayScene {
     createSubwayMap() {
         const loader = new THREE.TextureLoader();
         loader.load(
-            'nyc_subway_map_optimized.jpg',
+            this.data.map.imageUrl,
             (texture) => {
                 if (!this.renderer) return;
                 texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
                 texture.encoding = THREE.sRGBEncoding;
 
-                const mapGeometry = new THREE.PlaneGeometry(820, 520);
+                const mapGeometry = new THREE.PlaneGeometry(this.data.map.width, this.data.map.height);
                 const mapMaterial = new THREE.MeshStandardMaterial({
                     map: texture,
                     transparent: true,
@@ -240,28 +238,16 @@ class JulesSubwayScene {
     }
 
     createSubwayNetwork() {
-        const elevation = this.mapElevation + 22;
-        const points = [
-            new THREE.Vector3(-320, elevation, 190),
-            new THREE.Vector3(-220, elevation, 120),
-            new THREE.Vector3(-160, elevation, 30),
-            new THREE.Vector3(-90, elevation, -60),
-            new THREE.Vector3(0, elevation, -150),
-            new THREE.Vector3(120, elevation, -200),
-            new THREE.Vector3(240, elevation, -120),
-            new THREE.Vector3(260, elevation, 20),
-            new THREE.Vector3(210, elevation, 160),
-            new THREE.Vector3(80, elevation, 220),
-            new THREE.Vector3(-120, elevation, 220)
-        ];
+        const elevation = this.mapElevation + this.data.track.elevation;
+        const points = this.data.track.points.map(p => new THREE.Vector3(p.x, elevation, p.z));
 
         this.trackCurve = new THREE.CatmullRomCurve3(points, true, 'centripetal');
 
         const tubeGeometry = new THREE.TubeGeometry(this.trackCurve, 600, 4.6, 24, true);
         const tubeMaterial = new THREE.MeshStandardMaterial({
-            color: 0x2563EB,
-            emissive: 0x2563EB,
-            emissiveIntensity: 0.6,
+            color: this.data.track.color,
+            emissive: this.data.track.emissive,
+            emissiveIntensity: this.data.track.emissiveIntensity,
             metalness: 0.75,
             roughness: 0.25
         });
@@ -279,14 +265,10 @@ class JulesSubwayScene {
     createSubwayStations() {
         if (!this.trackCurve) return;
 
-        const stations = [
-            { name: 'BUG FIXING', color: this.colors.red, t: 0.03 },
-            { name: 'VERSION BUMPS', color: this.colors.blue, t: 0.2 },
-            { name: 'AUTOMATED TESTS', color: this.colors.green, t: 0.36 },
-            { name: 'FEATURE BUILDING', color: this.colors.orange, t: 0.52 },
-            { name: 'GITHUB INTEGRATION', color: this.colors.purple, t: 0.68 },
-            { name: 'GEMINI 2.5 POWERED', color: this.colors.yellow, t: 0.84 }
-        ];
+        const stations = this.data.stations.map(s => ({
+            ...s,
+            color: this.colors[s.color]
+        }));
 
         const textCanvas = (label) => {
             const canvas = document.createElement('canvas');
@@ -353,7 +335,7 @@ class JulesSubwayScene {
         if (!this.trackCurve) return;
 
         const bodyMaterial = new THREE.MeshStandardMaterial({
-            color: 0x1F2937,
+            color: this.data.train.bodyColor,
             metalness: 0.6,
             roughness: 0.35,
             emissive: 0x111827,
@@ -371,7 +353,7 @@ class JulesSubwayScene {
         roof.position.y = 8;
 
         const windowMaterial = new THREE.MeshStandardMaterial({
-            color: 0x0F172A,
+            color: this.data.train.windowColor,
             roughness: 0.15,
             metalness: 0.4,
             transparent: true,
@@ -390,7 +372,7 @@ class JulesSubwayScene {
         rearWindow.material = windowMaterial.clone();
         rearWindow.material.emissive = new THREE.Color(0xF97316);
 
-        const headlights = new THREE.PointLight(0xFACC15, 1.6, 120, 2.4);
+        const headlights = new THREE.PointLight(this.data.train.headlightColor, 1.6, 120, 2.4);
         headlights.position.set(0, 5, 32);
 
         const trainGroup = new THREE.Group();
@@ -455,7 +437,7 @@ class JulesSubwayScene {
     }
 
     createFloatingParticles() {
-        const particleCount = 180;
+        const particleCount = this.data.particles.count;
         const positions = new Float32Array(particleCount * 3);
         for (let i = 0; i < particleCount; i++) {
             positions[i * 3] = (Math.random() - 0.5) * 900;
@@ -466,8 +448,8 @@ class JulesSubwayScene {
         const particleGeometry = new THREE.BufferGeometry();
         particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         const particleMaterial = new THREE.PointsMaterial({
-            color: 0xffffff,
-            size: 5,
+            color: this.data.particles.color,
+            size: this.data.particles.size,
             transparent: true,
             opacity: 0.35,
             sizeAttenuation: true

@@ -13,9 +13,15 @@ class JulesAI3DEngine {
         this.subwayLines = [];
         this.subwayTrain = null;
         this.subwayStations = [];
-        this.trainRoute = [];
-        this.currentStationIndex = 0;
+        this.trackCurve = null;
+        this.trackPoints = [];
+        this.mapElevation = -20;
         this.trainProgress = 0;
+        this.trainSpeed = 0.0006;
+        this.lastArrivedStationIndex = null;
+        this.mapGroup = new THREE.Group();
+        this.cameraBasePosition = { y: 220, z: 360 };
+        this.cameraTarget = { y: this.cameraBasePosition.y, z: this.cameraBasePosition.z };
         this.mousePosition = { x: 0, y: 0 };
         this.isInitialized = false;
         
@@ -44,6 +50,7 @@ class JulesAI3DEngine {
             this.setupCamera();
             this.setupRenderer();
             this.setupLights();
+            this.createSubwayMap();
             this.createSubwayNetwork();
             this.createSubwayStations();
             this.createSubwayTrain();
@@ -75,12 +82,14 @@ class JulesAI3DEngine {
     setupScene() {
         this.scene = new THREE.Scene();
         this.scene.fog = new THREE.Fog(0x000000, 100, 1000);
+        this.scene.add(this.mapGroup);
     }
     
     setupCamera() {
         const aspectRatio = window.innerWidth / window.innerHeight;
         this.camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 2000);
-        this.camera.position.set(0, 0, 100);
+        this.camera.position.set(0, this.cameraBasePosition.y, this.cameraBasePosition.z);
+        this.camera.lookAt(new THREE.Vector3(0, this.mapElevation, 0));
     }
     
     setupRenderer() {
@@ -94,6 +103,7 @@ class JulesAI3DEngine {
         this.renderer.setClearColor(0x000000, 0);
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.renderer.outputEncoding = THREE.sRGBEncoding;
     }
     
     setupLights() {
@@ -121,43 +131,130 @@ class JulesAI3DEngine {
             this.scene.add(pointLight);
         }
     }
-    
+
+    createSubwayMap() {
+        if (!this.renderer) return;
+
+        const loader = new THREE.TextureLoader();
+        loader.load(
+            'nyc_subway_map_optimized.jpg',
+            (texture) => {
+                texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+                texture.encoding = THREE.sRGBEncoding;
+
+                const mapGeometry = new THREE.PlaneGeometry(820, 520, 32, 32);
+                const mapMaterial = new THREE.MeshPhongMaterial({
+                    map: texture,
+                    transparent: true,
+                    opacity: 0.92,
+                    shininess: 40
+                });
+
+                const mapPlane = new THREE.Mesh(mapGeometry, mapMaterial);
+                mapPlane.rotation.x = -Math.PI / 2.1;
+                mapPlane.position.y = this.mapElevation;
+                mapPlane.receiveShadow = true;
+
+                const mapFrameGeometry = new THREE.EdgesGeometry(mapGeometry);
+                const mapFrameMaterial = new THREE.LineBasicMaterial({ color: 0x0f172a, transparent: true, opacity: 0.6 });
+                const mapFrame = new THREE.LineSegments(mapFrameGeometry, mapFrameMaterial);
+                mapFrame.rotation.copy(mapPlane.rotation);
+                mapFrame.position.copy(mapPlane.position);
+
+                const glowGeometry = new THREE.PlaneGeometry(840, 540);
+                const glowMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x0039A6,
+                    transparent: true,
+                    opacity: 0.15,
+                    side: THREE.DoubleSide
+                });
+                const glowPlane = new THREE.Mesh(glowGeometry, glowMaterial);
+                glowPlane.rotation.copy(mapPlane.rotation);
+                glowPlane.position.copy(mapPlane.position.clone().setY(this.mapElevation - 1));
+
+                this.mapGroup.add(glowPlane);
+                this.mapGroup.add(mapPlane);
+                this.mapGroup.add(mapFrame);
+
+                // Add subtle floating animation to the entire map group
+                this.mapGroup.position.y = this.mapElevation;
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(this.mapGroup.position, {
+                        y: this.mapElevation + 4,
+                        duration: 6,
+                        ease: 'sine.inOut',
+                        yoyo: true,
+                        repeat: -1
+                    });
+                }
+            },
+            undefined,
+            (error) => {
+                console.error('Failed to load NYC subway map texture', error);
+            }
+        );
+    }
+
     createSubwayNetwork() {
         // Create 3D subway line network
-        const lineColors = Object.values(this.colors);
-        
-        for (let i = 0; i < 8; i++) {
-            const points = [];
-            const numPoints = 20;
-            
-            for (let j = 0; j < numPoints; j++) {
-                const angle = (j / numPoints) * Math.PI * 2;
-                const radius = 200 + Math.sin(j * 0.5) * 50;
-                const x = Math.cos(angle + i * 0.3) * radius;
-                const y = Math.sin(angle + i * 0.3) * radius;
-                const z = Math.sin(j * 0.2 + i) * 30;
-                points.push(new THREE.Vector3(x, y, z));
-            }
-            
-            const curve = new THREE.CatmullRomCurve3(points, true);
-            const geometry = new THREE.TubeGeometry(curve, 100, 2, 8, true);
-            const material = new THREE.MeshPhongMaterial({
-                color: lineColors[i % lineColors.length],
-                transparent: true,
-                opacity: 0.7,
-                emissive: lineColors[i % lineColors.length],
-                emissiveIntensity: 0.1
-            });
-            
-            const tube = new THREE.Mesh(geometry, material);
-            tube.userData = { 
-                rotationSpeed: (Math.random() - 0.5) * 0.01,
-                originalOpacity: 0.7
-            };
-            
-            this.subwayLines.push(tube);
-            this.scene.add(tube);
-        }
+        const elevation = this.mapElevation + 12;
+
+        this.trackPoints = [
+            new THREE.Vector3(-300, elevation, 200),
+            new THREE.Vector3(-220, elevation, 140),
+            new THREE.Vector3(-170, elevation, 60),
+            new THREE.Vector3(-120, elevation, -10),
+            new THREE.Vector3(-40, elevation, -80),
+            new THREE.Vector3(40, elevation, -140),
+            new THREE.Vector3(140, elevation, -170),
+            new THREE.Vector3(240, elevation, -120),
+            new THREE.Vector3(300, elevation, -30),
+            new THREE.Vector3(270, elevation, 90),
+            new THREE.Vector3(200, elevation, 180),
+            new THREE.Vector3(80, elevation, 230),
+            new THREE.Vector3(-60, elevation, 240),
+            new THREE.Vector3(-200, elevation, 220)
+        ];
+
+        this.trackCurve = new THREE.CatmullRomCurve3(this.trackPoints, true, 'centripetal');
+
+        const guidewayMaterial = new THREE.MeshPhongMaterial({
+            color: 0x111827,
+            emissive: 0x1f2937,
+            emissiveIntensity: 0.3,
+            transparent: true,
+            opacity: 0.85
+        });
+        const guidewayGeometry = new THREE.TubeGeometry(this.trackCurve, 400, 6, 32, true);
+        const guideway = new THREE.Mesh(guidewayGeometry, guidewayMaterial);
+        guideway.castShadow = true;
+        guideway.receiveShadow = true;
+
+        const railMaterial = new THREE.MeshStandardMaterial({
+            color: 0xd1d5db,
+            metalness: 0.6,
+            roughness: 0.3,
+            emissive: 0x4b5563,
+            emissiveIntensity: 0.1
+        });
+        const railGeometry = new THREE.TubeGeometry(this.trackCurve, 400, 2.3, 16, true);
+        const rail = new THREE.Mesh(railGeometry, railMaterial);
+        rail.castShadow = true;
+
+        const glowMaterial = new THREE.MeshBasicMaterial({
+            color: this.colors.blue,
+            transparent: true,
+            opacity: 0.25
+        });
+        const glowGeometry = new THREE.TubeGeometry(this.trackCurve, 400, 8, 16, true);
+        const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+        glow.userData = { baseOpacity: glowMaterial.opacity };
+
+        this.scene.add(glow);
+        this.scene.add(guideway);
+        this.scene.add(rail);
+
+        this.subwayLines = [guideway, rail, glow];
     }
     
     createFloatingParticles() {
@@ -258,100 +355,119 @@ class JulesAI3DEngine {
     }
     
     createSubwayStations() {
-        // Jules feature stations positioned around the subway network
-        const julesFeatures = [
-            { name: 'BUG FIXING', position: { x: 200, y: 0, z: 0 }, color: 0xEE352E },
-            { name: 'VERSION BUMPS', position: { x: 140, y: 140, z: 0 }, color: 0x0039A6 },
-            { name: 'AUTOMATED TESTS', position: { x: 0, y: 200, z: 0 }, color: 0x00933C },
-            { name: 'FEATURE BUILDING', position: { x: -140, y: 140, z: 0 }, color: 0xFF6319 },
-            { name: 'GITHUB INTEGRATION', position: { x: -200, y: 0, z: 0 }, color: 0xB933AD },
-            { name: 'GEMINI 2.5 POWERED', position: { x: -140, y: -140, z: 0 }, color: 0xFCCC0A }
+        if (!this.trackCurve) return;
+
+        const stationDefinitions = [
+            { name: 'BUG FIXING', color: this.colors.red, t: 0.02 },
+            { name: 'VERSION BUMPS', color: this.colors.blue, t: 0.18 },
+            { name: 'AUTOMATED TESTS', color: this.colors.green, t: 0.32 },
+            { name: 'FEATURE BUILDING', color: this.colors.orange, t: 0.48 },
+            { name: 'GITHUB INTEGRATION', color: this.colors.purple, t: 0.65 },
+            { name: 'GEMINI 2.5 POWERED', color: this.colors.yellow, t: 0.82 }
         ];
-        
-        julesFeatures.forEach((feature, index) => {
-            // Create station platform
-            const platformGeometry = new THREE.BoxGeometry(30, 8, 15);
+
+        this.subwayStations = [];
+
+        stationDefinitions.forEach((feature, index) => {
+            const basePosition = this.trackCurve.getPointAt(feature.t);
+            const elevatedPosition = basePosition.clone();
+            const platformHeight = this.mapElevation + 4;
+            const pillarHeight = elevatedPosition.y - this.mapElevation + 6;
+
+            // Create station platform hovering over the map
+            const platformGeometry = new THREE.BoxGeometry(40, 4, 16);
             const platformMaterial = new THREE.MeshPhongMaterial({
-                color: 0x2C2C2C,
+                color: 0x1f2937,
                 emissive: feature.color,
-                emissiveIntensity: 0.1
+                emissiveIntensity: 0.2,
+                shininess: 80
             });
             const platform = new THREE.Mesh(platformGeometry, platformMaterial);
-            platform.position.set(feature.position.x, feature.position.y - 15, feature.position.z);
+            platform.position.set(basePosition.x, platformHeight, basePosition.z);
+            platform.castShadow = true;
+            platform.receiveShadow = true;
             this.scene.add(platform);
-            
-            // Create station pillar
-            const pillarGeometry = new THREE.CylinderGeometry(3, 3, 30);
+
+            // Create illuminated pillar connecting platform to track
+            const pillarGeometry = new THREE.CylinderGeometry(3.5, 3.5, pillarHeight, 24);
             const pillarMaterial = new THREE.MeshPhongMaterial({
                 color: feature.color,
                 transparent: true,
-                opacity: 0.8,
+                opacity: 0.85,
                 emissive: feature.color,
-                emissiveIntensity: 0.2
+                emissiveIntensity: 0.6
             });
             const pillar = new THREE.Mesh(pillarGeometry, pillarMaterial);
-            pillar.position.set(feature.position.x, feature.position.y, feature.position.z);
+            pillar.position.set(basePosition.x, this.mapElevation + pillarHeight / 2, basePosition.z);
+            pillar.castShadow = true;
             this.scene.add(pillar);
-            
-            // Create station sign
+
+            // Create glowing station marker at track level
+            const markerGeometry = new THREE.SphereGeometry(5, 32, 32);
+            const markerMaterial = new THREE.MeshBasicMaterial({
+                color: feature.color,
+                transparent: true,
+                opacity: 0.9
+            });
+            const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+            marker.position.copy(elevatedPosition.clone().setY(elevatedPosition.y + 4));
+            this.scene.add(marker);
+
+            // Create station sign with NYC subway styling
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
             canvas.width = 256;
             canvas.height = 64;
-            
-            // Draw station background
+
             context.fillStyle = '#000000';
             context.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw colored border
-            context.strokeStyle = `#${feature.color.toString(16).padStart(6, '0')}`;
-            context.lineWidth = 4;
-            context.strokeRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw station text
             context.fillStyle = '#FFFFFF';
-            context.font = 'bold 16px Arial';
+            context.font = 'bold 18px Arial';
             context.textAlign = 'center';
-            context.fillText(feature.name, canvas.width / 2, canvas.height / 2 + 6);
-            
+            context.fillText(feature.name, canvas.width / 2, canvas.height / 2 + 8);
+
             const texture = new THREE.CanvasTexture(canvas);
             const signMaterial = new THREE.MeshBasicMaterial({
                 map: texture,
                 transparent: true,
                 side: THREE.DoubleSide
             });
-            
-            const signGeometry = new THREE.PlaneGeometry(40, 10);
+
+            const signGeometry = new THREE.PlaneGeometry(50, 14);
             const stationSign = new THREE.Mesh(signGeometry, signMaterial);
-            stationSign.position.set(feature.position.x, feature.position.y + 20, feature.position.z);
-            stationSign.lookAt(this.camera.position);
+            stationSign.position.copy(elevatedPosition.clone().setY(elevatedPosition.y + 18));
+            stationSign.lookAt(this.camera.position.clone().setY(elevatedPosition.y + 18));
+            stationSign.userData = { followCamera: true };
             this.scene.add(stationSign);
-            
-            // Store station info for train route
-            this.subwayStations.push({
+
+            const stationData = {
                 name: feature.name,
-                position: feature.position,
+                position: {
+                    x: elevatedPosition.x,
+                    y: elevatedPosition.y,
+                    z: elevatedPosition.z
+                },
+                positionVector: elevatedPosition.clone(),
                 color: feature.color,
-                platform: platform,
-                pillar: pillar,
-                sign: stationSign
-            });
+                platform,
+                pillar,
+                marker,
+                sign: stationSign,
+                trackT: feature.t
+            };
+
+            this.subwayStations.push(stationData);
         });
-        
-        // Create train route connecting all stations in a circle
-        this.trainRoute = this.subwayStations.map(station => ({
-            x: station.position.x,
-            y: station.position.y,
-            z: station.position.z + 10 // Train runs slightly above station level
-        }));
-        
-        console.log('🚉 Created subway stations for Jules features');
+
+        console.log('🚉 Created elevated NYC subway stations for Jules features');
     }
     
     createSubwayTrain() {
         // Create realistic NYC subway train
         const trainGroup = new THREE.Group();
-        
+        trainGroup.castShadow = true;
+        trainGroup.receiveShadow = true;
+
         // Main train car body
         const carGeometry = new THREE.BoxGeometry(25, 8, 60);
         const carMaterial = new THREE.MeshPhongMaterial({
@@ -469,70 +585,60 @@ class JulesAI3DEngine {
         branding.rotation.y = -Math.PI / 2;
         trainGroup.add(branding);
         
-        // Position train at first station
-        if (this.trainRoute.length > 0) {
-            trainGroup.position.set(
-                this.trainRoute[0].x,
-                this.trainRoute[0].y,
-                this.trainRoute[0].z
-            );
+        // Position train at starting point of the curve
+        if (this.trackCurve) {
+            const startPosition = this.trackCurve.getPointAt(0);
+            trainGroup.position.copy(startPosition);
+
+            const lookAhead = this.trackCurve.getPointAt(0.01);
+            trainGroup.lookAt(lookAhead);
         }
-        
+
         this.subwayTrain = trainGroup;
         this.scene.add(trainGroup);
-        
+
         console.log('🚆 Created Jules AI subway train');
     }
     
     updateTrainMovement() {
-        if (!this.subwayTrain || this.trainRoute.length < 2) return;
-        
-        const speed = 0.008; // Train speed
-        this.trainProgress += speed;
-        
-        // Get current and next station
-        const currentStation = this.trainRoute[this.currentStationIndex];
-        const nextStationIndex = (this.currentStationIndex + 1) % this.trainRoute.length;
-        const nextStation = this.trainRoute[nextStationIndex];
-        
-        // Interpolate between stations
-        const progress = this.trainProgress % 1;
-        const newPosition = {
-            x: currentStation.x + (nextStation.x - currentStation.x) * progress,
-            y: currentStation.y + (nextStation.y - currentStation.y) * progress,
-            z: currentStation.z + (nextStation.z - currentStation.z) * progress
-        };
-        
-        // Update train position
-        this.subwayTrain.position.set(newPosition.x, newPosition.y, newPosition.z);
-        
-        // Calculate train rotation to face movement direction
-        const direction = new THREE.Vector3(
-            nextStation.x - currentStation.x,
-            nextStation.y - currentStation.y,
-            nextStation.z - currentStation.z
-        ).normalize();
-        
-        this.subwayTrain.lookAt(
-            this.subwayTrain.position.x + direction.x,
-            this.subwayTrain.position.y + direction.y,
-            this.subwayTrain.position.z + direction.z
-        );
-        
-        // Check if reached next station
-        if (this.trainProgress >= 1) {
-            this.trainProgress = 0;
-            this.currentStationIndex = nextStationIndex;
-            
-            // Station arrival effect
-            this.createStationArrivalEffect(nextStationIndex);
-        }
+        if (!this.subwayTrain || !this.trackCurve) return;
+
+        this.trainProgress = (this.trainProgress + this.trainSpeed) % 1;
+
+        const currentPosition = this.trackCurve.getPointAt(this.trainProgress);
+        this.subwayTrain.position.copy(currentPosition);
+
+        const lookAhead = this.trackCurve.getPointAt((this.trainProgress + 0.01) % 1);
+        this.subwayTrain.lookAt(lookAhead);
+
+        this.checkStationArrivals(currentPosition);
+    }
+
+    checkStationArrivals(position) {
+        if (!this.subwayStations.length) return;
+
+        this.subwayStations.forEach((station, index) => {
+            const stationPosition = station.positionVector.clone().setY(position.y);
+            const distance = position.distanceTo(stationPosition);
+
+            if (distance < 20 && this.lastArrivedStationIndex !== index) {
+                this.lastArrivedStationIndex = index;
+                this.createStationArrivalEffect(index);
+
+                setTimeout(() => {
+                    if (this.lastArrivedStationIndex === index) {
+                        this.lastArrivedStationIndex = null;
+                    }
+                }, 1500);
+            }
+        });
     }
     
     createStationArrivalEffect(stationIndex) {
         if (!this.subwayStations[stationIndex]) return;
-        
+
         const station = this.subwayStations[stationIndex];
+        const stationPosition = station.positionVector.clone();
         
         // Create arrival particle burst
         const particleCount = 20;
@@ -549,9 +655,9 @@ class JulesAI3DEngine {
             );
             
             particle.position.set(
-                station.position.x + (Math.random() - 0.5) * 20,
-                station.position.y + Math.random() * 10,
-                station.position.z + (Math.random() - 0.5) * 20
+                stationPosition.x + (Math.random() - 0.5) * 20,
+                stationPosition.y + Math.random() * 12,
+                stationPosition.z + (Math.random() - 0.5) * 20
             );
             
             particle.velocity = new THREE.Vector3(
@@ -606,23 +712,23 @@ class JulesAI3DEngine {
             
             // Position particles behind the train
             particle.position.copy(this.subwayTrain.position);
-            particle.position.z -= (i + 1) * 5;
-            particle.position.y -= 2;
-            
+
             this.scene.add(particle);
             trailParticles.push(particle);
         }
-        
+
         // Animate trail particles to follow train
         const updateTrail = () => {
-            if (!this.subwayTrain) return;
-            
+            if (!this.subwayTrain || !this.trackCurve) return;
+
             trailParticles.forEach((particle, index) => {
                 // Move particles towards train position with delay
-                const targetPos = this.subwayTrain.position.clone();
-                targetPos.z -= (index + 1) * 5;
-                targetPos.y -= 2;
-                
+                const tangent = this.trackCurve.getTangentAt(this.trainProgress).normalize();
+                const backwardVector = tangent.clone().multiplyScalar(-1);
+                const offsetDistance = (index + 1) * 8;
+                const targetPos = this.subwayTrain.position.clone().add(backwardVector.multiplyScalar(offsetDistance));
+                targetPos.y -= 3;
+
                 particle.position.lerp(targetPos, 0.1);
                 
                 // Add some randomness for realistic effect
@@ -644,9 +750,9 @@ class JulesAI3DEngine {
             // Add dynamic lighting to stations
             const stationLight = new THREE.PointLight(station.color, 2, 100);
             stationLight.position.set(
-                station.position.x,
-                station.position.y + 25,
-                station.position.z
+                station.positionVector.x,
+                station.positionVector.y + 25,
+                station.positionVector.z
             );
             
             // Add pulsing effect
@@ -670,9 +776,9 @@ class JulesAI3DEngine {
                 })
             );
             lightStrip.position.set(
-                station.position.x,
-                station.position.y - 11,
-                station.position.z + 8
+                station.positionVector.x,
+                this.mapElevation + 6,
+                station.positionVector.z + 4
             );
             this.scene.add(lightStrip);
             station.lightStrip = lightStrip;
@@ -733,8 +839,9 @@ class JulesAI3DEngine {
         // Add scroll-based camera movement
         window.addEventListener('scroll', () => {
             const scrollPercent = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight);
-            this.camera.position.z = 100 + scrollPercent * 200;
-            this.camera.rotation.x = scrollPercent * 0.2;
+            this.cameraTarget.z = this.cameraBasePosition.z - scrollPercent * 160;
+            this.cameraTarget.y = this.cameraBasePosition.y + scrollPercent * 80;
+            this.camera.rotation.x = -0.25 + scrollPercent * 0.35;
         });
     }
     
@@ -792,6 +899,7 @@ class JulesAI3DEngine {
         if (prefersReducedMotion) {
             // Reduce animation speed
             this.trainProgress = 0;
+            this.trainSpeed = 0.0002;
             
             // Simplify particle effects
             if (this.particleSystem) {
@@ -821,10 +929,18 @@ class JulesAI3DEngine {
         
         const time = Date.now() * 0.001;
         
-        // Animate subway lines
+        // Animate subway lines and track glow
         this.subwayLines.forEach((line, index) => {
-            line.rotation.z += line.userData.rotationSpeed;
-            line.position.y = Math.sin(time + index) * 10;
+            if (line.userData && typeof line.userData.rotationSpeed !== 'undefined') {
+                line.rotation.z += line.userData.rotationSpeed;
+                line.position.y = Math.sin(time + index) * 10;
+            } else if (line.userData && typeof line.userData.baseOpacity !== 'undefined') {
+                const material = Array.isArray(line.material) ? line.material[0] : line.material;
+                if (material && typeof material.opacity === 'number') {
+                    const pulse = Math.sin(time * 1.5 + index) * 0.05;
+                    material.opacity = THREE.MathUtils.clamp(line.userData.baseOpacity + pulse, 0.1, 0.4);
+                }
+            }
         });
         
         // Update subway train movement
@@ -863,15 +979,22 @@ class JulesAI3DEngine {
         }
         
         // Mouse-based camera movement
-        this.camera.position.x += (this.mousePosition.x * 20 - this.camera.position.x) * 0.05;
-        this.camera.position.y += (this.mousePosition.y * 20 - this.camera.position.y) * 0.05;
-        this.camera.lookAt(this.scene.position);
+        const targetX = this.mousePosition.x * 40;
+        const targetY = this.cameraTarget.y + this.mousePosition.y * 20;
+
+        this.camera.position.x += (targetX - this.camera.position.x) * 0.05;
+        this.camera.position.y += (targetY - this.camera.position.y) * 0.05;
+        this.camera.position.z += (this.cameraTarget.z - this.camera.position.z) * 0.05;
+        this.camera.lookAt(new THREE.Vector3(0, this.mapElevation, 0));
         
         // Animate station signs
         this.scene.children.forEach(child => {
             if (child.userData.floatSpeed) {
                 child.position.y = child.userData.originalY + Math.sin(time * child.userData.floatSpeed) * 20;
                 child.rotation.y += child.userData.rotationSpeed;
+            }
+            if (child.userData.followCamera) {
+                child.lookAt(this.camera.position);
             }
         });
         

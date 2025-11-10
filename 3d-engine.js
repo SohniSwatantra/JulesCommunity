@@ -46,6 +46,7 @@ class JulesSubwayScene {
         this.trainTrail = null;
 
         this.colors = this.data.colors;
+        this.fallbackActive = false;
 
         this.onWindowResize = this.onWindowResize.bind(this);
         this.onPointerMove = this.onPointerMove.bind(this);
@@ -60,7 +61,10 @@ class JulesSubwayScene {
         }
 
         try {
-            this.setupRenderer();
+            const rendererReady = this.setupRenderer();
+            if (!rendererReady) {
+                return;
+            }
             this.setupScene();
             this.setupCamera();
             this.setupLights();
@@ -90,14 +94,25 @@ class JulesSubwayScene {
             this.canvas = document.getElementById('three-canvas');
             this.stageElement = this.canvas ? this.canvas.parentElement : null;
         }
+        if (!this.stageElement) {
+            this.stageElement = document.querySelector('.hero-visual-stage');
+        }
 
         if (!this.canvas) {
             console.warn('3D canvas element not found; skipping NYC subway scene.');
+            this.activateFallback('Interactive canvas missing');
             return false;
         }
 
         if (typeof THREE === 'undefined') {
             console.warn('Three.js is not available; cannot initialise NYC subway scene.');
+            this.activateFallback('3D engine library unavailable');
+            return false;
+        }
+
+        if (!this.hasWebGLSupport()) {
+            console.warn('WebGL not available; showing static subway map fallback.');
+            this.activateFallback('WebGL unavailable');
             return false;
         }
 
@@ -139,17 +154,87 @@ class JulesSubwayScene {
     }
 
     setupRenderer() {
-        this.renderer = new THREE.WebGLRenderer({
-            canvas: this.canvas,
-            antialias: true,
-            alpha: true
-        });
+        try {
+            this.renderer = new THREE.WebGLRenderer({
+                canvas: this.canvas,
+                antialias: true,
+                alpha: true
+            });
+        } catch (error) {
+            console.error('Failed to create WebGL renderer', error);
+            this.activateFallback('WebGL renderer initialisation failed');
+            return false;
+        }
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         const { width, height } = this.getCanvasSize();
         this.renderer.setSize(width, height, false);
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.outputEncoding = THREE.sRGBEncoding;
+
+        return true;
+    }
+
+    hasWebGLSupport() {
+        if (typeof window === 'undefined' || typeof document === 'undefined') {
+            return false;
+        }
+
+        if (!('WebGLRenderingContext' in window)) {
+            return false;
+        }
+
+        try {
+            const probeCanvas = document.createElement('canvas');
+            const contexts = ['webgl2', 'webgl', 'experimental-webgl'];
+
+            for (const contextName of contexts) {
+                const context = probeCanvas.getContext(contextName, { failIfMajorPerformanceCaveat: true });
+                if (context) {
+                    if (typeof context.getExtension === 'function') {
+                        const loseContext = context.getExtension('WEBGL_lose_context');
+                        if (loseContext && typeof loseContext.loseContext === 'function') {
+                            loseContext.loseContext();
+                        }
+                    }
+                    return true;
+                }
+            }
+        } catch (error) {
+            console.warn('WebGL support probe failed', error);
+        }
+
+        return false;
+    }
+
+    activateFallback(reason) {
+        if (!this.stageElement || this.fallbackActive) {
+            return;
+        }
+
+        this.fallbackActive = true;
+        this.stageElement.classList.add('hero-visual-stage--fallback');
+
+        if (this.canvas) {
+            this.canvas.setAttribute('aria-hidden', 'true');
+            this.canvas.setAttribute('data-webgl-disabled', 'true');
+        }
+
+        const badge = this.stageElement.querySelector('.hero-3d-badge');
+        if (badge) {
+            badge.textContent = 'Static View';
+        }
+
+        const subtitle = this.stageElement.querySelector('.hero-3d-subtitle');
+        if (subtitle) {
+            const baseMessage = 'Static NYC subway map preview';
+            subtitle.textContent = reason ? `${baseMessage} · ${reason}` : baseMessage;
+        }
+
+        const title = this.stageElement.querySelector('.hero-3d-title');
+        if (title) {
+            title.textContent = 'NYC Subway Map Overview';
+        }
     }
 
     setupScene() {
@@ -660,22 +745,37 @@ let particleField = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('three-canvas');
-    if (canvas && typeof THREE !== 'undefined') {
+    const stageElement = canvas ? canvas.parentElement : document.querySelector('.hero-visual-stage');
+    let fallbackActive = stageElement ? stageElement.classList.contains('hero-visual-stage--fallback') : false;
+
+    if (canvas) {
         subwayScene = new JulesSubwayScene(canvas);
         subwayScene.init();
-    } else if (!canvas) {
-        console.warn('NYC subway canvas not found on this page.');
+        fallbackActive = subwayScene ? subwayScene.fallbackActive : fallbackActive;
     } else {
+        console.warn('NYC subway canvas not found on this page.');
+        if (stageElement) {
+            stageElement.classList.add('hero-visual-stage--fallback');
+            fallbackActive = true;
+        }
+    }
+
+    if (typeof THREE === 'undefined' && stageElement && !fallbackActive) {
         console.warn('Three.js failed to load; NYC subway scene disabled.');
+        stageElement.classList.add('hero-visual-stage--fallback');
+        fallbackActive = true;
     }
 
     const particleContainer = document.getElementById('particle-container');
-    particleField = new HeroParticleField(particleContainer);
-    particleField.init();
+    if (particleContainer && !fallbackActive) {
+        particleField = new HeroParticleField(particleContainer);
+        particleField.init();
+    }
 
     window.JulesAI3D = {
         scene: subwayScene,
-        particles: particleField
+        particles: particleField,
+        fallbackActive
     };
 });
 

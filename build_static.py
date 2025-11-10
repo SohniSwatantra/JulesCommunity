@@ -94,7 +94,16 @@ def create_static_site():
             print(f"⚠️  {template_file} not found, skipping...")
     
     # Copy static assets
-    static_files = ['style.css', 'script.js', 'image.png', 'placeholder.jpg', 'nyc_subway_map.png']
+    static_files = [
+        'style.css',
+        'script.js',
+        'image.png',
+        'placeholder.jpg',
+        'nyc_subway_map.png',
+        'nyc_subway_map_optimized.jpg',
+        '3d-engine.js',
+        '3d-engine-scene-data.js'
+    ]
     for static_file in static_files:
         if os.path.exists(static_file):
             print(f"📁 Copying {static_file}...")

@@ -20,6 +20,3 @@ app.db
 .idea/
 *.swp
 *.swo
-
-# Log files
-*.log

@@ -657,8 +657,12 @@ class HeroParticleField {
 
 let subwayScene = null;
 let particleField = null;
+let initialized = false;
 
-document.addEventListener('DOMContentLoaded', () => {
+function initJulesHeroScene() {
+    if (initialized) return;
+    initialized = true;
+
     const canvas = document.getElementById('three-canvas');
     if (canvas && typeof THREE !== 'undefined') {
         subwayScene = new JulesSubwayScene(canvas);
@@ -677,9 +681,16 @@ document.addEventListener('DOMContentLoaded', () => {
         scene: subwayScene,
         particles: particleField
     };
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initJulesHeroScene, { once: true });
+} else {
+    initJulesHeroScene();
+}
 
 window.addEventListener('beforeunload', () => {
+    initialized = false;
     if (subwayScene) {
         subwayScene.dispose();
         subwayScene = null;

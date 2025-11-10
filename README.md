@@ -70,6 +70,8 @@ Jules Community Hub is a comprehensive web platform that serves as the central g
    python3 setup_local.py
    ```
 
+   > **Note:** The SQLite database is generated locally inside the `instance/` folder. The file is ignored by Git, so be sure to run the setup script (or your preferred migration workflow) whenever you clone the repository on a new machine.
+
 5. **Run the development server**
 
    ```bash

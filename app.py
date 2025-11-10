@@ -337,21 +337,6 @@ def serve_image():
 def serve_placeholder():
     return send_file('placeholder.jpg', mimetype='image/jpeg')
 
-@app.route('/nyc_subway_map_optimized.jpg')
-def serve_subway_map_texture():
-    return send_file('nyc_subway_map_optimized.jpg', mimetype='image/jpeg')
-
-@app.route('/3d-engine-scene-data.js')
-def serve_3d_engine_scene_data():
-    return send_file('3d-engine-scene-data.js', mimetype='application/javascript')
-
-@app.route('/3d-engine.js')
-def serve_3d_engine():
-    return send_file('3d-engine.js', mimetype='application/javascript')
-
-@app.route('/nyc_subway_map.png')
-def serve_subway_map():
-    return send_file('nyc_subway_map.png', mimetype='image/png')
 
 # --- Documentation Pages ---
 @app.route('/docs.html')

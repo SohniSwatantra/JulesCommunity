@@ -12,8 +12,6 @@
     <link rel="stylesheet" href="style.css">
     <!-- Add Font Awesome for icons, replace with SVGs later if preferred -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Three.js for advanced 3D graphics -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- GSAP for premium animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -85,17 +83,6 @@
                                 <p style="color: var(--text-secondary); font-size: var(--text-sm); margin: 0; line-height: 1.4;">Advanced AI capabilities for intelligent coding</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="hero-visual-stage" aria-label="3D visualization of the NYC subway map">
-                        <div class="hero-3d-hud" aria-hidden="true">
-                            <span class="hero-3d-badge">Live 3D</span>
-                            <span class="hero-3d-title">NYC Subway Map</span>
-                            <span class="hero-3d-subtitle">Express train simulation</span>
-                        </div>
-                        <!-- 3D WebGL Canvas Container -->
-                        <canvas id="three-canvas" class="three-canvas"></canvas>
-                        <!-- Floating 3D particle system -->
-                        <div id="particle-container" class="particle-container"></div>
                     </div>
                 </div>
             </div>
@@ -219,8 +206,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <!-- Advanced 3D Engine -->
-    <script src="3d-engine-scene-data.js"></script>
-    <script src="3d-engine.js"></script>
 </body>
 </html>

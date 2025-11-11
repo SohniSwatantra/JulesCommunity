@@ -5,6 +5,23 @@
 
 /* Modern CSS Variables */
 :root {
+    /* Text Colors */
+    --text-primary: var(--gray-900);
+    --text-secondary: var(--gray-600);
+
+    /* Background Colors */
+    --bg-primary: var(--white);
+    --bg-secondary: var(--gray-50);
+    --bg-tertiary: var(--gray-100);
+
+    /* Netlify-Style Beautiful Gradient Colors - EXACT MATCH */
+    --netlify-mint: #F0FDF4;
+    --netlify-light-mint: #F7FEF9;
+    --netlify-blue: #F8FAFF;
+    --netlify-light-blue: #F3F4F6;
+    --netlify-gradient: linear-gradient(120deg, #F7FEF9 0%, #F0FDF4 25%, #F8FAFF 75%, #F3F4F6 100%);
+    --netlify-gradient-reverse: linear-gradient(120deg, #F3F4F6 0%, #F8FAFF 25%, #F0FDF4 75%, #F7FEF9 100%);
+
     /* NYC Subway Brand Colors */
     --primary-subway: #2d2d2d;
     --primary-steel: #5a5a5a;
@@ -375,19 +392,19 @@ p {
     align-items: center;
     gap: 2px;
     list-style: none;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.5);
     border-radius: 16px;
     padding: 6px;
     backdrop-filter: blur(30px) saturate(200%);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(0, 0, 0, 0.1);
     
     /* Advanced 3D Navigation Enhancement */
     transform: translateZ(20px) perspective(1000px);
     transform-style: preserve-3d;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(255, 255, 255, 0.1) inset;
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(0, 0, 0, 0.05) inset;
     position: relative;
 }
 
@@ -428,7 +445,7 @@ p {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
     font-weight: 600;
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
     text-decoration: none;
     letter-spacing: 0.02em;
     
@@ -436,7 +453,7 @@ p {
     align-items: center;
     gap: 10px;
     
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     padding: 10px 16px;
     
@@ -497,13 +514,13 @@ p {
 
 /* Advanced Hover States - Premium 3D micro-interactions */
 .main-nav a:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.3);
     transform: translateZ(10px) rotateX(-5deg) scale(1.05);
     box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(255, 255, 255, 0.3) inset;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(0, 0, 0, 0.1) inset;
+    text-shadow: none;
 }
 
 .main-nav a:hover::before {
@@ -523,12 +540,12 @@ p {
 
 /* Advanced Active state */
 .main-nav a.active {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.4);
     transform: translateZ(8px) scale(1.02);
     box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.3),
-        0 0 15px rgba(255, 255, 255, 0.2) inset;
+        0 8px 25px rgba(0, 0, 0, 0.1),
+        0 0 15px rgba(0, 0, 0, 0.1) inset;
 }
 
 .main-nav a.active::before {
@@ -750,8 +767,7 @@ a.reddit-join-button:hover {
 
 /* ===== ADVANCED 3D HERO SECTION ===== */
 .hero-section {
-    background: radial-gradient(circle at top, rgba(12, 20, 46, 0.85) 0%, rgba(8, 11, 25, 0.95) 45%, rgba(3, 6, 18, 0.98) 100%),
-                url('nyc_subway_map.png?v=2') center / cover fixed no-repeat;
+    background: var(--netlify-gradient);
     padding: var(--space-20) 0;
     position: relative;
     overflow: hidden;
@@ -1005,14 +1021,13 @@ a.reddit-join-button:hover {
     margin-bottom: var(--space-4);
     position: relative;
     z-index: 10;
+    color: var(--text-primary);
     
     /* Advanced 3D Text Effects */
     transform: translateZ(50px) perspective(1000px);
     text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.5),
-        4px 4px 8px rgba(0, 0, 0, 0.3),
-        0 0 20px rgba(255, 255, 255, 0.1),
-        0 0 40px rgba(124, 58, 237, 0.2);
+        1px 1px 2px rgba(0, 0, 0, 0.1),
+        2px 2px 4px rgba(0, 0, 0, 0.05);
     transform-style: preserve-3d;
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     animation: titleFloat 6s ease-in-out infinite;
@@ -1057,10 +1072,7 @@ a.reddit-join-button:hover {
     transform: translateZ(25px) perspective(800px);
     transform-style: preserve-3d;
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    animation: subtitleGlow 8s ease-in-out infinite;
-    text-shadow: 
-        1px 1px 2px rgba(0, 0, 0, 0.3),
-        0 0 15px rgba(255, 255, 255, 0.1);
+    text-shadow: none;
 }
 
 .hero-subtitle:hover {
@@ -1120,12 +1132,12 @@ a.reddit-join-button:hover {
 .jules-feature-item {
     position: relative;
     z-index: 15;
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 2px solid rgba(0, 0, 0, 0.1) !important;
     border-radius: 20px !important;
     padding: var(--space-6) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
-    color: white !important;
+    color: var(--text-primary) !important;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
     transform-style: preserve-3d;
     cursor: pointer;
@@ -1244,15 +1256,13 @@ a.reddit-join-button:hover {
 
 /* Enhanced titles for subway station features */
 .jules-feature-item h4 {
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
     font-weight: 700 !important;
     font-size: var(--text-lg) !important;
     text-transform: uppercase !important;
     letter-spacing: 1.2px !important;
     margin-bottom: var(--space-3) !important;
-    text-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.7),
-        0 0 10px rgba(255, 255, 255, 0.3) !important;
+    text-shadow: none !important;
     transition: all 0.3s ease;
     transform: translateZ(10px);
 }
@@ -1266,11 +1276,11 @@ a.reddit-join-button:hover {
 }
 
 .jules-feature-item p {
-    color: #f0f0f0 !important;
+    color: var(--text-secondary) !important;
     font-size: var(--text-sm) !important;
     line-height: 1.6 !important;
     margin: 0 !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+    text-shadow: none !important;
     transition: all 0.3s ease;
     transform: translateZ(5px);
 }
@@ -1558,20 +1568,20 @@ a.reddit-join-button:hover {
 
 /* FAQ Items - Subway Information Board Style */
 .faq-item {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
-    border: 2px solid var(--subway-blue) !important;
-    color: #ffffff !important;
+    background: var(--bg-secondary) !important;
+    border: 2px solid var(--subway-gray) !important;
+    color: var(--text-primary) !important;
 }
 
 .faq-item h3 {
-    color: #ffffff !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
-    border-bottom: 1px solid var(--subway-blue) !important;
+    color: var(--text-primary) !important;
+    text-shadow: none !important;
+    border-bottom: 1px solid var(--subway-gray) !important;
     padding-bottom: var(--space-2) !important;
 }
 
 .faq-item p {
-    color: #e0e0e0 !important;
+    color: var(--text-secondary) !important;
 }
 
 .faq-item:hover {
@@ -1589,7 +1599,7 @@ a.reddit-join-button:hover {
 
 /* ===== STATISTICS SECTION - SUBWAY PLATFORM STYLE ===== */
 .stats-section {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    background: var(--bg-tertiary);
     padding: var(--space-20) 0;
     margin: var(--space-8) 0;
     position: relative;
@@ -1641,7 +1651,7 @@ a.reddit-join-button:hover {
 
 .stat-item {
     text-align: center;
-    color: var(--white);
+    color: var(--text-primary);
 }
 
 .stat-number {
@@ -1660,7 +1670,7 @@ a.reddit-join-button:hover {
 
 /* ===== CTA SECTION - SUBWAY TERMINAL STYLE ===== */
 .cta-section {
-    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    background: var(--netlify-gradient-reverse);
     padding: var(--space-24) 0;
     margin: var(--space-24) 0;
     position: relative;
@@ -1694,13 +1704,13 @@ a.reddit-join-button:hover {
     margin-bottom: var(--space-6);
     position: relative;
     z-index: 1;
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    color: var(--text-primary);
+    text-shadow: none;
 }
 
 .cta-subtitle {
     font-size: var(--text-xl);
-    color: #e0e0e0;
+    color: var(--text-secondary);
     max-width: 700px;
     margin: 0 auto var(--space-8);
     line-height: 1.6;
@@ -1712,11 +1722,11 @@ a.reddit-join-button:hover {
 form {
     max-width: 600px;
     margin: var(--space-8) auto;
-    background: #1a1a1a;
+    background: var(--bg-secondary);
     padding: var(--space-8);
     border-radius: var(--radius-xl);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-    border: 2px solid var(--subway-blue);
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--subway-gray);
     position: relative;
 }
 
@@ -1746,8 +1756,8 @@ label {
     display: block;
     font-weight: 600;
     margin-bottom: var(--space-2);
-    color: #ffffff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    color: var(--text-primary);
+    text-shadow: none;
 }
 
 input,
@@ -1760,8 +1770,8 @@ select {
     font-family: var(--font-primary);
     font-size: var(--text-base);
     transition: var(--transition);
-    background: #2d2d2d;
-    color: #ffffff;
+    background: var(--white);
+    color: var(--text-primary);
 }
 
 input:focus,
@@ -1800,8 +1810,8 @@ textarea {
 
 /* ===== FOOTER - SUBWAY TERMINAL STYLE ===== */
 .site-footer {
-    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
-    color: var(--gray-300);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
     padding: var(--space-16) 0 var(--space-8);
     margin-top: var(--space-24);
     border-top: 4px solid transparent;
@@ -1831,8 +1841,8 @@ textarea {
     font-family: var(--font-display);
     font-size: var(--text-2xl);
     font-weight: 800;
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(0, 57, 166, 0.5);
+    color: var(--text-primary);
+    text-shadow: none;
     position: relative;
 }
 
@@ -1874,9 +1884,9 @@ textarea {
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: var(--gray-800);
+    background: var(--gray-200);
     border-radius: var(--radius-full);
-    color: var(--gray-400);
+    color: var(--text-primary);
     transition: var(--transition);
 }
 

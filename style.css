@@ -750,8 +750,9 @@ a.reddit-join-button:hover {
 
 /* ===== ADVANCED 3D HERO SECTION ===== */
 .hero-section {
-    background: radial-gradient(circle at top, rgba(12, 20, 46, 0.85) 0%, rgba(8, 11, 25, 0.95) 45%, rgba(3, 6, 18, 0.98) 100%),
-                url('nyc_subway_map.png?v=2') center / cover fixed no-repeat;
+    background-image: url('/static/nyc_subway_map.png');
+    background-size: cover;
+    background-position: center;
     padding: var(--space-20) 0;
     position: relative;
     overflow: hidden;
@@ -924,40 +925,7 @@ a.reddit-join-button:hover {
     }
 }
 
-.hero-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(ellipse at top left, rgba(79, 70, 229, 0.18) 0%, rgba(16, 185, 129, 0.08) 45%, transparent 75%),
-                radial-gradient(ellipse at bottom right, rgba(14, 165, 233, 0.16) 0%, transparent 65%);
-    pointer-events: none;
-    z-index: 1;
-}
 
-/* NYC Subway Map Style Background Elements */
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-        /* Horizontal subway lines */
-        linear-gradient(90deg, transparent 0%, transparent 20%, var(--subway-blue) 20%, var(--subway-blue) 22%, transparent 22%, transparent 100%),
-        linear-gradient(90deg, transparent 0%, transparent 60%, var(--subway-green) 60%, var(--subway-green) 62%, transparent 62%, transparent 100%),
-        /* Vertical connection lines */
-        linear-gradient(0deg, transparent 0%, transparent 30%, var(--subway-orange) 30%, var(--subway-orange) 32%, transparent 32%, transparent 100%),
-        linear-gradient(0deg, transparent 0%, transparent 70%, var(--subway-purple) 70%, var(--subway-purple) 72%, transparent 72%, transparent 100%);
-    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
-    background-position: 0 30%, 0 70%, 15% 0, 85% 0;
-    opacity: 0.1;
-    pointer-events: none;
-    z-index: 0;
-}
 
 @media (max-width: 1200px) {
     .hero-layout {
@@ -1105,17 +1073,6 @@ a.reddit-join-button:hover {
     position: relative;
 }
 
-.jules-features-grid::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at center, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 1;
-}
 
 .jules-feature-item {
     position: relative;

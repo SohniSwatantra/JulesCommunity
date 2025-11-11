@@ -931,8 +931,8 @@ a.reddit-join-button:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(ellipse at top left, rgba(79, 70, 229, 0.18) 0%, rgba(16, 185, 129, 0.08) 45%, transparent 75%),
-                radial-gradient(ellipse at bottom right, rgba(14, 165, 233, 0.16) 0%, transparent 65%);
+    background: radial-gradient(ellipse at top left, rgba(79, 70, 229, 0.09) 0%, rgba(16, 185, 129, 0.04) 45%, transparent 75%),
+                radial-gradient(ellipse at bottom right, rgba(14, 165, 233, 0.08) 0%, transparent 65%);
     pointer-events: none;
     z-index: 1;
 }

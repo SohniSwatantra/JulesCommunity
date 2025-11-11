@@ -20,3 +20,7 @@ app.db
 .idea/
 *.swp
 *.swo
+
+# Ignored generated files
+flask_output.log
+instance/projects.db

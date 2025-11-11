@@ -134,7 +134,7 @@ body {
     font-size: var(--text-base);
     line-height: 1.6;
     color: var(--text-primary);
-    background: var(--netlify-gradient);
+    background: #f3ffe6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

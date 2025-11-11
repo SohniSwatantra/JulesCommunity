@@ -329,10 +329,6 @@ def serve_css():
 def serve_js():
     return send_file('script.js', mimetype='application/javascript')
 
-@app.route('/image.png')
-def serve_image():
-    return send_file('image.png', mimetype='image/png')
-
 @app.route('/placeholder.jpg')
 def serve_placeholder():
     return send_file('placeholder.jpg', mimetype='image/jpeg')

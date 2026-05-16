@@ -1,6 +1,97 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Jules AI Community Hub Loaded");
 
+    // ==========================================
+    // THREE.JS SUBWAY BACKGROUND
+    // ==========================================
+    function initThreeJsSubway() {
+        const canvas = document.getElementById('three-canvas');
+        if (!canvas || typeof THREE === 'undefined') return;
+
+        // Scene setup
+        const scene = new THREE.Scene();
+
+        // Camera setup - Orthographic for a 2D map feel
+        const aspect = window.innerWidth / window.innerHeight;
+        const cameraSize = 5; // Adjust based on how much of the map should be visible
+        const camera = new THREE.OrthographicCamera(
+            -cameraSize * aspect, cameraSize * aspect,
+            cameraSize, -cameraSize,
+            0.1, 100
+        );
+        camera.position.z = 10;
+
+        // Renderer setup
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // optimize pixel ratio
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const aspect = window.innerWidth / window.innerHeight;
+            camera.left = -cameraSize * aspect;
+            camera.right = cameraSize * aspect;
+            camera.top = cameraSize;
+            camera.bottom = -cameraSize;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Load Subway Map Texture
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load('subway.png', (texture) => {
+            // Background Plane
+            const planeAspect = texture.image.width / texture.image.height;
+            // Scale plane to fit/cover height
+            const planeHeight = cameraSize * 2.5;
+            const planeWidth = planeHeight * planeAspect;
+
+            const planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
+            const planeMaterial = new THREE.MeshBasicMaterial({ map: texture });
+            const backgroundPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+            scene.add(backgroundPlane);
+
+            // Train Object (simple red box)
+            const trainGeometry = new THREE.BoxGeometry(0.5, 0.2, 0.1);
+            const trainMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const train = new THREE.Mesh(trainGeometry, trainMaterial);
+            // Move it slightly forward so it doesn't z-fight with the background
+            train.position.z = 0.1;
+            scene.add(train);
+
+            // Train Animation Logic
+            // A simple circular or figure-8 path relative to the plane size
+            const timeOffset = 0;
+            const speed = 0.5;
+
+            function animate(time) {
+                requestAnimationFrame(animate);
+
+                // Convert time to seconds
+                const t = time * 0.001 * speed;
+
+                // Move train in a path (e.g., an ellipse covering parts of the map)
+                const radiusX = planeWidth * 0.4;
+                const radiusY = planeHeight * 0.4;
+
+                train.position.x = Math.cos(t) * radiusX;
+                train.position.y = Math.sin(t * 2) * radiusY * 0.5; // Figure-8ish motion
+
+                // Orient the train to point in the direction of movement
+                const dx = -Math.sin(t) * radiusX;
+                const dy = Math.cos(t * 2) * 2 * radiusY * 0.5;
+                const angle = Math.atan2(dy, dx);
+                train.rotation.z = angle;
+
+                renderer.render(scene, camera);
+            }
+
+            animate(0);
+        });
+    }
+
+    initThreeJsSubway();
+
     // Helper to escape HTML for display
     function escapeHtml(unsafe) {
         if (unsafe === null || unsafe === undefined) return '';

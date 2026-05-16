@@ -337,6 +337,10 @@ def serve_image():
 def serve_placeholder():
     return send_file('placeholder.jpg', mimetype='image/jpeg')
 
+@app.route('/subway.png')
+def serve_subway_image():
+    return send_file('subway.png', mimetype='image/png')
+
 
 # --- Documentation Pages ---
 @app.route('/docs.html')

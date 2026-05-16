@@ -1,0 +1,16 @@
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 124-888-247
+[2026-05-16 19:38:24,447] ERROR in app: Error fetching project data for / route: (sqlite3.OperationalError) no such table: projects_data
+[SQL: SELECT projects_data.id AS projects_data_id, projects_data.name AS projects_data_name, projects_data.description AS projects_data_description, projects_data.url AS projects_data_url
+FROM projects_data]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+127.0.0.1 - - [16/May/2026 19:38:24] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/May/2026 19:38:24] "GET /style.css HTTP/1.1" 200 -
+127.0.0.1 - - [16/May/2026 19:38:24] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [16/May/2026 19:38:24] "[33mGET /nyc_subway_map.png?v=2 HTTP/1.1[0m" 404 -

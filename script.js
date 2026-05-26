@@ -59,29 +59,144 @@ document.addEventListener('DOMContentLoaded', () => {
             train.position.z = 0.1;
             scene.add(train);
 
-            // Train Animation Logic
-            // A simple circular or figure-8 path relative to the plane size
-            const timeOffset = 0;
-            const speed = 0.5;
+            // ==========================================
+            // DYNAMIC TRAIN PATH MAPPING
+            // ==========================================
+            let currentT = 0;
+            let curve = null;
+            let stationProgresses = [];
+            let stationTs = [];
+            let globalProgress = 0;
+            let previousWorldX = train.position.x;
+            let previousWorldY = train.position.y;
+            
+            function buildPath() {
+                const stations = Array.from(document.querySelectorAll('.jules-feature-item h4, h2.section-title, h2.cta-title'));
+                if (stations.length < 2) return;
+                
+                stationProgresses = [];
+                stationTs = [];
+                
+                // document.documentElement.scrollHeight is safer for total height
+                const scrollHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                
+                const points = stations.map((el, i) => {
+                    const rect = el.getBoundingClientRect();
+                    const absoluteY = rect.top + window.scrollY;
+                    const absoluteX = rect.left + window.scrollX + rect.width / 2;
+                    
+                    // The scroll position where this station is perfectly centered
+                    let scrollPos = absoluteY - window.innerHeight / 2;
+                    scrollPos = Math.max(0, Math.min(scrollPos, scrollHeight));
+                    
+                    stationProgresses.push(scrollPos / scrollHeight);
+                    stationTs.push(i / (stations.length - 1));
+                    
+                    return new THREE.Vector3(absoluteX, absoluteY, 0);
+                });
+                
+                curve = new THREE.CatmullRomCurve3(points);
+                curve.curveType = 'centripetal';
+            }
+            
+            // Build initially after a short delay to ensure DOM is settled
+            setTimeout(buildPath, 100);
+            
+            // Rebuild on resize
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(buildPath, 200);
+            });
+            
+            // Track global scroll progress using ScrollTrigger
+            if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.create({
+                    trigger: document.body,
+                    start: "top top",
+                    end: "bottom bottom",
+                    onUpdate: (self) => {
+                        globalProgress = self.progress;
+                    }
+                });
+            } else {
+                window.addEventListener('scroll', () => {
+                    const scrollHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                    globalProgress = Math.max(0, Math.min(window.scrollY / scrollHeight, 1));
+                });
+            }
 
             function animate(time) {
                 requestAnimationFrame(animate);
 
-                // Convert time to seconds
-                const t = time * 0.001 * speed;
-
-                // Move train in a path (e.g., an ellipse covering parts of the map)
-                const radiusX = planeWidth * 0.4;
-                const radiusY = planeHeight * 0.4;
-
-                train.position.x = Math.cos(t) * radiusX;
-                train.position.y = Math.sin(t * 2) * radiusY * 0.5; // Figure-8ish motion
-
-                // Orient the train to point in the direction of movement
-                const dx = -Math.sin(t) * radiusX;
-                const dy = Math.cos(t * 2) * 2 * radiusY * 0.5;
-                const angle = Math.atan2(dy, dx);
-                train.rotation.z = angle;
+                if (curve && stationProgresses.length >= 2) {
+                    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    
+                    let targetT = 0;
+                    if (globalProgress <= stationProgresses[0]) {
+                        targetT = stationTs[0];
+                    } else if (globalProgress >= stationProgresses[stationProgresses.length - 1]) {
+                        targetT = stationTs[stationTs.length - 1];
+                    } else {
+                        for (let i = 1; i < stationProgresses.length; i++) {
+                            if (globalProgress <= stationProgresses[i]) {
+                                const pPrev = stationProgresses[i-1];
+                                const pCurr = stationProgresses[i];
+                                const tPrev = stationTs[i-1];
+                                const tCurr = stationTs[i];
+                                
+                                let localP = (globalProgress - pPrev) / (pCurr - pPrev);
+                                
+                                if (prefersReducedMotion) {
+                                    localP = localP < 0.5 ? 0 : 1;
+                                } else {
+                                    // Cubic ease-in-out for dwell logic
+                                    localP = localP < 0.5 ? 4 * localP * localP * localP : 1 - Math.pow(-2 * localP + 2, 3) / 2;
+                                }
+                                
+                                targetT = tPrev + localP * (tCurr - tPrev);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (prefersReducedMotion) {
+                        currentT = targetT;
+                    } else {
+                        // Smoothly interpolate currentT to targetT
+                        currentT += (targetT - currentT) * 0.05; 
+                    }
+                    
+                    const clampedT = Math.max(0, Math.min(currentT, 1));
+                    const point2D = curve.getPointAt(clampedT);
+                    
+                    const viewportX = point2D.x - window.scrollX;
+                    const viewportY = point2D.y - window.scrollY;
+                    
+                    const ndcX = (viewportX / window.innerWidth) * 2 - 1;
+                    const ndcY = -(viewportY / window.innerHeight) * 2 + 1;
+                    
+                    const aspect = window.innerWidth / window.innerHeight;
+                    const worldX = ndcX * (cameraSize * aspect);
+                    const worldY = ndcY * cameraSize;
+                    
+                    train.position.x = worldX;
+                    train.position.y = worldY;
+                    
+                    const dx = worldX - previousWorldX;
+                    const dy = worldY - previousWorldY;
+                    
+                    // Rotate train to face direction of travel
+                    if (Math.abs(dx) > 0.0001 || Math.abs(dy) > 0.0001) {
+                        const targetAngle = Math.atan2(dy, dx);
+                        let diff = targetAngle - train.rotation.z;
+                        diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+                        train.rotation.z += diff * 0.15;
+                        
+                        previousWorldX = worldX;
+                        previousWorldY = worldY;
+                    }
+                }
 
                 renderer.render(scene, camera);
             }

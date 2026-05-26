@@ -11,28 +11,31 @@ document.addEventListener('DOMContentLoaded', () => {
         // Scene setup
         const scene = new THREE.Scene();
 
-        // Camera setup - Orthographic for a 2D map feel
+        // Add some basic lighting for the 3D train
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        directionalLight.position.set(5, 5, 10);
+        scene.add(directionalLight);
+
+        // Camera setup - Perspective for premium 3D feel
+        const fov = 45;
         const aspect = window.innerWidth / window.innerHeight;
-        const cameraSize = 5; // Adjust based on how much of the map should be visible
-        const camera = new THREE.OrthographicCamera(
-            -cameraSize * aspect, cameraSize * aspect,
-            cameraSize, -cameraSize,
-            0.1, 100
-        );
-        camera.position.z = 10;
+        const camera = new THREE.PerspectiveCamera(fov, aspect, 0.1, 100);
+        
+        // Base camera settings
+        const baseCameraZ = 15;
+        camera.position.set(0, 0, baseCameraZ);
 
         // Renderer setup
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // optimize pixel ratio
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
         // Handle window resize
         window.addEventListener('resize', () => {
-            const aspect = window.innerWidth / window.innerHeight;
-            camera.left = -cameraSize * aspect;
-            camera.right = cameraSize * aspect;
-            camera.top = cameraSize;
-            camera.bottom = -cameraSize;
+            camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
@@ -40,53 +43,156 @@ document.addEventListener('DOMContentLoaded', () => {
         // Load Subway Map Texture
         const textureLoader = new THREE.TextureLoader();
         textureLoader.load('subway.png', (texture) => {
-            // Background Plane
             const planeAspect = texture.image.width / texture.image.height;
-            // Scale plane to fit/cover height
-            const planeHeight = cameraSize * 2.5;
+            const planeHeight = 25; // Large enough to cover the screen during zoom
             const planeWidth = planeHeight * planeAspect;
 
             const planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
             const planeMaterial = new THREE.MeshBasicMaterial({ map: texture });
             const backgroundPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+            backgroundPlane.position.z = -0.1; // Push back slightly
             scene.add(backgroundPlane);
 
-            // Train Object (simple red box)
-            const trainGeometry = new THREE.BoxGeometry(0.5, 0.2, 0.1);
-            const trainMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-            const train = new THREE.Mesh(trainGeometry, trainMaterial);
-            // Move it slightly forward so it doesn't z-fight with the background
-            train.position.z = 0.1;
-            scene.add(train);
+            // High-fidelity 3D Train Model
+            const trainGroup = new THREE.Group();
 
-            // Train Animation Logic
-            // A simple circular or figure-8 path relative to the plane size
-            const timeOffset = 0;
-            const speed = 0.5;
+            // Train Body (Silver/Metallic)
+            // Built along X axis, so +X is forward.
+            const bodyGeom = new THREE.BoxGeometry(2.5, 0.8, 0.6);
+            const bodyMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, metalness: 0.6, roughness: 0.4 });
+            const body = new THREE.Mesh(bodyGeom, bodyMat);
+            body.position.z = 0.3; // Lift up so bottom is at Z=0
+            trainGroup.add(body);
 
-            function animate(time) {
+            // Front Cab (Darker)
+            const cabGeom = new THREE.BoxGeometry(0.5, 0.8, 0.6);
+            const cabMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.3, roughness: 0.7 });
+            const cab = new THREE.Mesh(cabGeom, cabMat);
+            cab.position.set(1.5, 0, 0.3);
+            trainGroup.add(cab);
+
+            // Red Stripe
+            const stripeGeom = new THREE.BoxGeometry(3.0, 0.82, 0.1);
+            const stripeMat = new THREE.MeshStandardMaterial({ color: 0xcc0000 });
+            const stripe = new THREE.Mesh(stripeGeom, stripeMat);
+            stripe.position.set(0.25, 0, 0.15);
+            trainGroup.add(stripe);
+
+            // Windows
+            const winMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.9, roughness: 0.1 });
+            for(let i = 0; i < 4; i++) {
+                const win = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.85, 0.25), winMat);
+                win.position.set(-0.8 + i * 0.6, 0, 0.4);
+                trainGroup.add(win);
+            }
+
+            // Headlights
+            const lightGeom = new THREE.CircleGeometry(0.08, 16);
+            const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            
+            const light1 = new THREE.Mesh(lightGeom, lightMat);
+            light1.rotation.y = Math.PI / 2;
+            light1.position.set(1.76, -0.25, 0.2); 
+            trainGroup.add(light1);
+            
+            const light2 = new THREE.Mesh(lightGeom, lightMat);
+            light2.rotation.y = Math.PI / 2;
+            light2.position.set(1.76, 0.25, 0.2);
+            trainGroup.add(light2);
+
+            trainGroup.scale.set(0.5, 0.5, 0.5); // Scale to fit track appropriately
+            scene.add(trainGroup);
+
+            // Define track waypoints corresponding to visual subway lines
+            // We use realistic curves sweeping across the plane
+            const trackPoints = [
+                new THREE.Vector3(-planeWidth * 0.35, planeHeight * 0.4, 0),
+                new THREE.Vector3(-planeWidth * 0.2, planeHeight * 0.2, 0),
+                new THREE.Vector3(0, planeHeight * 0.05, 0),
+                new THREE.Vector3(planeWidth * 0.1, -planeHeight * 0.1, 0),
+                new THREE.Vector3(planeWidth * 0.25, -planeHeight * 0.25, 0),
+                new THREE.Vector3(planeWidth * 0.15, -planeHeight * 0.4, 0)
+            ];
+            
+            const curve = new THREE.CatmullRomCurve3(trackPoints);
+            
+            // Draw a track line for visual grounding
+            const trackGeom = new THREE.TubeGeometry(curve, 100, 0.04, 8, false);
+            const trackMat = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.8, roughness: 0.2 });
+            const track = new THREE.Mesh(trackGeom, trackMat);
+            scene.add(track);
+
+            // Scroll-linked animation system
+            let scrollProgress = 0;
+            let targetScrollProgress = 0;
+
+            window.addEventListener('scroll', () => {
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                if (maxScroll > 0) {
+                    targetScrollProgress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+                }
+            });
+
+            // Camera Scenes / Waypoints
+            const scenes = [
+                { p: 0.0, pos: new THREE.Vector3(0, 0, 15), tilt: 0 },
+                { p: 0.3, pos: new THREE.Vector3(0, 0, 10), tilt: 0.15 }, // Zoom in
+                { p: 0.6, pos: new THREE.Vector3(0, 0, 8), tilt: 0.3 },  // Dynamic tilt
+                { p: 1.0, pos: new THREE.Vector3(0, 0, 12), tilt: 0.1 }
+            ];
+
+            function getCameraScene(p) {
+                for (let i = 0; i < scenes.length - 1; i++) {
+                    if (p >= scenes[i].p && p <= scenes[i+1].p) {
+                        const t = (p - scenes[i].p) / (scenes[i+1].p - scenes[i].p);
+                        
+                        // Smooth step easing
+                        const easeT = t * t * (3 - 2 * t);
+
+                        const pos = new THREE.Vector3().lerpVectors(scenes[i].pos, scenes[i+1].pos, easeT);
+                        const tilt = scenes[i].tilt + (scenes[i+1].tilt - scenes[i].tilt) * easeT;
+                        return { pos, tilt };
+                    }
+                }
+                return { pos: scenes[scenes.length-1].pos, tilt: scenes[scenes.length-1].tilt };
+            }
+
+            // Animation Loop
+            function animate() {
                 requestAnimationFrame(animate);
 
-                // Convert time to seconds
-                const t = time * 0.001 * speed;
+                // Smooth scroll interpolation (input responsiveness)
+                // 0.15 factor balances instantaneous feel with visual smoothness
+                scrollProgress += (targetScrollProgress - scrollProgress) * 0.15;
+                
+                const safeProgress = Math.max(0.001, Math.min(0.999, scrollProgress));
 
-                // Move train in a path (e.g., an ellipse covering parts of the map)
-                const radiusX = planeWidth * 0.4;
-                const radiusY = planeHeight * 0.4;
+                // 1. Move the train along the predefined path
+                const trainPos = curve.getPointAt(safeProgress);
+                trainGroup.position.copy(trainPos);
 
-                train.position.x = Math.cos(t) * radiusX;
-                train.position.y = Math.sin(t * 2) * radiusY * 0.5; // Figure-8ish motion
+                // 2. Align the train's orientation (rotation) with the direction of the track
+                const tangent = curve.getTangentAt(safeProgress).normalize();
+                
+                // Align train's local +X axis with the tangent direction
+                trainGroup.rotation.z = Math.atan2(tangent.y, tangent.x);
 
-                // Orient the train to point in the direction of movement
-                const dx = -Math.sin(t) * radiusX;
-                const dy = Math.cos(t * 2) * 2 * radiusY * 0.5;
-                const angle = Math.atan2(dy, dx);
-                train.rotation.z = angle;
+                // 3. Dynamic camera movements
+                const sceneState = getCameraScene(safeProgress);
+                
+                // Make camera track the train slightly (Pan)
+                camera.position.x = trainPos.x * 0.4;
+                camera.position.y = trainPos.y * 0.4;
+                camera.position.z = sceneState.pos.z;
+
+                // Tilt effect: target lookAt is slightly below the camera
+                const cameraTarget = new THREE.Vector3(camera.position.x, camera.position.y - sceneState.tilt * 10, 0);
+                camera.lookAt(cameraTarget);
 
                 renderer.render(scene, camera);
             }
 
-            animate(0);
+            animate();
         });
     }
 
@@ -714,6 +820,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Ensure escapeHtml is used from the global scope defined at the top of DOMContentLoaded
+});
 
 // ==========================================
 // NETLIFY FUNCTIONS INTEGRATION

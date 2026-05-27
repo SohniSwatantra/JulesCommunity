@@ -51,37 +51,89 @@ document.addEventListener('DOMContentLoaded', () => {
             const backgroundPlane = new THREE.Mesh(planeGeometry, planeMaterial);
             scene.add(backgroundPlane);
 
-            // Train Object (simple red box)
-            const trainGeometry = new THREE.BoxGeometry(0.5, 0.2, 0.1);
-            const trainMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-            const train = new THREE.Mesh(trainGeometry, trainMaterial);
-            // Move it slightly forward so it doesn't z-fight with the background
-            train.position.z = 0.1;
+            // Procedural Multi-part Train Geometry
+            const train = new THREE.Group();
+            
+            // We'll put the actual geometry in a sub-group so we can tilt it for a 2.5D isometric effect,
+            // otherwise the orthographic camera looking straight down will only see the top face.
+            const trainMesh = new THREE.Group();
+            
+            // 1. Main Chassis
+            const chassisGeo = new THREE.BoxGeometry(0.8, 0.3, 0.25);
+            const chassisMat = new THREE.MeshBasicMaterial({ color: 0xcccccc }); // Silver/gray body
+            const chassis = new THREE.Mesh(chassisGeo, chassisMat);
+            trainMesh.add(chassis);
+
+            // 2. Driver Cabin (Front)
+            const cabinGeo = new THREE.BoxGeometry(0.25, 0.3, 0.26);
+            const cabinMat = new THREE.MeshBasicMaterial({ color: 0xEE352E }); // Subway red
+            const cabin = new THREE.Mesh(cabinGeo, cabinMat);
+            cabin.position.set(0.3, 0, 0); // Positioned at the front (+X)
+            trainMesh.add(cabin);
+            
+            // 3. Roof AC Units (Decorative elements)
+            const acGeo = new THREE.BoxGeometry(0.15, 0.2, 0.05);
+            const acMat = new THREE.MeshBasicMaterial({ color: 0x555555 });
+            
+            const ac1 = new THREE.Mesh(acGeo, acMat);
+            ac1.position.set(-0.2, 0, 0.15); // On top
+            trainMesh.add(ac1);
+            
+            const ac2 = new THREE.Mesh(acGeo, acMat);
+            ac2.position.set(0.05, 0, 0.15);
+            trainMesh.add(ac2);
+
+            // 4. Windows (Side)
+            const windowGeo = new THREE.PlaneGeometry(0.15, 0.1);
+            const windowMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
+            
+            const win1 = new THREE.Mesh(windowGeo, windowMat);
+            win1.position.set(-0.2, 0.151, 0.05);
+            win1.rotation.x = -Math.PI / 2; // Face sideways (+Y)
+            trainMesh.add(win1);
+            
+            const win2 = new THREE.Mesh(windowGeo, windowMat);
+            win2.position.set(0.05, 0.151, 0.05);
+            win2.rotation.x = -Math.PI / 2;
+            trainMesh.add(win2);
+            
+            // Tilt the train mesh so it looks 3D under an orthographic camera
+            trainMesh.rotation.x = Math.PI / 6;
+            trainMesh.rotation.y = -Math.PI / 12;
+            
+            train.add(trainMesh);
+            train.position.z = 0.2;
             scene.add(train);
 
-            // Train Animation Logic
-            // A simple circular or figure-8 path relative to the plane size
-            const timeOffset = 0;
-            const speed = 0.5;
+            // Train Pathing Logic (Catmull-Rom Spline matching a general map route)
+            const speed = 0.5; // Configurable leisure speed
+            
+            // Manually tuned coordinates to match a main subway route on the map
+            const curve = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(-1.0, 5.5, 0.1),
+                new THREE.Vector3(-1.2, 3.0, 0.1),
+                new THREE.Vector3(-0.5, 0.5, 0.1),
+                new THREE.Vector3(0.8, -2.0, 0.1),
+                new THREE.Vector3(1.2, -4.0, 0.1),
+                new THREE.Vector3(1.0, -5.5, 0.1)
+            ]);
+            
+            let t = 0;
 
             function animate(time) {
                 requestAnimationFrame(animate);
 
-                // Convert time to seconds
-                const t = time * 0.001 * speed;
+                // Update t based on delta to keep speed consistent (leisurely pace)
+                t += 0.001 * speed;
+                if (t > 1) t = 0;
 
-                // Move train in a path (e.g., an ellipse covering parts of the map)
-                const radiusX = planeWidth * 0.4;
-                const radiusY = planeHeight * 0.4;
+                // Move train along the spline
+                const pos = curve.getPointAt(t);
+                train.position.copy(pos);
 
-                train.position.x = Math.cos(t) * radiusX;
-                train.position.y = Math.sin(t * 2) * radiusY * 0.5; // Figure-8ish motion
-
-                // Orient the train to point in the direction of movement
-                const dx = -Math.sin(t) * radiusX;
-                const dy = Math.cos(t * 2) * 2 * radiusY * 0.5;
-                const angle = Math.atan2(dy, dx);
-                train.rotation.z = angle;
+                // Orient the train to face the direction of the path
+                const tangent = curve.getTangentAt(t).normalize();
+                train.rotation.z = Math.atan2(tangent.y, tangent.x);
 
                 renderer.render(scene, camera);
             }

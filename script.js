@@ -60,33 +60,61 @@ document.addEventListener('DOMContentLoaded', () => {
             scene.add(train);
 
             // Train Animation Logic
-            // A simple circular or figure-8 path relative to the plane size
-            const timeOffset = 0;
-            const speed = 0.5;
+            // Map scroll progress to train path
+            const radiusX = planeWidth * 0.4;
+            const radiusY = planeHeight * 0.4;
 
-            function animate(time) {
-                requestAnimationFrame(animate);
+            // Object to track animated properties
+            const trainState = { t: 0 };
 
-                // Convert time to seconds
-                const t = time * 0.001 * speed;
-
-                // Move train in a path (e.g., an ellipse covering parts of the map)
-                const radiusX = planeWidth * 0.4;
-                const radiusY = planeHeight * 0.4;
-
+            // Function to update position and render
+            function updateTrain(direction) {
+                const t = trainState.t;
                 train.position.x = Math.cos(t) * radiusX;
-                train.position.y = Math.sin(t * 2) * radiusY * 0.5; // Figure-8ish motion
+                train.position.y = Math.sin(t * 2) * radiusY * 0.5;
 
-                // Orient the train to point in the direction of movement
                 const dx = -Math.sin(t) * radiusX;
                 const dy = Math.cos(t * 2) * 2 * radiusY * 0.5;
-                const angle = Math.atan2(dy, dx);
-                train.rotation.z = angle;
+                let angle = Math.atan2(dy, dx);
 
+                // Reverse orientation if scrolling backwards
+                if (direction === -1) {
+                    angle += Math.PI;
+                }
+
+                train.rotation.z = angle;
                 renderer.render(scene, camera);
             }
 
-            animate(0);
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                gsap.to(trainState, {
+                    t: Math.PI * 2, // One full figure-8 circuit
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: document.documentElement,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: true, // Direct correlation with scroll
+                        onUpdate: (self) => {
+                            updateTrain(self.direction);
+                        }
+                    }
+                });
+
+                // Initial render
+                updateTrain(1);
+            } else {
+                // Fallback to original animation if GSAP isn't loaded
+                const speed = 0.5;
+                function animate(time) {
+                    requestAnimationFrame(animate);
+                    trainState.t = time * 0.001 * speed;
+                    updateTrain(1);
+                }
+                animate(0);
+            }
         });
     }
 
@@ -1189,3 +1217,4 @@ function animateCounter(element) {
         }, stepTime);
     }
 }
+});

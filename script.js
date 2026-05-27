@@ -59,29 +59,76 @@ document.addEventListener('DOMContentLoaded', () => {
             train.position.z = 0.1;
             scene.add(train);
 
-            // Train Animation Logic
-            // A simple circular or figure-8 path relative to the plane size
-            const timeOffset = 0;
-            const speed = 0.5;
+            // Narrative Waypoint Path Logic
+            const relativeWaypoints = [
+                { x: -0.35, y: 0.85 },  // hero
+                { x: 0.35, y: 0.4 },    // stats
+                { x: -0.2, y: 0.0 },    // projects
+                { x: 0.3, y: -0.4 },    // faq
+                { x: -0.1, y: -0.85 }   // cta
+            ];
+            
+            const waypoints = relativeWaypoints.map(p => 
+                new THREE.Vector3(p.x * planeWidth, p.y * cameraSize, 0.1)
+            );
+            const spline = new THREE.CatmullRomCurve3(waypoints);
+            
+            const sectionSelectors = [
+                '#hero',
+                '.stats-section',
+                '#community-projects',
+                '#faq',
+                '#cta-section'
+            ];
+            
+            let sectionCenters = [];
+            const sections = sectionSelectors.map(sel => document.querySelector(sel)).filter(el => el);
+            
+            function updateSectionCenters() {
+                const scrollY = window.scrollY;
+                sectionCenters = sections.map(el => {
+                    const rect = el.getBoundingClientRect();
+                    return scrollY + rect.top + rect.height / 2;
+                });
+            }
+            
+            // Initial calculation & event listener
+            updateSectionCenters();
+            window.addEventListener('resize', updateSectionCenters);
+
+            // Dwell easing function (cubic smoothstep)
+            function easeInOut(t) {
+                return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            }
 
             function animate(time) {
                 requestAnimationFrame(animate);
 
-                // Convert time to seconds
-                const t = time * 0.001 * speed;
-
-                // Move train in a path (e.g., an ellipse covering parts of the map)
-                const radiusX = planeWidth * 0.4;
-                const radiusY = planeHeight * 0.4;
-
-                train.position.x = Math.cos(t) * radiusX;
-                train.position.y = Math.sin(t * 2) * radiusY * 0.5; // Figure-8ish motion
-
-                // Orient the train to point in the direction of movement
-                const dx = -Math.sin(t) * radiusX;
-                const dy = Math.cos(t * 2) * 2 * radiusY * 0.5;
-                const angle = Math.atan2(dy, dx);
-                train.rotation.z = angle;
+                const scrollCenter = window.scrollY + window.innerHeight / 2;
+                let currentU = 0;
+                
+                if (sectionCenters.length > 1) {
+                    if (scrollCenter <= sectionCenters[0]) {
+                        currentU = 0;
+                    } else if (scrollCenter >= sectionCenters[sectionCenters.length - 1]) {
+                        currentU = 1;
+                    } else {
+                        for (let i = 0; i < sectionCenters.length - 1; i++) {
+                            if (scrollCenter >= sectionCenters[i] && scrollCenter < sectionCenters[i+1]) {
+                                const segmentProgress = (scrollCenter - sectionCenters[i]) / (sectionCenters[i+1] - sectionCenters[i]);
+                                const easedProgress = easeInOut(segmentProgress);
+                                currentU = (i + easedProgress) / (sectionCenters.length - 1);
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                const position = spline.getPoint(currentU);
+                train.position.copy(position);
+                
+                const tangent = spline.getTangent(currentU);
+                train.rotation.z = Math.atan2(tangent.y, tangent.x);
 
                 renderer.render(scene, camera);
             }

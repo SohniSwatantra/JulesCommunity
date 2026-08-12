@@ -12,155 +12,213 @@ from app import app
 from decimal import Decimal
 
 def create_sample_data():
-    """Create sample data for testing"""
+    """Create sample data for testing using an idempotent transaction-safe pipeline"""
     
     print("🌱 Creating sample data...")
-    
+    import bcrypt
+
+    def hash_password(password):
+        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    def seed_record(model_class, lookup_filters, create_kwargs, update_on_exists=False):
+        try:
+            with db.session.begin_nested():
+                if isinstance(lookup_filters, list):
+                    existing = None
+                    for filt in lookup_filters:
+                        existing = db.session.query(model_class).filter_by(**filt).first()
+                        if existing:
+                            break
+                else:
+                    existing = db.session.query(model_class).filter_by(**lookup_filters).first()
+                    
+                if existing:
+                    if update_on_exists:
+                        for k, v in create_kwargs.items():
+                            setattr(existing, k, v)
+                        print(f"   🔄 Updated existing {model_class.__name__}")
+                    else:
+                        print(f"   🛡️ Preserved existing {model_class.__name__}")
+                else:
+                    init_args = {}
+                    if isinstance(lookup_filters, list):
+                        for filt in lookup_filters:
+                            init_args.update(filt)
+                    else:
+                        init_args.update(lookup_filters)
+                    init_args.update(create_kwargs)
+                    new_record = model_class(**init_args)
+                    db.session.add(new_record)
+                    print(f"   🌱 Inserted new {model_class.__name__}")
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print(f"   ❌ Error seeding {model_class.__name__}: {e}")
+            raise e
+
     try:
-        # Sample Users
-        sample_users = [
-            User(username='testuser', email='test@example.com', password_hash='hashed_password'),
-            User(username='developer', email='dev@example.com', password_hash='hashed_password')
+        # Standard password hashing for test accounts
+        hashed_password = hash_password('password123')
+
+        # 1. Users
+        users_to_seed = [
+            {
+                'lookup': [{'username': 'testuser'}, {'email': 'test@example.com'}],
+                'extra': {'password_hash': hashed_password}
+            },
+            {
+                'lookup': [{'username': 'developer'}, {'email': 'dev@example.com'}],
+                'extra': {'password_hash': hashed_password}
+            }
         ]
-        
-        # Sample Products
-        sample_products = [
-            Product(name='AI Tool License', description='Premium AI tool subscription', price=Decimal('29.99'), sku='AI-001'),
-            Product(name='Advanced Features', description='Unlock advanced AI features', price=Decimal('49.99'), sku='AI-002')
+        for u in users_to_seed:
+            seed_record(User, u['lookup'], u['extra'], update_on_exists=False)
+
+        # 2. Products
+        products_to_seed = [
+            {
+                'lookup': {'sku': 'AI-001'},
+                'extra': {'name': 'AI Tool License', 'description': 'Premium AI tool subscription', 'price': Decimal('29.99'), 'stock_quantity': 50}
+            },
+            {
+                'lookup': {'sku': 'AI-002'},
+                'extra': {'name': 'Advanced Features', 'description': 'Unlock advanced AI features', 'price': Decimal('49.99'), 'stock_quantity': 100}
+            }
         ]
-        
-        # Sample Application Settings
-        sample_settings = [
-            ApplicationSetting(key='site_name', value='Jules Community Hub', description='Site name'),
-            ApplicationSetting(key='max_upload_size', value='10MB', description='Maximum file upload size')
+        for p in products_to_seed:
+            seed_record(Product, p['lookup'], p['extra'], update_on_exists=True)
+
+        # 3. Settings
+        settings_to_seed = [
+            {
+                'lookup': {'key': 'site_name'},
+                'extra': {'value': 'Jules Community Hub', 'description': 'Site name'}
+            },
+            {
+                'lookup': {'key': 'max_upload_size'},
+                'extra': {'value': '10MB', 'description': 'Maximum file upload size'}
+            }
         ]
-        
-        # Sample Prompts
-        sample_prompts = [
-            Prompt(
-                title='Code Review Assistant',
-                category='Development',
-                description='Help review code for best practices and bugs',
-                prompt_text='Please review this code for best practices, potential bugs, and suggest improvements:',
-                rating=Decimal('4.5'),
-                usage_count=150
-            ),
-            Prompt(
-                title='Email Writer',
-                category='Writing',
-                description='Compose professional emails',
-                prompt_text='Write a professional email for the following situation:',
-                rating=Decimal('4.2'),
-                usage_count=89
-            ),
-            Prompt(
-                title='Documentation Generator',
-                category='Development',
-                description='Generate documentation for code',
-                prompt_text='Create comprehensive documentation for this code including usage examples:',
-                rating=Decimal('4.7'),
-                usage_count=201
-            )
+        for s in settings_to_seed:
+            seed_record(ApplicationSetting, s['lookup'], s['extra'], update_on_exists=True)
+
+        # 4. Prompts
+        prompts_to_seed = [
+            {
+                'lookup': {'title': 'Code Review Assistant'},
+                'extra': {
+                    'category': 'Development',
+                    'description': 'Help review code for best practices and bugs',
+                    'prompt_text': 'Please review this code for best practices, potential bugs, and suggest improvements:',
+                    'rating': Decimal('4.5'),
+                    'usage_count': 150
+                }
+            },
+            {
+                'lookup': {'title': 'Email Writer'},
+                'extra': {
+                    'category': 'Writing',
+                    'description': 'Compose professional emails',
+                    'prompt_text': 'Write a professional email for the following situation:',
+                    'rating': Decimal('4.2'),
+                    'usage_count': 89
+                }
+            },
+            {
+                'lookup': {'title': 'Documentation Generator'},
+                'extra': {
+                    'category': 'Development',
+                    'description': 'Generate documentation for code',
+                    'prompt_text': 'Create comprehensive documentation for this code including usage examples:',
+                    'rating': Decimal('4.7'),
+                    'usage_count': 201
+                }
+            }
         ]
-        
-        # Sample Showcase Projects
-        sample_showcase_projects = [
-            ShowcaseProject(
-                title='AI-Powered Task Manager',
-                category='Productivity',
-                description='A smart task manager that uses AI to prioritize and categorize tasks automatically',
-                link='https://github.com/example/ai-task-manager',
-                image_filename='task_manager.jpg'
-            ),
-            ShowcaseProject(
-                title='Code Documentation Bot',
-                category='Development',
-                description='Automatically generates documentation for codebases using AI analysis',
-                link='https://github.com/example/doc-bot',
-                image_filename='doc_bot.jpg'
-            )
+        for pr in prompts_to_seed:
+            seed_record(Prompt, pr['lookup'], pr['extra'], update_on_exists=True)
+
+        # 5. Showcase Projects
+        showcase_projects_to_seed = [
+            {
+                'lookup': {'title': 'AI-Powered Task Manager'},
+                'extra': {
+                    'category': 'Productivity',
+                    'description': 'A smart task manager that uses AI to prioritize and categorize tasks automatically',
+                    'link': 'https://github.com/example/ai-task-manager',
+                    'image_filename': 'task_manager.jpg'
+                }
+            },
+            {
+                'lookup': {'title': 'Code Documentation Bot'},
+                'extra': {
+                    'category': 'Development',
+                    'description': 'Automatically generates documentation for codebases using AI analysis',
+                    'link': 'https://github.com/example/doc-bot',
+                    'image_filename': 'doc_bot.jpg'
+                }
+            }
         ]
-        
-        # Sample Guides
-        sample_guides = [
-            Guide(url='https://blog.example.com/getting-started-with-ai', category='blogpost'),
-            Guide(url='https://youtube.com/watch?v=ai-tutorial', category='youtube'),
-            Guide(url='https://reddit.com/r/AI/post/tutorial', category='redditpost'),
-            Guide(url='https://twitter.com/ai_expert/status/tutorial', category='xpost')
+        for sp in showcase_projects_to_seed:
+            seed_record(ShowcaseProject, sp['lookup'], sp['extra'], update_on_exists=True)
+
+        # 6. Guides
+        guides_to_seed = [
+            {'lookup': {'url': 'https://blog.example.com/getting-started-with-ai'}, 'extra': {'category': 'blogpost'}},
+            {'lookup': {'url': 'https://youtube.com/watch?v=ai-tutorial'}, 'extra': {'category': 'youtube'}},
+            {'lookup': {'url': 'https://reddit.com/r/AI/post/tutorial'}, 'extra': {'category': 'redditpost'}},
+            {'lookup': {'url': 'https://twitter.com/ai_expert/status/tutorial'}, 'extra': {'category': 'xpost'}}
         ]
-        
-        # Sample Project Data (for homepage)
-        sample_project_data = [
-            ProjectData(
-                name='Community Chat Bot',
-                description='A Discord bot that helps manage community interactions using AI',
-                url='https://github.com/example/community-bot'
-            ),
-            ProjectData(
-                name='Smart Content Curator',
-                description='AI tool that curates and organizes content from various sources',
-                url='https://github.com/example/content-curator'
-            )
+        for g in guides_to_seed:
+            seed_record(Guide, g['lookup'], g['extra'], update_on_exists=True)
+
+        # 7. Project Data
+        projects_data_to_seed = [
+            {
+                'lookup': {'name': 'Community Chat Bot'},
+                'extra': {
+                    'description': 'A Discord bot that helps manage community interactions using AI',
+                    'url': 'https://github.com/example/community-bot'
+                }
+            },
+            {
+                'lookup': {'name': 'Smart Content Curator'},
+                'extra': {
+                    'description': 'AI tool that curates and organizes content from various sources',
+                    'url': 'https://github.com/example/content-curator'
+                }
+            }
         ]
-        
-        # Sample Feedback
-        sample_feedback = [
-            Feedback(
-                feedback_type='feature',
-                summary='Add dark mode support',
-                details='It would be great to have a dark mode option for better user experience during night time usage.',
-                email='user@example.com',
-                status='under_review'
-            ),
-            Feedback(
-                feedback_type='bug',
-                summary='Form submission issue on mobile',
-                details='The feedback form doesn\'t submit properly on mobile devices. The submit button becomes unresponsive.',
-                email='mobile_user@example.com',
-                status='investigating'
-            )
+        for pd in projects_data_to_seed:
+            seed_record(ProjectData, pd['lookup'], pd['extra'], update_on_exists=True)
+
+        # 8. Feedback
+        feedback_to_seed = [
+            {
+                'lookup': {'summary': 'Add dark mode support'},
+                'extra': {
+                    'feedback_type': 'feature',
+                    'details': 'It would be great to have a dark mode option for better user experience during night time usage.',
+                    'email': 'user@example.com',
+                    'status': 'under_review'
+                }
+            },
+            {
+                'lookup': {'summary': 'Form submission issue on mobile'},
+                'extra': {
+                    'feedback_type': 'bug',
+                    'details': "The feedback form doesn't submit properly on mobile devices. The submit button becomes unresponsive.",
+                    'email': 'mobile_user@example.com',
+                    'status': 'investigating'
+                }
+            }
         ]
-        
-        # Add all sample data to session
-        for user in sample_users:
-            db.session.add(user)
-        
-        for product in sample_products:
-            db.session.add(product)
-        
-        for setting in sample_settings:
-            db.session.add(setting)
-        
-        for prompt in sample_prompts:
-            db.session.add(prompt)
-        
-        for project in sample_showcase_projects:
-            db.session.add(project)
-        
-        for guide in sample_guides:
-            db.session.add(guide)
-        
-        for project_data in sample_project_data:
-            db.session.add(project_data)
-        
-        for feedback in sample_feedback:
-            db.session.add(feedback)
-        
-        # Commit all changes
-        db.session.commit()
-        
+        for fb in feedback_to_seed:
+            seed_record(Feedback, fb['lookup'], fb['extra'], update_on_exists=True)
+
         print("✅ Sample data created successfully!")
-        print(f"   - {len(sample_users)} users")
-        print(f"   - {len(sample_products)} products")
-        print(f"   - {len(sample_settings)} settings")
-        print(f"   - {len(sample_prompts)} prompts")
-        print(f"   - {len(sample_showcase_projects)} showcase projects")
-        print(f"   - {len(sample_guides)} guides")
-        print(f"   - {len(sample_project_data)} project data entries")
-        print(f"   - {len(sample_feedback)} feedback items")
-        
+
     except Exception as e:
-        db.session.rollback()
         print(f"❌ Error creating sample data: {e}")
         return False
     

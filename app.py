@@ -516,6 +516,87 @@ def get_feedback():
         return jsonify({"error": "An unexpected error occurred."}), 500
 
 
+def verify_database_schema_aligned(app):
+    import sys
+    import os
+    
+    # 1. Check if we should bypass the check
+    if app.config.get('TESTING') or os.environ.get('FLASK_APP_TEST_DB_URI') or os.environ.get('TESTING') == 'true':
+        return
+        
+    if 'pytest' in sys.modules or 'unittest' in sys.modules:
+        return
+        
+    if any(term in sys.argv[0] for term in ['pytest', 'unittest', 'setup_local', 'init_db']):
+        return
+        
+    if 'flask' in sys.argv[0]:
+        if 'run' not in sys.argv:
+            return
+            
+    if any(cmd in sys.argv for cmd in ['db', 'migrate', 'upgrade', 'downgrade', 'init', 'shell']):
+        return
+
+    # 2. Perform the migration alignment check
+    from alembic.script import ScriptDirectory
+    from alembic.runtime.migration import MigrationContext
+    
+    try:
+        with app.app_context():
+            migrations_dir = os.path.join(app.root_path, 'migrations')
+            if not os.path.exists(migrations_dir):
+                app.logger.critical("CRITICAL: Migrations directory 'migrations' not found!")
+                print("\n" + "="*80)
+                print("CRITICAL: Database schema mismatch! Migrations directory 'migrations' not found.")
+                print("Please apply migrations to register all declared tables by running:")
+                print("  flask db init")
+                print("  flask db migrate -m \"initial\"")
+                print("  flask db upgrade")
+                print("="*80 + "\n")
+                sys.exit(1)
+                
+            script_dir = ScriptDirectory(migrations_dir)
+            local_heads = script_dir.get_heads()
+            
+            # If no local migration files exist yet
+            if not local_heads:
+                app.logger.critical("CRITICAL: No migrations found in the 'migrations' folder!")
+                print("\n" + "="*80)
+                print("CRITICAL: No migrations found in the 'migrations' folder!")
+                print("Please register and apply migrations by running:")
+                print("  flask db migrate -m \"initial\"")
+                print("  flask db upgrade")
+                print("="*80 + "\n")
+                sys.exit(1)
+                
+            with db.engine.connect() as conn:
+                ctx = MigrationContext.configure(conn)
+                db_heads = ctx.get_current_heads()
+                
+            if set(local_heads) != set(db_heads):
+                app.logger.critical("CRITICAL: Database schema is out of sync with migration history!")
+                print("\n" + "="*80)
+                print("CRITICAL: Database schema is out of sync with migration history!")
+                print(f"Local Migration Heads: {list(local_heads)}")
+                print(f"Database Applied Heads: {list(db_heads)}")
+                print("Please apply pending migrations by running:")
+                print("  flask db upgrade")
+                print("="*80 + "\n")
+                sys.exit(1)
+                
+    except Exception as e:
+        app.logger.critical(f"CRITICAL: Failed to verify database schema alignment: {e}")
+        print("\n" + "="*80)
+        print("CRITICAL: Failed to verify database schema alignment!")
+        print(f"Error: {e}")
+        print("Please check your database connection or run:")
+        print("  flask db upgrade")
+        print("="*80 + "\n")
+        sys.exit(1)
+
+verify_database_schema_aligned(app)
+
+
 if __name__ == '__main__':
     # The `db.create_all()` call is generally not needed here if using Flask-Migrate.
     # Migrations (flask db init, migrate, upgrade) will handle table creation.

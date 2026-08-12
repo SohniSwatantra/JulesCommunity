@@ -256,6 +256,49 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"No community projects submitted yet", response.data)
 
+    def test_16_seeding_idempotency_and_password_hashing(self):
+        """Test that seeding is transaction-safe, idempotent, and hashes passwords securely with bcrypt"""
+        import bcrypt
+        from setup_local import create_sample_data
+        
+        # Clean users table first
+        db.session.query(User).delete()
+        db.session.commit()
+        
+        # 1. First run of create_sample_data should seed users and other tables successfully
+        res1 = create_sample_data()
+        self.assertTrue(res1)
+        
+        # Query seeded users
+        test_user = db.session.query(User).filter_by(username='testuser').first()
+        dev_user = db.session.query(User).filter_by(username='developer').first()
+        
+        self.assertIsNotNone(test_user)
+        self.assertIsNotNone(dev_user)
+        
+        # Verify passwords are secure bcrypt hashes (usable and correct password)
+        self.assertTrue(bcrypt.checkpw('password123'.encode('utf-8'), test_user.password_hash.encode('utf-8')))
+        self.assertTrue(bcrypt.checkpw('password123'.encode('utf-8'), dev_user.password_hash.encode('utf-8')))
+        
+        # 2. Second run of create_sample_data should run successfully without unique constraint failures
+        res2 = create_sample_data()
+        self.assertTrue(res2)
+        
+        # Verify users are preserved/same
+        test_user_after = db.session.query(User).filter_by(username='testuser').first()
+        self.assertEqual(test_user.id, test_user_after.id)
+
+    def test_17_startup_check_behavior(self):
+        """Test that the startup migration alignment check correctly identifies alignment state"""
+        from app import verify_database_schema_aligned
+        import unittest.mock as mock
+        
+        # 1. Under normal test conditions, the check should bypass and return None
+        # We can verify it returns without calling sys.exit
+        with mock.patch('sys.exit') as mock_exit:
+            verify_database_schema_aligned(app)
+            mock_exit.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()

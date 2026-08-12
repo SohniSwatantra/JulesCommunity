@@ -1,8 +1,8 @@
-"""Initial migration with all models including ProjectData
+"""Rebuilt migration history capturing all models including feedback and projects
 
-Revision ID: b125ffd51589
-Revises:
-Create Date: 2025-06-26 14:22:23.787114
+Revision ID: cfb40ae61ecf
+Revises: 
+Create Date: 2026-08-12 07:43:21.013170
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b125ffd51589'
+revision = 'cfb40ae61ecf'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,6 +30,19 @@ def upgrade():
     with op.batch_alter_table('application_settings', schema=None) as batch_op:
         batch_op.create_index(batch_op.f('ix_application_settings_id'), ['id'], unique=False)
         batch_op.create_index(batch_op.f('ix_application_settings_key'), ['key'], unique=True)
+
+    op.create_table('feedback',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('feedback_type', sa.String(length=20), nullable=False),
+    sa.Column('summary', sa.String(length=200), nullable=False),
+    sa.Column('details', sa.Text(), nullable=False),
+    sa.Column('email', sa.String(length=120), nullable=True),
+    sa.Column('status', sa.String(length=20), nullable=True),
+    sa.Column('submitted_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('feedback', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_feedback_id'), ['id'], unique=False)
 
     op.create_table('guides',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -148,6 +161,10 @@ def downgrade():
         batch_op.drop_index(batch_op.f('ix_guides_category'))
 
     op.drop_table('guides')
+    with op.batch_alter_table('feedback', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_feedback_id'))
+
+    op.drop_table('feedback')
     with op.batch_alter_table('application_settings', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_application_settings_key'))
         batch_op.drop_index(batch_op.f('ix_application_settings_id'))
